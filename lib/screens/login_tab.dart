@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 
 class Login extends StatelessWidget {
+  static String routeName = '/';
   @override
    Widget build(BuildContext context) {
     return Scaffold(body: Center(
