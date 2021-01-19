@@ -1,6 +1,14 @@
 import 'dart:async';
 import 'utils/db_utils.dart';
 import 'package:flutter/material.dart';
+import './screens/brand_tab.dart';
+import './screens/category_tab.dart';
+import './screens/database_controller_tab.dart';
+import './screens/item_tab.dart';
+import './screens/login_tab.dart';
+import './screens/registration_tab.dart';
+import './screens/shopping_tripgen_tab.dart';
+import './screens/store_tab.dart';
 
 void main() {
   runApp(MyApp());
@@ -116,89 +124,6 @@ class FindItems extends StatefulWidget {
 }
 
 class _FindItemsState extends State<FindItems> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-
-/********************************************************/
-// CONTROLLERS AND OBJECT CLASSES SECTION
-/*********************************************************/
-
-/*class Database Controller
-Controls interactions with the database
- */
-class DatabaseController extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-
-class ShoppingTripGen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-
-class Login extends StatefulWidget {
-  @override
-  _LoginState createState() => _LoginState();
-}
-
-class _LoginState extends State<Login> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-
-class Registration extends StatefulWidget {
-  @override
-  _RegistrationState createState() => _RegistrationState();
-}
-
-class _RegistrationState extends State<Registration> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-
-/*Item Object*/
-class Item extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-
-/* Store Object
-
- */
-class Store extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-
-/*
-Category Object
- */
-class Category extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-
-/*
-Brand Object
- */
-class Brand extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container();
