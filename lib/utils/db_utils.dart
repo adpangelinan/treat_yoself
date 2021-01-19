@@ -15,12 +15,12 @@ final dbConnectionString = ConnectionSettings(
 
 final List<String> SQLQueries = ["SELECT "];
 
-Future queryDB() async {
+Future<List<String>> queryDB() async {
   final conn = await MySqlConnection.connect(dbConnectionString);
-  var results = await conn.query('SELECT * FROM Stores');
+  var results = await conn.query('SELECT * FROM Comments');
   List<String> resultArray = [];
   for (var row in results) {
-    resultArray.add('Name: ${row[1]}, email: ${row[2]}');
-    return resultArray;
+    resultArray.add('Comment: ${row[1]}, Date: ${row[2]}');
   }
+  return resultArray;
 }

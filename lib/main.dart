@@ -60,7 +60,7 @@ class _LandingPageLoggedState extends State<LandingPageLogged> {
     super.initState();
   }
 
-  Future<List<String>> _setData() async {
+  void _setData() async {
     dbData = await queryDB();
   }
 
