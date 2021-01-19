@@ -6,6 +6,7 @@ Landing Page for a user that is currently logged in
  */
 class LandingPageLogged extends StatefulWidget {
   static String routName = '/landing_page';
+
   LandingPageLogged({Key key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
@@ -26,6 +27,15 @@ class LandingPageLogged extends StatefulWidget {
 class _LandingPageLoggedState extends State<LandingPageLogged> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+     return Scaffold(
+    appBar: AppBar(
+      title: Text('Treat Yo\'self!'),
+       actions: [
+   
+        ],
+    ),
+ 
+  );
+  
   }
 }

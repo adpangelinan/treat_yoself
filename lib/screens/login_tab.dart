@@ -13,7 +13,7 @@ class Login extends StatelessWidget {
             children: [
               Text(
                 'Welcome',
-                style: Theme.of(context).textTheme.headline1,
+                style: Theme.of(context).textTheme.headline3,
               ),
               TextFormField(
                 decoration: InputDecoration(
@@ -33,7 +33,7 @@ class Login extends StatelessWidget {
                 color: Colors.yellow,
                 child: Text('ENTER'),
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/catalog');
+                  Navigator.pushReplacementNamed(context, '/landing_page');
                 },
               )
             ],
