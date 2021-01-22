@@ -1,16 +1,7 @@
 import 'dart:async';
 import 'utils/db_utils.dart';
 import 'package:flutter/material.dart';
-import './screens/brand_tab.dart';
-import './screens/category_tab.dart';
-import './screens/database_controller_tab.dart';
-import './screens/item_tab.dart';
-import './screens/login_tab.dart';
-import './screens/registration_tab.dart';
-import './screens/shopping_tripgen_tab.dart';
-import './screens/store_tab.dart';
-import './screens/landing_page_logged_tab.dart';
-import './screens/login_tab.dart';
+import 'package:treat_yoself/routes.dart';
 
 void main() {
   runApp(MyApp());
@@ -47,4 +38,3 @@ class MyApp extends StatelessWidget {
 /*Class Landing Paged Logged
 Landing Page for a user that is currently logged in
  */
-
