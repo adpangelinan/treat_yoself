@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:treat_yoself/screens/shoppinglist_tab.dart';
+
 import 'utils/db_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:treat_yoself/routes.dart';
@@ -17,6 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Shopping App',
+      darkTheme: ThemeData.dark(),
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -29,6 +32,8 @@ class MyApp extends StatelessWidget {
       routes: {
         LandingPageLogged.routName: (context) => LandingPageLogged(),
         Login.routeName: (context) => Login(),
+        //AndroidDrawer.routeName: (context) => AndroidDrawer(),
+        ShoppingList.routeName: (context) => ShoppingList(), 
       },
       initialRoute: Login.routeName,
     );
