@@ -47,9 +47,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-/*Class Landing Paged Logged
-Landing Page for a user that is currently logged in
- */
-
-//Test Comment
