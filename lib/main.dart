@@ -41,7 +41,6 @@ class MyApp extends StatelessWidget {
       routes: {
         LandingPageLogged.routName: (context) => LandingPageLogged(),
         Login.routeName: (context) => Login(),
-        //AndroidDrawer.routeName: (context) => AndroidDrawer(),
         ShoppingList.routeName: (context) => ShoppingList(), 
       },
       initialRoute: Login.routeName,
