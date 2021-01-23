@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
       routes: {
         LandingPageLogged.routName: (context) => LandingPageLogged(),
         Login.routeName: (context) => Login(),
-        ShoppingList.routeName: (context) => ShoppingList(), 
+        ShoppingList.routeName: (context) => ShoppingList(),
       },
       initialRoute: Login.routeName,
     );
@@ -52,3 +52,4 @@ class MyApp extends StatelessWidget {
 Landing Page for a user that is currently logged in
  */
 
+//Test Comment
