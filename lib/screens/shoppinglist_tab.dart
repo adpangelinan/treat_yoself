@@ -14,17 +14,97 @@ class _ShoppingListState extends State<ShoppingList> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Treat Yo Self'),
-         actions: [
-           IconButton(icon: Icon(Icons.list), onPressed: _pushRoute), IconButton(icon: Icon(Icons.local_grocery_store), onPressed: null)
-         ],
-      ),
+          actions: [IconButton(icon: Icon(Icons.shopping_cart), onPressed:  null)]),
+        drawer: _returnDrawer()
+    ,
+      body: ListItem()._buildLists(),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.white ,
+        child: IconButton(icon: Icon(Icons.home), onPressed: _pushRoute)),
+        
     );
-      //body: _,
   }
 
   void _pushRoute(){
-    Navigator.pushReplacementNamed(context, '/option');
+    Navigator.pushReplacementNamed(context, '/landing_page');
     
   }
+Widget _returnDrawer(){
+  return Drawer(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          DrawerHeader(
+            decoration: BoxDecoration(color: Colors.green),
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 20),
+              child: Icon(
+                Icons.account_circle,
+                color: Colors.green.shade800,
+                size: 96,
+              ),
+            ),
+          ),
+          ListTile(
+            //leading: SongsTab.androidIcon,
+            title: Text('Profile'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/');
+            },
+          ),
+          ListTile(
+            //leading: NewsTab.androidIcon,
+            title: Text('Shopping List'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/');
+            },
+          ),
+          ListTile(
+            //leading: ProfileTab.androidIcon,
+            title: Text('Find Items'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/');
+            },
+          ),
+          // Long drawer contents are often segmented.
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            
+          ),
+          ListTile(
+            //leading: SettingsTab.androidIcon,
+            title: Text("Settings"),
+            onTap: () {
+               Navigator.pushReplacementNamed(context, '/');
+            },
+          ),
+        ],
+      ),
+  );
 
   }
+  }
+
+class ListItem extends StatelessWidget {
+@override
+Widget build(BuildContext context){
+  return Scaffold(
+    body: _buildLists(),);
+
+}
+
+
+_buildLists(){
+  return ListTile(
+    title: Text("Add Item"),
+      trailing: Icon(
+        Icons.add,
+        color: Colors.blue,
+      ),
+  );
+
+
+}
+
+}
+
