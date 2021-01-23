@@ -17,7 +17,7 @@ class _ShoppingListState extends State<ShoppingList> {
           actions: [IconButton(icon: Icon(Icons.shopping_cart), onPressed:  null)]),
         drawer: _returnDrawer()
     ,
-      body: List()._buildLists(),
+      body: ListItem()._buildLists(),
       bottomNavigationBar: BottomAppBar(
         color: Colors.white ,
         child: IconButton(icon: Icon(Icons.home), onPressed: _pushRoute)),
@@ -85,7 +85,7 @@ Widget _returnDrawer(){
   }
   }
 
-class List extends StatelessWidget {
+class ListItem extends StatelessWidget {
 @override
 Widget build(BuildContext context){
   return Scaffold(
@@ -96,7 +96,7 @@ Widget build(BuildContext context){
 
 _buildLists(){
   return ListTile(
-    title: Text("Add Shopping List"),
+    title: Text("Add Item"),
       trailing: Icon(
         Icons.add,
         color: Colors.blue,
