@@ -17,6 +17,7 @@ class _ShoppingListState extends State<ShoppingList> {
           actions: [IconButton(icon: Icon(Icons.shopping_cart), onPressed:  null)]),
         drawer: _returnDrawer()
     ,
+      body: List()._buildLists(),
       bottomNavigationBar: BottomAppBar(
         color: Colors.white ,
         child: IconButton(icon: Icon(Icons.home), onPressed: _pushRoute)),
@@ -84,4 +85,26 @@ Widget _returnDrawer(){
   }
   }
 
+class List extends StatelessWidget {
+@override
+Widget build(BuildContext context){
+  return Scaffold(
+    body: _buildLists(),);
+
+}
+
+
+_buildLists(){
+  return ListTile(
+    title: Text("Add Shopping List"),
+      trailing: Icon(
+        Icons.add,
+        color: Colors.blue,
+      ),
+  );
+
+
+}
+
+}
 
