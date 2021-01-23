@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Registration extends StatelessWidget {
-  static String routeName = '/Registration';
+class ItemSearch extends StatelessWidget {
+  static String routeName = '/item_search';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,19 +12,13 @@ class Registration extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Create Account',
-                style: Theme.of(context).textTheme.headline3,
+                'Item Search',
+                style: Theme.of(context).textTheme.headline5,
               ),
               TextFormField(
                 decoration: InputDecoration(
-                  hintText: 'Username',
+                  hintText: 'What are you looking for?',
                 ),
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                  hintText: 'Password',
-                ),
-                obscureText: true,
               ),
               SizedBox(
                 height: 24,
@@ -33,9 +27,9 @@ class Registration extends StatelessWidget {
                 color: Colors.yellow,
                 child: Text('ENTER'),
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/');
+                  Navigator.pushReplacementNamed(context, '/landing_page');
                 },
-              )
+              ),
             ],
           ),
         ),

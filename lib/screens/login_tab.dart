@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-
 class Login extends StatelessWidget {
   static String routeName = '/';
   @override
-   Widget build(BuildContext context) {
-    return Scaffold(body: Center(
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
         child: Container(
           padding: EdgeInsets.all(80.0),
           child: Column(
@@ -35,11 +35,24 @@ class Login extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushReplacementNamed(context, '/landing_page');
                 },
-              )
+              ),
+              SizedBox(
+                height: 50,
+              ),
+              RaisedButton(
+                  color: Colors.blueAccent,
+                  child: RichText(
+                      text: TextSpan(
+                    text: 'Register Here',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/Registration');
+                  }),
             ],
           ),
         ),
-      ),);
+      ),
+    );
   }
 }
-

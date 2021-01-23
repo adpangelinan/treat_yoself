@@ -8,29 +8,28 @@ Landing Page for a user that is currently logged in
 class LandingPageLogged extends StatefulWidget {
   @override
   _LandingPageLogged createState() => _LandingPageLogged();
-  static String routName = '/landing_page';
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
+  static String routeName = '/landing_page';
 }
 
 class _LandingPageLogged extends State<LandingPageLogged> {
-  _onpush() {
-    Navigator.pushReplacementNamed(context, '/shoppinglist');
+  void _pushRoute() {
+    Navigator.pushReplacementNamed(context, '/landing_page');
   }
 
   Widget build(BuildContext context) {
     //build a news feed list
     return Scaffold(
       appBar: AppBar(title: Text('Treat Yo Self'), actions: [
-        IconButton(icon: Icon(Icons.shopping_cart), onPressed: _onpush)
+        IconButton(
+            icon: Icon(Icons.shopping_cart),
+            onPressed: () {
+              Navigator.pushNamed(context, '/shoppinglist');
+            }),
+        IconButton(
+            icon: Icon(Icons.camera_alt_outlined),
+            onPressed: () {
+              //TODO: Camera page and route
+            }),
       ]),
       drawer: _returnDrawer(),
       body: Feed(),
@@ -76,7 +75,7 @@ class _LandingPageLogged extends State<LandingPageLogged> {
             //leading: ProfileTab.androidIcon,
             title: Text('Find Items'),
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/');
+              Navigator.pushReplacementNamed(context, '/item_search');
             },
           ),
           // Long drawer contents are often segmented.
@@ -87,16 +86,12 @@ class _LandingPageLogged extends State<LandingPageLogged> {
             //leading: SettingsTab.androidIcon,
             title: Text("Settings"),
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/');
+              Navigator.pushReplacementNamed(context, '/user_settings');
             },
           ),
         ],
       ),
     );
-  }
-
-  void _pushRoute() {
-    Navigator.pushReplacementNamed(context, '/landing_page');
   }
 
   void _pushRouteOptions() {
