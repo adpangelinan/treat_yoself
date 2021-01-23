@@ -34,7 +34,7 @@ class _LandingPageLogged extends State<LandingPageLogged>{
     return Scaffold(
       appBar: AppBar(
         title: Text('Treat Yo Self'),
-          actions: [IconButton(icon: Icon(Icons.shopping_cart), onPressed:  null)]),
+          actions: [IconButton(icon: Icon(Icons.shopping_cart), onPressed:  _onpush)]),
         drawer: _returnDrawer()
     ,
     body:  Feed(),
