@@ -3,7 +3,18 @@ import 'package:treat_yoself/screens/shoppinglist_tab.dart';
 
 import 'utils/db_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:treat_yoself/routes.dart';
+import './screens/brand_tab.dart';
+import './screens/category_tab.dart';
+import './screens/database_controller_tab.dart';
+import './screens/item_tab.dart';
+import './screens/login_tab.dart';
+import './screens/registration_tab.dart';
+import './screens/item_search_tab.dart';
+import './screens/user_settings_tab.dart';
+import './screens/shopping_tripgen_tab.dart';
+import './screens/store_tab.dart';
+import './screens/landing_page_logged_tab.dart';
+import './screens/login_tab.dart';
 
 void main() {
   runApp(MyApp());
@@ -30,15 +41,14 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       routes: {
-        LandingPageLogged.routName: (context) => LandingPageLogged(),
+        LandingPageLogged.routeName: (context) => LandingPageLogged(),
         Login.routeName: (context) => Login(),
-        ShoppingList.routeName: (context) => ShoppingList(), 
+        ShoppingList.routeName: (context) => ShoppingList(),
+        Registration.routeName: (context) => Registration(),
+        ItemSearch.routeName: (context) => ItemSearch(),
+        UserSettings.routeName: (context) => UserSettings(),
       },
       initialRoute: Login.routeName,
     );
   }
 }
-
-/*Class Landing Paged Logged
-Landing Page for a user that is currently logged in
- */

@@ -1,0 +1,92 @@
+{"queries": [
+    {"type": "SelectRawData",
+    "queries": [
+        {
+            "table": "Brands",
+            "query": "SELECT * FROM Brands ORDER BY DateAdded DESC LIMIT 100;"
+        },
+        {
+            "table": "Categories",
+            "query": "SELECT * FROM Categories ORDER BY DateAdded DESC LIMIT 100;"
+        },
+        {
+            "table": "Comments",
+            "query": "SELECT Comments.Description, Comments.DateAdded, Stores.Name as Store, Users.Username as User FROM Comments JOIN Users ON Comments.UserID = Users.UserID JOIN Stores ON Comments.StoreID = Stores.StoreID ORDER BY DateAdded DESC LIMIT 100;"
+        },
+        {
+            "table": "Items",
+            "query": "SELECT Items.Name, Brands.Name as Brand, Items.Description, Items.DateAdded, Categories.Name FROM Items JOIN Brands ON Brands.BrandID = Items.BrandID JOIN Categories ON Categories.CategoryID = Items.CategoryID ORDER BY DateAdded DESC LIMIT 100;"
+        },
+        {
+            "table": "ItemsTags",
+            "query": "SELECT Items.Name AS Item, Tags.Tag AS Tag FROM ItemsTags JOIN Items ON Items.ItemID = ItemsTags.ItemID JOIN Tags ON Tags.TagID = ItemsTags.TagID LIMIT 100;"
+        },
+        {
+            "table": "Prices",
+            "query": "SELECT Stores.Name as Store, Items.Name as Item, Prices.Price, Prices.DateAdded, Users.UserName as UserName, Prices.OnSale FROM Prices JOIN Stores ON Stores.StoreID = Prices.StoreID JOIN Items ON Items.ItemID = Prices.ItemID JOIN Users ON Users.UserID = Prices.UserID;"
+        },
+        {
+            "table": "Rewards",
+            "query": "SELECT Title, Badge FROM Rewards;"
+        },
+        {
+            "table": "ShoppingLists",
+            "query": "SELECT Users.UserName as Username, Items.Name as Item FROM ShoppingLists JOIN Users ON Users.UserID = ShoppingLists.UserID JOIN Items ON Items.ItemID = ShoppingLists.ItemID;"
+        },
+        {
+            "table": "Stores",
+            "query": "SELECT Name, DateAdded, ZipCode FROM Stores ORDER BY DateAdded DESC LIMIT 100;"
+        },
+        {
+            "table": "Tags",
+            "query": "SELECT Tag, DateAdded FROM Tags ORDER BY DateAdded DESC LIMIT 100;"
+        },
+        {
+            "table": "Users",
+            "query": "SELECT FirstName, LastName, UserName, Password, Email, ZipCode, RewardID FROM Users LIMIT 100;"
+        },
+        {
+            "table": "UsersRewards",
+            "query": "SELECT Users.UserName as Username, Rewards.Title as Reward, Rewards.Badge as Badge FROM UsersRewards JOIN Users ON Users.UserID = UsersRewards.UserID JOIN Rewards ON Rewards.RewardID = UsersRewards.RewardID;"
+        }
+    ]},
+    {"type": "SelectByUser",
+    "queries": [
+        {
+            "table": "Comments",
+            "query": "SELECT Comments.Description, Comments.DateAdded, Stores.Name as Store, Users.Username as Username FROM Comments JOIN Users ON Comments.UserID = Users.UserID JOIN Stores ON Comments.StoreID = Stores.StoreID WHERE Username = ? ORDER BY DateAdded DESC LIMIT 100;"
+        },
+        {
+            "table": "ShoppingLists",
+            "query": "SELECT Users.UserName as Username, Items.Name as Item FROM ShoppingLists JOIN Users ON Users.UserID = ShoppingLists.UserID JOIN Items ON Items.ItemID = ShoppingLists.ItemID WHERE Username = ?;"
+        },
+        {
+            "table": "Stores",
+            "query": "SELECT Name, DateAdded, ZipCode FROM Stores WHERE ZipCode = ? ORDER BY DateAdded DESC LIMIT 100;"
+        },
+        {
+            "table": "Users",
+            "query": "SELECT FirstName, LastName, UserName, Password, Email, ZipCode, RewardID FROM Users WHERE UserName = ? LIMIT 100;"
+        },
+        {
+            "table": "UsersRewards",
+            "query": "SELECT Users.UserName as Username, Rewards.Title as Reward, Rewards.Badge as Badge FROM UsersRewards JOIN Users ON Users.UserID = UsersRewards.UserID JOIN Rewards ON Rewards.RewardID = UsersRewards.RewardID WHERE Username = ?;"
+        }
+    ]},
+    {"type": "SelectByStore",
+    "queries": [
+        {
+            "table": "Comments",
+            "query": "SELECT Comments.Description, Comments.DateAdded, Stores.Name as Store, Users.Username as User FROM Comments JOIN Users ON Comments.UserID = Users.UserID JOIN Stores ON Comments.StoreID = Stores.StoreID WHERE Stores.Name = ?;"
+        },
+        {
+            "table": "Items",
+            "query": "SELECT Stores.Name as Store, Items.Name as Item, Prices.Price, Prices.DateAdded, Users.UserName as Username, Prices.OnSale FROM Prices JOIN Stores ON Stores.StoreID = Prices.StoreID JOIN Items on Items.ItemID = Prices.ItemID JOIN Users on Users.UserID = Prices.UserID WHERE Stores.Name = ? GROUP BY Items.Name ORDER BY DateAdded DESC;"
+        },
+        
+        {
+            "table": "Stores",
+            "query": "SELECT Name, DateAdded, ZipCode FROM Stores ORDER BY DateAdded DESC LIMIT 100;"
+        }
+    ]}
+]}
