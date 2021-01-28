@@ -17,7 +17,7 @@ class _ShoppingListState extends State<ShoppingList> {
           actions: [IconButton(icon: Icon(Icons.shopping_cart), onPressed:  null)]),
         drawer: _returnDrawer()
     ,
-      body: ListItem()._buildLists(),
+      body: Lists(),
       bottomNavigationBar: BottomAppBar(
         color: Colors.white ,
         child: IconButton(icon: Icon(Icons.home), onPressed: _pushRoute)),
@@ -85,26 +85,102 @@ Widget _returnDrawer(){
   }
   }
 
-class ListItem extends StatelessWidget {
+class Lists extends StatefulWidget {
+
+
+  @override
+  _ListItemState createState() => _ListItemState();
+
+
+}
+
+class _ListItemState extends State<Lists> {
+  List<Widget> _itemList = [];
+
+
+final topRow = new Expanded(
+        child: Container(
+            padding: EdgeInsets.only(left: 8.0),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  new Text(
+                    "Create New Shopping List",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16.0,
+                    ),
+                  ),
+
+                ])));
+
+
+_addNewRow(){
+return Row(
+        children:[ Container(
+            padding: EdgeInsets.only(left: 8.0),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  new Text(
+                    "Create New Shopping List",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16.0,
+                    ),
+                  ),
+
+                ]))]);
+
+}
+
 @override
 Widget build(BuildContext context){
   return Scaffold(
-    body: _buildLists(),);
+    body: Column(
+      children: [
+        Row(
+          children: [  
+          topRow,
+          IconButton(icon: Icon(Icons.add), onPressed: _addShoppingList)
+      ]
+    ),
+        
+        Column(children: _itemList),
+      ],
+      )
+    );
+    
+
 
 }
 
+
+
+_addShoppingList(){
+  List<Widget> temp = _itemList;
+  temp.add(_addNewRow());
+  setState(() {
+    _itemList = temp; 
+  });
+}
 
 _buildLists(){
-  return ListTile(
-    title: Text("Add Item"),
+  return Container(
+    child: ListTile(
+    title: Text("Create List"),
       trailing: Icon(
         Icons.add,
-        color: Colors.blue,
+        color: Colors.blue,        
       ),
-  );
+      
+  ));
 
 
 }
 
 }
-
