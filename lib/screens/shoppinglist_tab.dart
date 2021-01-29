@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/drawer.dart';
 
 
 class ShoppingList extends StatefulWidget {
@@ -15,7 +16,7 @@ class _ShoppingListState extends State<ShoppingList> {
       appBar: AppBar(
         title: Text('Treat Yo Self'),
           actions: [IconButton(icon: Icon(Icons.shopping_cart), onPressed:  null)]),
-        drawer: _returnDrawer()
+        drawer: SideDrawer()
     ,
       body: Lists(),
       bottomNavigationBar: BottomAppBar(
@@ -29,60 +30,7 @@ class _ShoppingListState extends State<ShoppingList> {
     Navigator.pushReplacementNamed(context, '/landing_page');
     
   }
-Widget _returnDrawer(){
-  return Drawer(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          DrawerHeader(
-            decoration: BoxDecoration(color: Colors.green),
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: Icon(
-                Icons.account_circle,
-                color: Colors.green.shade800,
-                size: 96,
-              ),
-            ),
-          ),
-          ListTile(
-            //leading: SongsTab.androidIcon,
-            title: Text('Profile'),
-            onTap: () {
-              Navigator.pushReplacementNamed(context, '/');
-            },
-          ),
-          ListTile(
-            //leading: NewsTab.androidIcon,
-            title: Text('Shopping List'),
-            onTap: () {
-              Navigator.pushReplacementNamed(context, '/');
-            },
-          ),
-          ListTile(
-            //leading: ProfileTab.androidIcon,
-            title: Text('Find Items'),
-            onTap: () {
-              Navigator.pushReplacementNamed(context, '/');
-            },
-          ),
-          // Long drawer contents are often segmented.
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            
-          ),
-          ListTile(
-            //leading: SettingsTab.androidIcon,
-            title: Text("Settings"),
-            onTap: () {
-               Navigator.pushReplacementNamed(context, '/');
-            },
-          ),
-        ],
-      ),
-  );
-
-  }
+  
   }
 
 class Lists extends StatefulWidget {

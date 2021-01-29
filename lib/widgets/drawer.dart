@@ -40,6 +40,13 @@ import 'package:flutter/cupertino.dart';
                 Navigator.pushReplacementNamed(context, '/item_search');
               },
             ),
+            ListTile(
+              //leading: SettingsTab.androidIcon,
+              title: Text("Shop Categories"),
+              onTap: () {
+                Navigator.pushReplacementNamed(context, '/category');
+              },
+            ),
             // Long drawer contents are often segmented.
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
