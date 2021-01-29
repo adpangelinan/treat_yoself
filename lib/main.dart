@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:treat_yoself/screens/shoppinglist_tab.dart';
-
 import 'utils/db_utils.dart';
 import 'package:flutter/material.dart';
 import './screens/brand_tab.dart';
@@ -47,6 +46,7 @@ class MyApp extends StatelessWidget {
         Registration.routeName: (context) => Registration(),
         ItemSearch.routeName: (context) => ItemSearch(),
         UserSettings.routeName: (context) => UserSettings(),
+        Category.routeName: (context) => Category(),
       },
       initialRoute: Login.routeName,
     );
