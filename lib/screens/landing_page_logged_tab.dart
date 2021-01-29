@@ -34,13 +34,8 @@ class _LandingPageLogged extends State<LandingPageLogged> {
               //TODO: Camera page and route
             }),
       ]),
-
       drawer: SideDrawer(),
       body: _buildBody(),
-
-      drawer: SideDrawer(),
-      body: Feed(),
-
       bottomNavigationBar: BottomAppBar(
           color: Colors.white,
           child: IconButton(icon: Icon(Icons.home), onPressed: _pushRoute)),
@@ -49,14 +44,12 @@ class _LandingPageLogged extends State<LandingPageLogged> {
     //body: _,
   }
 
-
   void _pushRouteOptions() {
     Navigator.pushReplacementNamed(context, '/option');
   }
 }
 
 Widget _buildBody() {
-
   return Container(
       child: Column(children: [
     Expanded(
