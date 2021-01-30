@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/drawer.dart';
 
 class Registration extends StatelessWidget {
   static String routeName = '/Registration';
