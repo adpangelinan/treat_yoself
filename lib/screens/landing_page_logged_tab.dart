@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:treat_yoself/utils/database/sql_controller.dart';
 import 'login_tab.dart';
 import 'list_tiles.dart';
 import 'feed.dart';
@@ -40,8 +41,6 @@ class _LandingPageLogged extends State<LandingPageLogged> {
           color: Colors.white,
           child: IconButton(icon: Icon(Icons.home), onPressed: _pushRoute)),
     );
-
-    //body: _,
   }
 
   void _pushRouteOptions() {

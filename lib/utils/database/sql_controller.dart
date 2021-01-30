@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:treat_yoself/utils/sql_query_group.dart';
+import 'package:treat_yoself/utils/database/sql_query_group.dart';
 part 'sql_controller.g.dart';
 
 @JsonSerializable(explicitToJson: true)

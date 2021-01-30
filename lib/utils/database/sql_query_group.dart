@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:json_annotation/json_annotation.dart';
-import 'package:treat_yoself/utils/sql_queries.dart';
+import 'package:treat_yoself/utils/database/sql_queries.dart';
 part 'sql_query_group.g.dart';
 
 @JsonSerializable()
