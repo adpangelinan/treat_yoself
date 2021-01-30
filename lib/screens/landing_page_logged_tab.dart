@@ -23,7 +23,7 @@ class _LandingPageLogged extends State<LandingPageLogged> {
   Widget build(BuildContext context) {
     //build a news feed list
     return Scaffold(
-      appBar: AppBar(title: Text('Treat Yo Self'), actions: [
+      appBar: AppBar(title: Text('Home'), actions: [
         IconButton(
             icon: Icon(Icons.shopping_cart),
             onPressed: () {

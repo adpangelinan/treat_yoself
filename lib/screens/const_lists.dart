@@ -20,9 +20,7 @@ const _myListOfRandomColors = [
 
 final _random = Random();
 
-List<MaterialColor> getRandomColors() {
-  return List<MaterialColor>.generate(_myListOfRandomColors.length, (index) {
+MaterialColor getRandomColors() {
     return _myListOfRandomColors[_random.nextInt(_myListOfRandomColors.length)];
-  });
 }
 
