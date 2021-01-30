@@ -1,20 +1,7 @@
-import 'dart:async';
-import 'package:treat_yoself/screens/shoppinglist_tab.dart';
-
-import 'utils/db_utils.dart';
 import 'package:flutter/material.dart';
-import './screens/brand_tab.dart';
-import './screens/category_tab.dart';
-import './screens/database_controller_tab.dart';
-import './screens/item_tab.dart';
-import './screens/login_tab.dart';
-import './screens/registration_tab.dart';
-import './screens/item_search_tab.dart';
-import './screens/user_settings_tab.dart';
-import './screens/shopping_tripgen_tab.dart';
-import './screens/store_tab.dart';
-import './screens/landing_page_logged_tab.dart';
-import './screens/login_tab.dart';
+import 'package:provider/provider.dart';
+import 'package:treat_yoself/routes.dart';
+import 'package:treat_yoself/utils/database/db_utils.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,8 +15,20 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Shopping App',
+    return MultiProvider(
+      providers: [
+        Provider(create: (context) => DatabaseEngine().initialize()),
+        ChangeNotifierProxyProvider(create: null, update: null),
+        ChangeNotifierProxyProvider(create: (context) => ShoppingCart(),
+         update: (context, ) => )
+      ]
+    )
+    
+    
+    
+    
+    MaterialApp(
+      title: 'Treat Yoself!',
       darkTheme: ThemeData.dark(),
       theme: ThemeData(
         // This is the theme of your application.

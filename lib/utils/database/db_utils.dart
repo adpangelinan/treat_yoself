@@ -6,7 +6,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
 import 'package:mysql1/mysql1.dart';
-import 'package:treat_yoself/utils/sql_controller.dart';
+import 'package:treat_yoself/utils/database/sql_controller.dart';
 
 class DatabaseEngine {
   SQLController sqlController;
@@ -23,7 +23,7 @@ class DatabaseEngine {
     ///Add error message if connection to server cannot be made (no service)
   }
 
-  /// Creates a SQLController Object.
+  /// Creates a SQLController object that is bound to the existing DatabaseEngine object.
   Future<void> buildSQLList() async {
     var queryString = await File('./lib/data/sql_queries.json').readAsString();
     var jsonData = json.decode(queryString);
@@ -31,8 +31,7 @@ class DatabaseEngine {
   }
 
   /// Validates the SQL Query string and parameters.
-  /// Passes them to contactServer if valid.
-  /// Returns any data passed back by the server.
+  /// Passes them to the server, and returns any data passed back by the server.
   Future<List<String>> dbQuery(String type, String table,
       [List context]) async {
     var queryString = sqlController.GetQuery(type, table);

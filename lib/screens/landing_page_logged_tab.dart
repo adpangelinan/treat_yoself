@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:treat_yoself/utils/database/sql_controller.dart';
 import 'login_tab.dart';
 
 /*Class Landing Paged Logged
@@ -37,8 +38,6 @@ class _LandingPageLogged extends State<LandingPageLogged> {
           color: Colors.white,
           child: IconButton(icon: Icon(Icons.home), onPressed: _pushRoute)),
     );
-
-    //body: _,
   }
 
   Widget _returnDrawer() {

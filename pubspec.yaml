@@ -13,6 +13,7 @@ dependencies:
   mysql1: ^0.17.1
   cupertino_icons: ^1.0.0
   json_annotation: ^3.0.1
+  provider: ^4.3.2
 
 dev_dependencies:
   flutter_test:
