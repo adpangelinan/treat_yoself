@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:treat_yoself/screens/search_results_tab.dart';
 import 'package:treat_yoself/screens/shoppinglist_tab.dart';
 import 'utils/database/db_utils.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,8 @@ class MyApp extends StatelessWidget {
         ItemSearch.routeName: (context) => ItemSearch(),
         UserSettings.routeName: (context) => UserSettings(),
         Category.routeName: (context) => Category(),
+        Results.routeName: (context) => Results(),
+
       },
       initialRoute: Login.routeName,
     );

@@ -44,7 +44,7 @@ class _ListItemState extends State<Lists> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 new Text(
-                  "Create New Shopping List",
+                  "Add New Item",
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.w600,
@@ -62,7 +62,7 @@ class _ListItemState extends State<Lists> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 new Text(
-                  "Create New Shopping List",
+                  "Item Added",
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.w600,

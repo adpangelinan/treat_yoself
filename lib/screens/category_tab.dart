@@ -38,7 +38,7 @@ class _Categories extends State<Category> {
 
   Widget _buildGrid() => GridView.extent(
           maxCrossAxisExtent: 200,
-          padding: const EdgeInsets.all(1),
+          padding: const EdgeInsets.all(4),
           mainAxisSpacing: 2,
           crossAxisSpacing: 2,
           children: [
@@ -128,7 +128,7 @@ class HeroAnimatingSongCard extends StatelessWidget {
           color: getRandomColors(),
           child: InkWell(
             onTap: () =>
-                Navigator.pushReplacementNamed(context, '/item_search'),
+                Navigator.pushReplacementNamed(context, '/results'),
             splashColor: Colors.white,
               child: SizedBox(
                 height: 200,
