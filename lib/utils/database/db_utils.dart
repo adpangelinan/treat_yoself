@@ -9,6 +9,7 @@ import 'package:mysql1/mysql1.dart';
 import 'package:treat_yoself/utils/database/sql_controller.dart';
 
 class DatabaseEngine {
+  DatabaseEngine();
   SQLController sqlController;
   final dbConnectionString = ConnectionSettings(
       host: 'j21q532mu148i8ms.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
@@ -19,13 +20,14 @@ class DatabaseEngine {
 
   Future<void> initialize() async {
     await buildSQLList();
+    return;
 
     ///Add error message if connection to server cannot be made (no service)
   }
 
   /// Creates a SQLController object that is bound to the existing DatabaseEngine object.
   Future<void> buildSQLList() async {
-    var queryString = await File('./lib/data/sql_queries.json').readAsString();
+    var queryString = await File('../lib/data/sql_queries.json').readAsString();
     var jsonData = json.decode(queryString);
     sqlController = SQLController.fromJson(jsonData);
   }
@@ -34,7 +36,7 @@ class DatabaseEngine {
   /// Passes them to the server, and returns any data passed back by the server.
   Future<List<String>> dbQuery(String type, String table,
       [List context]) async {
-    var queryString = sqlController.GetQuery(type, table);
+    var queryString = sqlController.getQuery(type, table);
     var result = await contactServer(queryString, [context]);
     return result;
   }
@@ -45,6 +47,7 @@ class DatabaseEngine {
     var results = await conn.query(query, [context]);
     List<String> resultArray = [];
     for (var row in results) {
+      resultArray.add(row.toString());
       print(row);
     }
     return resultArray;

@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../widgets/drawer.dart';
-
-
+import '../components/drawer.dart';
 
 class UserSettings extends StatelessWidget {
   static String routeName = '/user_settings';

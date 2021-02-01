@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/drawer.dart';
+import '../components/drawer.dart';
 
 class ItemSearch extends StatelessWidget {
   static String routeName = '/item_search';

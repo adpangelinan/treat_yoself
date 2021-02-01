@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/drawer.dart';
+import '../components/drawer.dart';
 
 class ShoppingList extends StatefulWidget {
   static String routeName = '/shopping_list';

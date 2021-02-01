@@ -12,7 +12,7 @@ class SQLController {
 
   Map<String, dynamic> toJson() => _$SQLControllerToJson(this);
 
-  String GetQuery(String type, String table) {
+  String getQuery(String type, String table) {
     var queryGroup = allQueries.firstWhere((group) => group.GetType() == type);
     return queryGroup.GetQueryGroup(table);
   }

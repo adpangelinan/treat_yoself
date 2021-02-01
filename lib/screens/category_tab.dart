@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/drawer.dart';
+import '../components/drawer.dart';
 import 'const_lists.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -119,36 +119,35 @@ class HeroAnimatingSongCard extends StatelessWidget {
 
   @override
   Widget build(context) {
-
     return Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)),
         elevation: 10,
         child: Material(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)),
-          color: getRandomColors(),
-          child: InkWell(
-            onTap: () =>
-                Navigator.pushReplacementNamed(context, '/item_search'),
-            splashColor: Colors.white,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25.0)),
+            color: getRandomColors(),
+            child: InkWell(
+              onTap: () =>
+                  Navigator.pushReplacementNamed(context, '/item_search'),
+              splashColor: Colors.white,
               child: SizedBox(
                 height: 200,
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
                     // The song title banner slides off in the hero animation.
-                     Text(
-                          song,
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+                    Text(
+                      song,
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                     // The play button grows in the hero animation.
                   ],
                 ),
-            ),
-        )
-      ) 
-    );
+              ),
+            )));
   }
 }

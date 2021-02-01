@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/drawer.dart';
-
+import '../components/drawer.dart';
 
 class Item extends StatelessWidget {
   @override

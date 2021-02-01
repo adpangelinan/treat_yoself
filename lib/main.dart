@@ -7,14 +7,14 @@ import 'package:treat_yoself/routes.dart';
 import 'package:treat_yoself/utils/database/db_utils.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(App());
 }
 
 /*Page/Structure Classes Section*/
 /*
 Main App
  */
-class MyApp extends StatelessWidget {
+class App extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {

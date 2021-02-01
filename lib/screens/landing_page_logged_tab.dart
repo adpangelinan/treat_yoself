@@ -4,12 +4,13 @@ import 'package:treat_yoself/utils/database/sql_controller.dart';
 import 'login_tab.dart';
 import 'list_tiles.dart';
 import 'feed.dart';
-import '../widgets/drawer.dart';
+import '../components/drawer.dart';
 
 /*Class Landing Paged Logged
 Landing Page for a user that is currently logged in
  */
 class LandingPageLogged extends StatefulWidget {
+  const LandingPageLogged({Key key}) : super(key: key);
   @override
   _LandingPageLogged createState() => _LandingPageLogged();
   static String routeName = '/landing_page';
