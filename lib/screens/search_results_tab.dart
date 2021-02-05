@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:treat_yoself/routes.dart';
 import '../widgets/drawer.dart';
 import 'const_lists.dart';
 import 'package:flutter/cupertino.dart';
@@ -69,22 +70,30 @@ abstract class ListItem{
     final String brand; 
 
     ItemDetails(this.name,this.price,this.brand); 
+        _popUp(context){
+      //Navigator.of(context).push(MaterialPageRoute(builder: (context) => ShoppingList(ItemDetails(this.name,this.price,this.brand))));
 
-    Widget buildItem(BuildContext context) => Card(
-      child: Material(
-        color: getRandomColors(),
-          child: InkWell(
-            onTap: () =>
-                    Navigator.pushReplacementNamed(context, '/shopping_list'),
-            splashColor: Colors.white,
-              child: ListTile(
-              title: Text(name), 
-              subtitle: Text(price), 
-              trailing: Text(brand), 
-              tileColor: getRandomColors(),),
-          ),
-        elevation: 10,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)),
-     )
-    );
-  }
+      return showDialog(context: context ,builder: (context)=>AlertDialog(title: Text("Item Added To Cart"),actions: [TextButton(child: Text("OK"),onPressed: () {Navigator.of(context).pop();})],));
+    }
+
+    Widget buildItem(BuildContext context) => 
+    Card(
+        child: Material(
+          color: getRandomColors(),
+            child: InkWell(
+              onTap: () =>
+                      null,
+              splashColor: Colors.white,
+                child: ListTile(
+                title: Text(name), 
+                subtitle: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [Text(brand),Text(price)],), 
+                trailing:   IconButton(icon: Icon(Icons.add_shopping_cart_sharp), tooltip: 'Add Item', onPressed: () =>
+                      _popUp(context),), 
+                tileColor: getRandomColors(),),
+            ),
+          elevation: 10,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)),
+        )
+      ); 
+}
