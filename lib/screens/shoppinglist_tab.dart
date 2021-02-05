@@ -3,37 +3,37 @@ import 'package:treat_yoself/screens/search_results_tab.dart';
 import '../widgets/drawer.dart';
 import './search_results_tab.dart';
 import 'const_lists.dart';
+import './list_tiles.dart';
 
 class ShoppingList extends StatefulWidget {
   static String routeName = '/shopping_list';
-  final ItemDetails item;
-  ShoppingList([this.item]);
+
 
 
   @override
-  _ShoppingListState createState() => _ShoppingListState(item);
+  _ShoppingListState createState() => _ShoppingListState();
 }
 
 class _ShoppingListState extends State<ShoppingList> {
-  final ItemDetails item;
-  final _mylist = <ItemDetails>[];
-  _ShoppingListState([this.item]);
   @override
   Widget build(BuildContext context) {
     //build a news feed list
     return Scaffold(
-      appBar: AppBar(title: Text('Treat Yo Self'), actions: [
+      appBar: AppBar(title: Text('Shopping Lists'), actions: [
         IconButton(icon: Icon(Icons.shopping_cart), onPressed: null)
       ]),
       drawer: SideDrawer(),
-      body: Items(item.name,item.price,item.brand).buildItem(),
+      body: _buildLists(),
       bottomNavigationBar: BottomAppBar(
           color: Colors.white,
           child: IconButton(icon: Icon(Icons.home), onPressed: _pushRoute)),
     );
   }
 
+  _buildLists(){
+    return Container(child:Column( children:[Expanded(child: ListTiles())]));
 
+  }
   
 
   void _pushRoute() {

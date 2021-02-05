@@ -22,8 +22,7 @@ class _ListTilesState extends State<ListTiles> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration:
-          BoxDecoration(border: Border.all(width: 2, color: Colors.blueAccent)),
+
       child: _buildBody(context),
     );
   }
@@ -37,7 +36,7 @@ class _ListTilesState extends State<ListTiles> {
   }
 
   Widget _buildShoppingListTiles() => GridView.extent(
-      maxCrossAxisExtent: 90,
+      maxCrossAxisExtent: 150,
       padding: const EdgeInsets.all(18),
       mainAxisSpacing: 20,
       crossAxisSpacing: 20,

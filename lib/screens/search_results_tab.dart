@@ -71,7 +71,7 @@ abstract class ListItem{
 
     ItemDetails(this.name,this.price,this.brand); 
         _popUp(context){
-      //Navigator.of(context).push(MaterialPageRoute(builder: (context) => ShoppingList(ItemDetails(this.name,this.price,this.brand))));
+      //add insert query 
 
       return showDialog(context: context ,builder: (context)=>AlertDialog(title: Text("Item Added To Cart"),actions: [TextButton(child: Text("OK"),onPressed: () {Navigator.of(context).pop();})],));
     }

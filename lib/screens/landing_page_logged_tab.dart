@@ -55,6 +55,21 @@ Widget _buildBody() {
         child: Row(children: [
       Container(width: 360, color: Colors.red, child: Feed())
     ])),
-    Expanded(child: Row(children: [Container(width: 360, child: ListTiles())])),
-  ]));
+    Expanded(child: Container(width: 360, child: _buildBox()))]));
+
 }
+
+
+  Widget _buildBox(){
+    return Container(child:Column(children: [
+      TextFormField(
+        decoration: InputDecoration(
+          labelText:  'Enter a catchy Title',
+          labelStyle: TextStyle(color: Colors.green)
+        )),
+        TextFormField(
+          decoration: InputDecoration(
+            labelText: 'Enter comment here',
+            labelStyle: TextStyle(color: Colors.green) ,)
+    )],),);
+  }
