@@ -10,3 +10,4 @@ export './screens/login_tab.dart';
 export './screens/item_search_tab.dart';
 export 'package:treat_yoself/screens/shoppinglist_tab.dart';
 export './screens/user_settings_tab.dart';
+export 'screens/authentication_manager.dart';

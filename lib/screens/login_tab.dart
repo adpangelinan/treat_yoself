@@ -1,20 +1,99 @@
-import 'dart:convert';
-
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:treat_yoself/utils/database/db_utils.dart';
-import 'package:treat_yoself/utils/entities/user.dart';
-import '../components/drawer.dart';
 
+import 'package:treat_yoself/utils/entities/authentication_service.dart';
+
+class LoginPage extends StatelessWidget {
+  static String routeName = '/login';
+  var email = '';
+  var password = '';
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Center(
+      child: Container(
+        padding: EdgeInsets.all(80.0),
+        child: Form(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                'Welcome',
+                style: Theme.of(context).textTheme.headline3,
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  hintText: 'Email',
+                ),
+                validator: (value) {
+                  if (value.isEmpty ||
+                      !value.contains('@') ||
+                      !value.contains('.')) {
+                    return 'Please enter a valid email address.';
+                  }
+                  return null;
+                },
+                onChanged: (value) {
+                  email = value.trim();
+                },
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  hintText: 'Password',
+                ),
+                obscureText: true,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please enter a password';
+                  }
+                  return null;
+                },
+                onChanged: (value) {
+                  password = value.trim();
+                },
+              ),
+              SizedBox(
+                height: 24,
+              ),
+              RaisedButton(
+                color: Colors.yellow,
+                child: Text('Sign In'),
+                onPressed: () {
+                  context
+                      .read<AuthenticationService>()
+                      .signIn(email: email, password: password);
+                },
+              ),
+              SizedBox(
+                height: 12,
+              ),
+              RaisedButton(
+                  color: Colors.blueAccent,
+                  child: RichText(
+                      text: TextSpan(
+                    text: 'Register Here',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/Registration');
+                  }),
+            ],
+          ),
+        ),
+      ),
+    ));
+  }
+}
+/*
 class Login extends StatefulWidget {
-  static String routeName = '/';
+  static String routeName = '/login';
   const Login({Key key}) : super(key: key);
   @override
   _LoginState createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
-  static DatabaseEngine dbEngine = DatabaseEngine();
-  var username = "";
+  var email = "";
   var password = "";
   final _formKey = GlobalKey<FormState>();
   Widget build(BuildContext context) {
@@ -33,16 +112,18 @@ class _LoginState extends State<Login> {
               ),
               TextFormField(
                 decoration: InputDecoration(
-                  hintText: 'Username',
+                  hintText: 'Email',
                 ),
                 validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please enter a username';
+                  if (value.isEmpty ||
+                      !value.contains('@') ||
+                      !value.contains('.')) {
+                    return 'Please enter a valid email address.';
                   }
                   return null;
                 },
                 onChanged: (value) {
-                  username = value;
+                  email = value.trim();
                 },
               ),
               TextFormField(
@@ -57,7 +138,7 @@ class _LoginState extends State<Login> {
                   return null;
                 },
                 onChanged: (value) {
-                  password = value;
+                  password = value.trim();
                 },
               ),
               SizedBox(
@@ -66,18 +147,10 @@ class _LoginState extends State<Login> {
               RaisedButton(
                 color: Colors.yellow,
                 child: Text('Sign In'),
-                onPressed: () async {
-                  if (_formKey.currentState.validate()) {
-                    var results = await dbEngine.manualQuery(
-                        "SELECT * FROM athdy9ib33fbmfvk.Users WHERE UserName = ? AND Password = ?;",
-                        [username, password]);
-                    if (results.length > 0) {
-                      var user =
-                          UserData.fromJson(json.decode(results[0].toString()));
-                      Navigator.pushReplacementNamed(context, '/landing_page');
-                    }
-                    print('No match found.');
-                  }
+                onPressed: () {
+                  context
+                      .read<AuthenticationService>()
+                      .signIn(email: email, password: password);
                 },
               ),
               SizedBox(
@@ -100,3 +173,4 @@ class _LoginState extends State<Login> {
     ));
   }
 }
+*/

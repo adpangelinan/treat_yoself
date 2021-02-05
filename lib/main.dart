@@ -50,7 +50,7 @@ class App extends StatelessWidget {
           ),
           routes: {
             LandingPageLogged.routeName: (context) => LandingPageLogged(),
-            Login.routeName: (context) => Login(),
+            LoginPage.routeName: (context) => LoginPage(),
             ShoppingList.routeName: (context) => ShoppingList(),
             Registration.routeName: (context) => Registration(),
             ItemSearch.routeName: (context) => ItemSearch(),
@@ -68,10 +68,8 @@ class AuthenticationWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User>();
     if (firebaseUser != null) {
-      Navigator.pushReplacementNamed(context, '/landing_page');
-      ;
+      return LandingPageLogged();
     }
-    Navigator.pushReplacementNamed(context, '/landing_page');
-    ;
+    return LoginPage();
   }
 }
