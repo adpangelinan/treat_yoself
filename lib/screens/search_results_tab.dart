@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../components/drawer.dart';
+import 'package:treat_yoself/routes.dart';
 import 'const_lists.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -67,18 +68,40 @@ class ItemDetails {
   final String brand;
 
   ItemDetails(this.name, this.price, this.brand);
+  _popUp(context) {
+    //add insert query
+
+    return showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text("Item Added To Cart"),
+              actions: [
+                TextButton(
+                    child: Text("OK"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    })
+              ],
+            ));
+  }
 
   Widget buildItem(BuildContext context) => Card(
           child: Material(
         color: getRandomColors(),
         child: InkWell(
-          onTap: () =>
-              Navigator.pushReplacementNamed(context, '/shopping_list'),
+          onTap: () => null,
           splashColor: Colors.white,
           child: ListTile(
             title: Text(name),
-            subtitle: Text(price),
-            trailing: Text(brand),
+            subtitle: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [Text(brand), Text(price)],
+            ),
+            trailing: IconButton(
+              icon: Icon(Icons.add_shopping_cart_sharp),
+              tooltip: 'Add Item',
+              onPressed: () => _popUp(context),
+            ),
             tileColor: getRandomColors(),
           ),
         ),
