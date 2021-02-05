@@ -71,6 +71,10 @@
         {
             "table": "UsersRewards",
             "query": "SELECT Users.UserName as Username, Rewards.Title as Reward, Rewards.Badge as Badge FROM UsersRewards JOIN Users ON Users.UserID = UsersRewards.UserID JOIN Rewards ON Rewards.RewardID = UsersRewards.RewardID WHERE Username = ?;"
+        },
+        {
+            "table": "Login",
+            "query": "SELECT Users.UserName as Username, Rewards.Title as Reward, Rewards.Badge as Badge FROM UsersRewards JOIN Users ON Users.UserID = UsersRewards.UserID JOIN Rewards ON Rewards.RewardID = UsersRewards.RewardID WHERE Username = ? AND Password = ?;"
         }
     ]},
     {"type": "SelectByStore",

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import '../widgets/drawer.dart';
+import '../components/drawer.dart';
 import 'const_lists.dart';
 import 'package:flutter/cupertino.dart';
-
-
 
 class Results extends StatefulWidget {
   static String routeName = '/results';
@@ -12,14 +10,20 @@ class Results extends StatefulWidget {
 
 class _Results extends State<Results> {
   void _pushRoute() {
-    Navigator.pushReplacementNamed(context, '/landing_page');}
+    Navigator.pushReplacementNamed(context, '/landing_page');
+  }
 
-  final items = List<ItemDetails>.generate(15, (i) {return ItemDetails("name: $i", "price:$i", "brand:$i",);
+  final items = List<ItemDetails>.generate(15, (i) {
+    return ItemDetails(
+      "name: $i",
+      "price:$i",
+      "brand:$i",
+    );
   });
 
   @override
   Widget build(BuildContext context) {
-     return Scaffold(
+    return Scaffold(
       appBar: AppBar(title: Text('Results'), actions: [
         IconButton(
             icon: Icon(Icons.shopping_cart),
@@ -40,51 +44,46 @@ class _Results extends State<Results> {
     );
   }
 
-
-
-  _buildItems(){
+  _buildItems() {
     return ListView.builder(
-    itemCount: items.length,
-    itemBuilder: (context,index){
-    final item = items[index];
-    return Container(child: item.buildItem(context),);
-    },);
-    }
-  
-
-}
-
-abstract class ListItem{
-
-  Widget buildItem(BuildContext context);
-
-}
-
-
-
-
-  class ItemDetails {
-    final String name;
-    final String price;
-    final String brand; 
-
-    ItemDetails(this.name,this.price,this.brand); 
-
-    Widget buildItem(BuildContext context) => Card(
-      child: Material(
-        color: getRandomColors(),
-          child: InkWell(
-            onTap: () =>
-                    Navigator.pushReplacementNamed(context, '/shopping_list'),
-            splashColor: Colors.white,
-              child: ListTile(
-              title: Text(name), 
-              subtitle: Text(price), 
-              trailing: Text(brand), 
-              tileColor: getRandomColors(),),
-          ),
-        elevation: 10,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)),
-     )
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        final item = items[index];
+        return Container(
+          child: item.buildItem(context),
+        );
+      },
     );
   }
+}
+
+abstract class ListItem {
+  Widget buildItem(BuildContext context);
+}
+
+class ItemDetails {
+  final String name;
+  final String price;
+  final String brand;
+
+  ItemDetails(this.name, this.price, this.brand);
+
+  Widget buildItem(BuildContext context) => Card(
+          child: Material(
+        color: getRandomColors(),
+        child: InkWell(
+          onTap: () =>
+              Navigator.pushReplacementNamed(context, '/shopping_list'),
+          splashColor: Colors.white,
+          child: ListTile(
+            title: Text(name),
+            subtitle: Text(price),
+            trailing: Text(brand),
+            tileColor: getRandomColors(),
+          ),
+        ),
+        elevation: 10,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)),
+      ));
+}

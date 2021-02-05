@@ -18,8 +18,8 @@ class SQLQueryGroup {
 
   String GetQueryGroup(String table) {
     var tableMatch =
-        queries.firstWhere((table) => table.GetTableName() == table);
-    return tableMatch.GetQueryString();
+        queries.firstWhere((table) => table.getTableName() == table);
+    return tableMatch.getQueryString();
   }
 
   String GetType() {

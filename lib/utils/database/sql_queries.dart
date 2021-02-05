@@ -15,11 +15,11 @@ class SQLQueryString {
 
   Map<String, dynamic> toJson() => _$SQLQueryStringToJson(this);
 
-  String GetTableName() {
+  String getTableName() {
     return table;
   }
 
-  String GetQueryString() {
+  String getQueryString() {
     return query;
   }
 }

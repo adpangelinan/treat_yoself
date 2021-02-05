@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:treat_yoself/utils/database/db_utils.dart';
+import 'package:treat_yoself/utils/entities/user.dart';
 import '../components/drawer.dart';
 
 class Login extends StatefulWidget {
@@ -10,7 +13,9 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  //final dbEngine = DatabaseEngine().initialize();
+  static DatabaseEngine dbEngine = DatabaseEngine();
+  var username = "";
+  var password = "";
   final _formKey = GlobalKey<FormState>();
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,6 +41,9 @@ class _LoginState extends State<Login> {
                   }
                   return null;
                 },
+                onChanged: (value) {
+                  username = value;
+                },
               ),
               TextFormField(
                 decoration: InputDecoration(
@@ -48,6 +56,9 @@ class _LoginState extends State<Login> {
                   }
                   return null;
                 },
+                onChanged: (value) {
+                  password = value;
+                },
               ),
               SizedBox(
                 height: 24,
@@ -57,7 +68,15 @@ class _LoginState extends State<Login> {
                 child: Text('Sign In'),
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
-                    Navigator.pushReplacementNamed(context, '/landing_page');
+                    var results = await dbEngine.manualQuery(
+                        "SELECT * FROM athdy9ib33fbmfvk.Users WHERE UserName = ? AND Password = ?;",
+                        [username, password]);
+                    if (results.length > 0) {
+                      var user =
+                          UserData.fromJson(json.decode(results[0].toString()));
+                      Navigator.pushReplacementNamed(context, '/landing_page');
+                    }
+                    print('No match found.');
                   }
                 },
               ),

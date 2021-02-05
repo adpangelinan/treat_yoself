@@ -18,19 +18,14 @@ class DatabaseEngine {
       password: 'rbs034lkb2ecn4iu',
       db: 'athdy9ib33fbmfvk');
 
-  Future<void> initialize() async {
-    await buildSQLList();
-    return;
-
-    ///Add error message if connection to server cannot be made (no service)
-  }
-
   /// Creates a SQLController object that is bound to the existing DatabaseEngine object.
-  Future<void> buildSQLList() async {
+  /*Future<SQLController> get database async {
     var queryString = await File('../lib/data/sql_queries.json').readAsString();
     var jsonData = json.decode(queryString);
     sqlController = SQLController.fromJson(jsonData);
-  }
+    print("Database is connected.");
+    return sqlController;
+  }*/
 
   /// Validates the SQL Query string and parameters.
   /// Passes them to the server, and returns any data passed back by the server.
@@ -41,15 +36,22 @@ class DatabaseEngine {
     return result;
   }
 
+  Future<List<String>> manualQuery(String queryString, List context) async {
+    var result = await contactServer(queryString, context);
+    return result;
+  }
+
   /// Creates a connection to the SQL server and handles sending/receiving data.
   Future<List<String>> contactServer(String query, [List context]) async {
     final conn = await MySqlConnection.connect(dbConnectionString);
-    var results = await conn.query(query, [context]);
+    var results = await conn.query(query, context);
     List<String> resultArray = [];
+    print(results.toString());
     for (var row in results) {
       resultArray.add(row.toString());
       print(row);
     }
+    conn.close();
     return resultArray;
   }
 }
