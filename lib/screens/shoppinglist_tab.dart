@@ -4,6 +4,8 @@ import 'package:treat_yoself/screens/search_results_tab.dart';
 import './search_results_tab.dart';
 import 'const_lists.dart';
 import './list_tiles.dart';
+import '../components/top_nav_bar.dart';
+import '../components/bot_nav_bar.dart';
 
 class ShoppingList extends StatefulWidget {
   static String routeName = '/shopping_list';
@@ -17,14 +19,10 @@ class _ShoppingListState extends State<ShoppingList> {
   Widget build(BuildContext context) {
     //build a news feed list
     return Scaffold(
-      appBar: AppBar(title: Text('Shopping Lists'), actions: [
-        IconButton(icon: Icon(Icons.shopping_cart), onPressed: null)
-      ]),
+      appBar: Top_Nav_Bar(),
       drawer: SideDrawer(),
       body: _buildLists(),
-      bottomNavigationBar: BottomAppBar(
-          color: Colors.white,
-          child: IconButton(icon: Icon(Icons.home), onPressed: _pushRoute)),
+      bottomNavigationBar: Bot_Nav_Bar(),
     );
   }
 

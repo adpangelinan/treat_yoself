@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../components/drawer.dart';
+import '../components/top_nav_bar.dart';
+import '../components/bot_nav_bar.dart';
 import 'const_lists.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -9,30 +11,13 @@ class Category extends StatefulWidget {
 }
 
 class _Categories extends State<Category> {
-  void _pushRoute() {
-    Navigator.pushReplacementNamed(context, '/landing_page');
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Categories'), actions: [
-        IconButton(
-            icon: Icon(Icons.shopping_cart),
-            onPressed: () {
-              Navigator.pushNamed(context, '/shoppinglist');
-            }),
-        IconButton(
-            icon: Icon(Icons.camera_alt_outlined),
-            onPressed: () {
-              //TODO: Camera page and route
-            }),
-      ]),
+      appBar: Top_Nav_Bar(),
       drawer: SideDrawer(),
       body: _buildGrid(),
-      bottomNavigationBar: BottomAppBar(
-          color: Colors.white,
-          child: IconButton(icon: Icon(Icons.home), onPressed: _pushRoute)),
+      bottomNavigationBar: Bot_Nav_Bar(),
     );
   }
 

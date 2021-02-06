@@ -5,6 +5,8 @@ import 'login_tab.dart';
 import 'list_tiles.dart';
 import 'feed.dart';
 import '../components/drawer.dart';
+import '../components/top_nav_bar.dart';
+import '../components/bot_nav_bar.dart';
 
 /*Class Landing Paged Logged
 Landing Page for a user that is currently logged in
@@ -24,23 +26,10 @@ class _LandingPageLogged extends State<LandingPageLogged> {
   Widget build(BuildContext context) {
     //build a news feed list
     return Scaffold(
-      appBar: AppBar(title: Text('Home'), actions: [
-        IconButton(
-            icon: Icon(Icons.shopping_cart),
-            onPressed: () {
-              Navigator.pushNamed(context, '/shopping_list');
-            }),
-        IconButton(
-            icon: Icon(Icons.camera_alt_outlined),
-            onPressed: () {
-              //TODO: Camera page and route
-            }),
-      ]),
+      appBar: Top_Nav_Bar(),
       drawer: SideDrawer(),
       body: _buildBody(),
-      bottomNavigationBar: BottomAppBar(
-          color: Colors.white,
-          child: IconButton(icon: Icon(Icons.home), onPressed: _pushRoute)),
+      bottomNavigationBar: Bot_Nav_Bar(),
     );
   }
 
@@ -56,21 +45,24 @@ Widget _buildBody() {
         child: Row(children: [
       Container(width: 360, color: Colors.red, child: Feed())
     ])),
-    Expanded(child: Container(width: 360, child: _buildBox()))]));
-
+    Expanded(child: Container(width: 360, child: _buildBox()))
+  ]));
 }
 
-
-  Widget _buildBox(){
-    return Container(child:Column(children: [
-      TextFormField(
-        decoration: InputDecoration(
-          labelText:  'Enter a catchy Title',
-          labelStyle: TextStyle(color: Colors.green)
-        )),
+Widget _buildBox() {
+  return Container(
+    child: Column(
+      children: [
         TextFormField(
-          decoration: InputDecoration(
-            labelText: 'Enter comment here',
-            labelStyle: TextStyle(color: Colors.green) ,)
-    )],),);
-  }
+            decoration: InputDecoration(
+                labelText: 'Enter a catchy Title',
+                labelStyle: TextStyle(color: Colors.green))),
+        TextFormField(
+            decoration: InputDecoration(
+          labelText: 'Enter comment here',
+          labelStyle: TextStyle(color: Colors.green),
+        ))
+      ],
+    ),
+  );
+}

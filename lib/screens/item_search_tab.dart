@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import '../components/drawer.dart';
+import '../components/top_nav_bar.dart';
+import '../components/bot_nav_bar.dart';
 
 class ItemSearch extends StatelessWidget {
   static String routeName = '/item_search';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: Top_Nav_Bar(),
       body: Center(
         child: Container(
           padding: EdgeInsets.all(80.0),
@@ -35,6 +38,7 @@ class ItemSearch extends StatelessWidget {
           ),
         ),
       ),
+      bottomNavigationBar: Bot_Nav_Bar(),
     );
   }
 }
