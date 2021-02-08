@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:treat_yoself/screens/search_results_tab.dart';
 import '../components/drawer.dart';
 import '../components/top_nav_bar.dart';
 import '../components/bot_nav_bar.dart';
 import 'const_lists.dart';
 import 'package:flutter/cupertino.dart';
+import './search_results_tab.dart';
 
 class Category extends StatefulWidget {
   static String routeName = '/category';
@@ -21,23 +23,26 @@ class _Categories extends State<Category> {
     );
   }
 
-  Widget _buildGrid() => GridView.extent(
-          maxCrossAxisExtent: 200,
-          padding: const EdgeInsets.all(4),
-          mainAxisSpacing: 2,
-          crossAxisSpacing: 2,
-          children: [
-            CategoryCard(0),
-            CategoryCard(1),
-            CategoryCard(2),
-            CategoryCard(3),
-            CategoryCard(4),
-            CategoryCard(5),
-            CategoryCard(6),
-            CategoryCard(7),
-            CategoryCard(8),
-            CategoryCard(9),
-          ]);
+
+
+    Widget _buildGrid() => GridView.extent(
+            maxCrossAxisExtent: 200,
+            padding: const EdgeInsets.all(4),
+            mainAxisSpacing: 2,
+            crossAxisSpacing: 2,
+            children: [
+              CategoryCard(0),
+              CategoryCard(1),
+              CategoryCard(2),
+              CategoryCard(3),
+              CategoryCard(4),
+              CategoryCard(5),
+              CategoryCard(6),
+              CategoryCard(7),
+              CategoryCard(8),
+              CategoryCard(9),
+            ]);
+  }
 
 // The images are saved with names pic0.jpg, pic1.jpg...pic29.jpg.
 // The List.generate() constructor allows an easy way to create
@@ -48,7 +53,7 @@ class _Categories extends State<Category> {
               child: GridTile(
             child: Row(children: [CategoryCard(i)]),
           )));
-}
+
 
 class CategoryCard extends StatelessWidget {
   final _itemsLength = 10;
@@ -70,6 +75,18 @@ class CategoryCard extends StatelessWidget {
   ];
   CategoryCard(this.index);
   final int index;
+  final List<String> _categoryQueries = [
+  'Select Items.Name as Item, Items.Price, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN Brands ON Items.BrandID = Brands.BrandID WHERE Categories.Name = ?;',
+  'Select Items.Name as Item, Items.Price, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN Brands ON Items.BrandID = Brands.BrandID WHERE Categories.Name = ?;',
+  'Select Items.Name as Item, Items.Price, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN Brands ON Items.BrandID = Brands.BrandID WHERE Categories.Name = ?;',
+  'Select Items.Name as Item, Items.Price, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN Brands ON Items.BrandID = Brands.BrandID WHERE Categories.Name = ?;',
+  'Select Items.Name as Item, Items.Price, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN Brands ON Items.BrandID = Brands.BrandID WHERE Categories.Name = ?;',
+  'Select Items.Name as Item, Items.Price, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN Brands ON Items.BrandID = Brands.BrandID WHERE Categories.Name = ?;',
+  'Select Items.Name as Item, Items.Price, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN Brands ON Items.BrandID = Brands.BrandID WHERE Categories.Name = ?;',
+  'Select Items.Name as Item, Items.Price, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN Brands ON Items.BrandID = Brands.BrandID WHERE Categories.Name = ?;',
+  'Select Items.Name as Item, Items.Price, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN Brands ON Items.BrandID = Brands.BrandID WHERE Categories.Name = ?;',
+  'Select Items.Name as Item, Items.Price, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN Brands ON Items.BrandID = Brands.BrandID WHERE Categories.Name = ?;',
+];
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +104,8 @@ class CategoryCard extends StatelessWidget {
           song: categoryNames[index],
           color: getRandomColors(),
           heroAnimation: AlwaysStoppedAnimation(0),
+          query: _categoryQueries[index],
+          arg: categoryNames[index],
         ),
       ),
     );
@@ -95,12 +114,14 @@ class CategoryCard extends StatelessWidget {
 
 class HeroAnimatingSongCard extends StatelessWidget {
   HeroAnimatingSongCard(
-      {this.song, this.color, this.heroAnimation, this.onPressed});
+      {this.song, this.color, this.heroAnimation, this.onPressed, this.query, this.arg});
 
   final String song;
   final Color color;
   final Animation<double> heroAnimation;
   final VoidCallback onPressed;
+  final String query; 
+  final String arg; 
 
   @override
   Widget build(context) {
@@ -113,7 +134,7 @@ class HeroAnimatingSongCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(25.0)),
             color: getRandomColors(),
             child: InkWell(
-              onTap: () => Navigator.pushReplacementNamed(context, '/results'),
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => Results(query: query, args: arg))),
               splashColor: Colors.white,
               child: SizedBox(
                 height: 200,

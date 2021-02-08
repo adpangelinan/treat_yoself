@@ -18,9 +18,25 @@ const _myListOfRandomColors = [
   Colors.orange,
 ];
 
+final _categoryQueries = [
+  'Select Items.Name as Item, Items.Price, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN Brands ON Items.BrandID = Brands.BrandID WHERE Categories.Name = ?;',
+  'Select Items.Name as Item, Items.Price, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN Brands ON Items.BrandID = Brands.BrandID WHERE Categories.Name = ?;',
+  'Select Items.Name as Item, Items.Price, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN Brands ON Items.BrandID = Brands.BrandID WHERE Categories.Name = ?;',
+  'Select Items.Name as Item, Items.Price, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN Brands ON Items.BrandID = Brands.BrandID WHERE Categories.Name = ?;',
+  'Select Items.Name as Item, Items.Price, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN Brands ON Items.BrandID = Brands.BrandID WHERE Categories.Name = ?;',
+  'Select Items.Name as Item, Items.Price, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN Brands ON Items.BrandID = Brands.BrandID WHERE Categories.Name = ?;',
+  'Select Items.Name as Item, Items.Price, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN Brands ON Items.BrandID = Brands.BrandID WHERE Categories.Name = ?;',
+  'Select Items.Name as Item, Items.Price, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN Brands ON Items.BrandID = Brands.BrandID WHERE Categories.Name = ?;',
+  'Select Items.Name as Item, Items.Price, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN Brands ON Items.BrandID = Brands.BrandID WHERE Categories.Name = ?;',
+  'Select Items.Name as Item, Items.Price, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN Brands ON Items.BrandID = Brands.BrandID WHERE Categories.Name = ?;',
+];
+
 final _random = Random();
 
 MaterialColor getRandomColors() {
     return _myListOfRandomColors[_random.nextInt(_myListOfRandomColors.length)];
 }
 
+List<String> getQueries(){
+  return _categoryQueries;
+}
