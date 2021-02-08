@@ -132,9 +132,23 @@ class ItemDetails {
   ItemDetails(this.name, this.price, this.brand,this.id);
 
 
-  _popUp(context) {
-    //add insert query
+  insertData(id) async{
+    var listID = "42"; //add user data class to extract this id from it
+    var database = DatabaseEngine();
+    var insertquery = "Insert Into ListItems VALUES(NULL,?,?,1)"; 
+    var  data; 
+    data =  await  database.manualQuery(insertquery,[listID,id]);
+    print(data);
+    return data; 
+  }
 
+
+  _popUp(context,id) async{
+    //add insert query
+    await insertData(id);
+
+    
+    
     return showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -164,7 +178,7 @@ class ItemDetails {
             trailing: IconButton(
               icon: Icon(Icons.add_shopping_cart_sharp),
               tooltip: 'Add Item',
-              onPressed: () => _popUp(context),
+              onPressed: () => _popUp(context,id),
             ),
             tileColor: getRandomColors(),
           ),
