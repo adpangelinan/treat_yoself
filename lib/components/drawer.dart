@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:treat_yoself/screens/shoppinglist_tab.dart';
+import 'package:treat_yoself/routes.dart';
 
 class SideDrawer extends StatelessWidget {
   const SideDrawer({Key key, @required this.user}) : super(key: key);
@@ -26,7 +26,13 @@ class SideDrawer extends StatelessWidget {
             //leading: SongsTab.androidIcon,
             title: Text('Profile'),
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LandingPageLogged(
+                      user: user,
+                    ),
+                  ));
             },
           ),
           ListTile(
@@ -46,14 +52,26 @@ class SideDrawer extends StatelessWidget {
             //leading: ProfileTab.androidIcon,
             title: Text('Find Items'),
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/item_search');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ItemSearch(
+                      user: user,
+                    ),
+                  ));
             },
           ),
           ListTile(
             //leading: SettingsTab.androidIcon,
             title: Text("Shop Categories"),
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/category');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Category(
+                      user: user,
+                    ),
+                  ));
             },
           ),
           // Long drawer contents are often segmented.
@@ -64,7 +82,13 @@ class SideDrawer extends StatelessWidget {
             //leading: SettingsTab.androidIcon,
             title: Text("Settings"),
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/user_settings');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UserSettings(
+                      user: user,
+                    ),
+                  ));
             },
           ),
         ],

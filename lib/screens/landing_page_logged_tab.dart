@@ -13,7 +13,7 @@ Landing Page for a user that is currently logged in
  */
 class LandingPageLogged extends StatefulWidget {
   const LandingPageLogged({Key key, @required this.user}) : super(key: key);
-  final int user; // e-mail for now
+  final int user; //#TODO - make User Class
   @override
   _LandingPageLogged createState() => _LandingPageLogged();
   static String routeName = '/landing_page';
@@ -24,7 +24,7 @@ class _LandingPageLogged extends State<LandingPageLogged> {
     //build a news feed list
 
     return Scaffold(
-      appBar: Top_Nav_Bar(),
+      appBar: Top_Nav_Bar(user: widget.user),
       drawer: SideDrawer(user: widget.user),
       body: _buildBody(widget.user),
       bottomNavigationBar: Bot_Nav_Bar(user: widget.user),

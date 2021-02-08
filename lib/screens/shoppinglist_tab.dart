@@ -34,7 +34,7 @@ class _ShoppingListState extends State<ShoppingList> {
           if (snapshot.hasData) {
             // If database data received
             return Scaffold(
-              appBar: Top_Nav_Bar(),
+              appBar: Top_Nav_Bar(user: widget.user),
               drawer: SideDrawer(user: widget.user),
               body: _buildLists(snapshot.data),
               bottomNavigationBar: Bot_Nav_Bar(user: widget.user),
@@ -42,14 +42,14 @@ class _ShoppingListState extends State<ShoppingList> {
           } else if (snapshot.hasError) {
             //database error
             return Scaffold(
-              appBar: Top_Nav_Bar(),
+              appBar: Top_Nav_Bar(user: widget.user),
               drawer: SideDrawer(user: widget.user),
               body: Text("Error with database data"),
               bottomNavigationBar: Bot_Nav_Bar(user: widget.user),
             );
           } else {
             return Scaffold(
-              appBar: Top_Nav_Bar(),
+              appBar: Top_Nav_Bar(user: widget.user),
               drawer: SideDrawer(user: widget.user),
               body: _buildLists(createNullList()),
               bottomNavigationBar: Bot_Nav_Bar(user: widget.user),

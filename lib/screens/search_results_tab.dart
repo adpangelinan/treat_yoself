@@ -5,6 +5,8 @@ import 'const_lists.dart';
 import 'package:flutter/cupertino.dart';
 
 class Results extends StatefulWidget {
+  const Results({Key key, @required this.user}) : super(key: key);
+  final int user;
   static String routeName = '/results';
   State<StatefulWidget> createState() => _Results();
 }
@@ -37,7 +39,7 @@ class _Results extends State<Results> {
               //TODO: Camera page and route
             }),
       ]),
-      drawer: SideDrawer(),
+      drawer: SideDrawer(user: widget.user),
       body: _buildItems(),
       bottomNavigationBar: BottomAppBar(
           color: Colors.white,
