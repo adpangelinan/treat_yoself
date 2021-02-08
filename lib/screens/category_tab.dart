@@ -8,6 +8,8 @@ import 'package:flutter/cupertino.dart';
 import './search_results_tab.dart';
 
 class Category extends StatefulWidget {
+  const Category({Key key, this.user}) : super(key: key);
+  final int user; //#TODO - make User Class
   static String routeName = '/category';
   State<StatefulWidget> createState() => _Categories();
 }
@@ -16,10 +18,10 @@ class _Categories extends State<Category> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Top_Nav_Bar(),
-      drawer: SideDrawer(),
+      appBar: Top_Nav_Bar(user: widget.user),
+      drawer: SideDrawer(user: widget.user),
       body: _buildGrid(),
-      bottomNavigationBar: Bot_Nav_Bar(),
+      bottomNavigationBar: Bot_Nav_Bar(user: widget.user),
     );
   }
 

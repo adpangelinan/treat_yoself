@@ -11,10 +11,12 @@ import 'dart:convert';
 
 
 class Results extends StatefulWidget {
+  //const Results({Key key, @required this.user}) : super(key: key);
+  final int user;
   static String routeName = '/results';
   final String query;
   final String args; 
-  const Results ({Key key, this.query, this.args}): super(key: key);
+  const Results ({Key key, this.query, this.args,this.user}): super(key: key);
   @override
   State<StatefulWidget> createState() => _Results();
 }
@@ -51,7 +53,6 @@ class _Results extends State<Results> {
       var database = DatabaseEngine(); 
       var newstring =  await  database.manualQuery(widget.query,[widget.args]);
       print(newstring);
-      var parsed =  newstring.toString();
       List<ItemDetails> list = [];
       newstring.forEach((element) {
         temp = element.split(" ");
