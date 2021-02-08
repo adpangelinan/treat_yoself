@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:treat_yoself/utils/database/sql_controller.dart';
@@ -22,6 +20,7 @@ class LandingPageLogged extends StatefulWidget {
 }
 
 class _LandingPageLogged extends State<LandingPageLogged> {
+
   Widget build(BuildContext context) {
     //build a news feed list
 
@@ -47,15 +46,48 @@ Widget _buildBody(int user) {
         child: Row(children: [
       Container(width: 360, color: Colors.red, child: Feed())
     ])),
-    Expanded(child: Container(width: 360, child: MyCustomForm()))
+    Expanded(child: Container(width: 360, child: MyCustomForm(user)))
   ]));
 }
 
-Widget _buildBox() {
-  return Container(
+
+class MyCustomForm extends StatefulWidget{
+  final int user;
+  MyCustomForm(this.user);
+  @override 
+  MyCustomFormState createState(){
+    return MyCustomFormState(user);
+  }
+}
+
+class MyCustomFormState extends State<MyCustomForm>{
+  final _formKey = GlobalKey<FormState>();
+  final fieldText = TextEditingController(); 
+  final othertext = TextEditingController(); 
+  final int user;
+
+  MyCustomFormState(this.user);
+
+  void clearText(){
+    fieldText.clear(); 
+    othertext.clear(); 
+  }
+  @override 
+  Widget build(BuildContext context){
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: <Widget>[
+          _buildBox(_formKey,context,fieldText)
+        ],));
+
+  }
+
+  Widget _buildBox(_formKey, context,fieldText) {
+  return Expanded(child: Container(
     child: Column(
       children: [
-        //Text(user.toString()),
+        Text(widget.user.toString()),
         TextFormField(
             validator: (value){
               if(value.isEmpty){
@@ -65,7 +97,8 @@ Widget _buildBox() {
             },
             decoration: InputDecoration(
                 labelText: 'Enter a catchy Title',
-                labelStyle: TextStyle(color: Colors.green))),
+                labelStyle: TextStyle(color: Colors.green)),
+            controller: fieldText ),
         TextFormField(
           validator: (value){
               if(value.isEmpty){
@@ -76,32 +109,31 @@ Widget _buildBox() {
           decoration: InputDecoration(
           labelText: 'Enter comment here',
           labelStyle: TextStyle(color: Colors.green),
-        )),
-        FloatingActionButton(onPressed: null)
+        ),
+         controller: othertext),
+        SizedBox(height: 10,),
+        Row(
+          children: [
+          FloatingActionButton.extended(
+            label: Text('Submit'),
+            icon: Icon(Icons.add),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
+            onPressed: () {
+            if( _formKey.currentState.validate()){
+              
+              Scaffold.of(context).showSnackBar(SnackBar(content: Text('Processing Data')));
+              clearText();
+
+            }
+      
+          },
+        )
+          ],)
+        
       ],
     ),
-  );
+  ));
 }
 
-class MyCustomForm extends StatefulWidget{
-  @override 
-  MyCustomFormState createState(){
-    return MyCustomFormState();
-  }
-}
-
-class MyCustomFormState extends State<MyCustomForm>{
-  final _formKey = GlobalKey<FormState>();
-
-  @override 
-  Widget build(BuildContext context){
-    return Form(
-      key: _formKey,
-      child: Column(
-        children: <Widget>[
-          _buildBox()
-        ],));
-
-  }
 
 }

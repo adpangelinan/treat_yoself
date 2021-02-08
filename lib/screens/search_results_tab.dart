@@ -48,19 +48,17 @@ class _Results extends State<Results> {
   }
 
   Future<List<ItemDetails>> _buildItems(query) async {
-      print('testing');
       List<String> temp; 
       var database = DatabaseEngine(); 
       var newstring =  await  database.manualQuery(widget.query,[widget.args]);
-      print(newstring);
       List<ItemDetails> list = [];
       newstring.forEach((element) {
         temp = element.split(" ");
-        print(temp);
         var first;
         var two; 
         var mid; 
         var last; 
+        var id; 
         for(var i=0; i < temp.length; i++){
           if (temp[i] == "{Item:"){
             first = temp[i+1];
@@ -75,12 +73,16 @@ class _Results extends State<Results> {
             mid = temp[i+1];
             mid = mid.replaceAll(RegExp(r'[^\w\s]+'), ''); 
           }
+          else if(temp[i] == "ID:"){
+            id = temp[i+1];
+            id = id.replaceAll(RegExp(r'[^\w\s]+'), '');
+          }
           else if(temp[i]== "Brand:"){
             last =temp[i+1]; 
             last = last.replaceAll(RegExp(r'[^\w\s]+'), '');
           }
         }
-        list.add(ItemDetails(first,mid,last));
+        list.add(ItemDetails(first,mid,last,id));
       
       });
       return list;
@@ -125,8 +127,9 @@ class ItemDetails {
   final String name;
   final String price;
   final String brand;
+  final String id; 
 
-  ItemDetails(this.name, this.price, this.brand);
+  ItemDetails(this.name, this.price, this.brand,this.id);
 
 
   _popUp(context) {
