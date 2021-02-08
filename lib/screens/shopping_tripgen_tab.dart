@@ -21,7 +21,7 @@ class _CurrentItems extends State<ShoppingTripGen>{
   @override
   Widget build(BuildContext context)  { 
     return Scaffold(
-      appBar: Top_Nav_Bar(user:widget.user),
+      appBar: Top_Nav_Bar(user:widget.user,title: "Shopping Cart"),
       drawer: SideDrawer(user:widget.user),
       body: printing(),
       bottomNavigationBar: Bot_Nav_Bar(user:widget.user));
@@ -56,7 +56,7 @@ class _CurrentItems extends State<ShoppingTripGen>{
 
   Future<List<ShoppingItem>> _buildItems() async {
       List<String> temp; 
-      var dataquery = "Select Items.Name as Item, Items.Price as Price, Items.ItemID as ID, Brands.Name as brand FROM Items JOIN Brands On Brands.BrandID = Items.BrandID JOIN ListItems ON Items.ItemID = ListItems.ItemID WHERE ListItems.ListID = ?;";
+      var dataquery = "Select Items.Name as Item, Items.Price as Price, Items.ItemID as ID, ListItems.ListItemID as ListID, Brands.Name as Brand FROM Items JOIN Brands On Brands.BrandID = Items.BrandID JOIN ListItems ON Items.ItemID = ListItems.ItemID WHERE ListItems.ListID = ?;";
       var listID = "42";
       var database = DatabaseEngine(); 
       var newstring =  await  database.manualQuery(dataquery,[listID]);
@@ -68,6 +68,7 @@ class _CurrentItems extends State<ShoppingTripGen>{
         var mid; 
         var last; 
         var id; 
+        var listID; 
         for(var i=0; i < temp.length; i++){
           if (temp[i] == "{Item:"){
             first = temp[i+1];
@@ -90,8 +91,12 @@ class _CurrentItems extends State<ShoppingTripGen>{
             last =temp[i+1]; 
             last = last.replaceAll(RegExp(r'[^\w\s]+'), '');
           }
+          else if(temp[i] == "ListID:"){
+            listID = temp[i+1];
+            listID = listID.replaceAll(RegExp(r'[^\w\s]+'), '');
+          }
         }
-        list.add(ShoppingItem(first,mid,last,id));
+        list.add(ShoppingItem(first,mid,last,id,listID));
       
       });
       return list;
@@ -109,9 +114,42 @@ class ShoppingItem{
   final String price;
   final String brand;
   final String id; 
+  final String listID; 
 
-  ShoppingItem(this.name, this.price, this.brand,this.id);
+  ShoppingItem(this.name, this.price, this.brand,this.id,this.listID);
 
+  delete(deleting) async{
+     //add user data class to extract this id from it
+    var database = DatabaseEngine();
+    var insertquery = "Delete FROM ListItems WHERE ListItemID = ?"; 
+    var  data; 
+    data =  await  database.manualQuery(insertquery,[deleting]);
+    return data;
+
+  }
+
+  void setState(){
+    
+  }
+  _deleteItem(context,id) async {
+    await delete(id);
+    
+    
+    return showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text("Item Deleted"),
+              actions: [
+                TextButton(
+                    child: Text("OK"),
+                    onPressed: () {
+                      
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pushNamed('/current_list',);
+                    })
+              ],
+            ));
+  }
 
    Widget buildItem(BuildContext context) => Card(
           child: Material(
@@ -126,9 +164,9 @@ class ShoppingItem{
               children: [Text(brand), Text(price)],
             ),
             trailing: IconButton(
-              icon: Icon(Icons.add_shopping_cart_sharp),
+              icon: Icon(Icons.delete),
               tooltip: 'Delete Item',
-              onPressed: () => null,
+              onPressed: () => _deleteItem(context,listID),
             ),
             tileColor: getRandomColors(),
           ),

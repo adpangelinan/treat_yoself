@@ -8,12 +8,7 @@ import 'package:treat_yoself/utils/entities/user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:treat_yoself/routes.dart';
-<<<<<<< HEAD
-import 'package:treat_yoself/utils/database/db_utils.dart';
-import './utils/entities/user.dart';
-=======
 import 'dart:convert';
->>>>>>> 26e7790fc0f5bd1404dee3bd5fbe2e452f89cbf5
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -61,6 +56,7 @@ class App extends StatelessWidget {
             UserSettings.routeName: (context) => UserSettings(),
             Category.routeName: (context) => Category(),
             Results.routeName: (context) => Results(),
+            ShoppingTripGen.routeName: (context) => ShoppingTripGen(),
           },
           home: AuthenticationWrapper(),
         ));
