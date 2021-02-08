@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:treat_yoself/routes.dart';
 import 'package:treat_yoself/utils/database/db_utils.dart';
+import './utils/entities/user.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -69,6 +70,7 @@ class AuthenticationWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User>();
+    print(firebaseUser);
     if (firebaseUser != null) {
       return LandingPageLogged(user: user);
     } else {
