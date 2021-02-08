@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:treat_yoself/utils/entities/authentication_service.dart';
-import '../components/drawer.dart';
+import 'components/components.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../components/top_nav_bar.dart';
-import '../components/bot_nav_bar.dart';
+
 import 'package:treat_yoself/routes.dart';
 
 class UserSettings extends StatelessWidget {

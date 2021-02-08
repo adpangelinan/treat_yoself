@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../components/drawer.dart';
+import 'components/components.dart';
 
 class ShoppingTripGen extends StatelessWidget {
   @override

@@ -34,4 +34,9 @@ class AuthenticationService {
   String getEmail() {
     return _firebaseAuth.currentUser.email;
   }
+
+  User getCurrentUser() {
+    User user = _firebaseAuth.currentUser;
+    return user;
+  }
 }

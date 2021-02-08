@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import '../components/drawer.dart';
-import '../components/top_nav_bar.dart';
-import '../components/bot_nav_bar.dart';
+import 'components/components.dart';
 import 'package:treat_yoself/routes.dart';
 
 class ItemSearch extends StatelessWidget {

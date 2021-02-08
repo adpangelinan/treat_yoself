@@ -1,13 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import '../components/drawer.dart';
+import 'components/components.dart';
 import 'package:treat_yoself/screens/search_results_tab.dart';
 import './search_results_tab.dart';
 import 'const_lists.dart';
 import './list_tiles.dart';
-import '../components/top_nav_bar.dart';
-import '../components/bot_nav_bar.dart';
+
 import '../utils/database/db_utils.dart';
 import 'dart:async';
 import '../utils/entities/shoppinglist.dart';

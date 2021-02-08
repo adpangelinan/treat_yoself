@@ -4,9 +4,7 @@ import 'package:treat_yoself/utils/database/sql_controller.dart';
 import 'login_tab.dart';
 import 'list_tiles.dart';
 import 'feed.dart';
-import '../components/drawer.dart';
-import '../components/top_nav_bar.dart';
-import '../components/bot_nav_bar.dart';
+import 'components/components.dart';
 
 /*Class Landing Paged Logged
 Landing Page for a user that is currently logged in
