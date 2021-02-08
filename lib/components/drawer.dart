@@ -26,13 +26,7 @@ class SideDrawer extends StatelessWidget {
             //leading: SongsTab.androidIcon,
             title: Text('Profile'),
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LandingPageLogged(
-                      user: user,
-                    ),
-                  ));
+              Navigator.pushReplacementNamed(context, '/user_settings');
             },
           ),
           ListTile(
