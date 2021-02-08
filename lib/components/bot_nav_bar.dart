@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:treat_yoself/routes.dart';
 
 class Bot_Nav_Bar extends StatelessWidget implements PreferredSizeWidget {
-  Bot_Nav_Bar({Key key})
+  Bot_Nav_Bar({Key key, @required this.user})
       : preferredSize = Size.fromHeight(kToolbarHeight),
         super(key: key);
-
+  final int user;
   @override
   final Size preferredSize;
   Widget build(BuildContext context) {
@@ -13,7 +14,14 @@ class Bot_Nav_Bar extends StatelessWidget implements PreferredSizeWidget {
         child: IconButton(
             icon: Icon(Icons.home),
             onPressed: () {
-              Navigator.pushNamed(context, '/landing_page');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LandingPageLogged(
+                      user: user,
+                    ),
+                  ));
+              ;
             }));
   }
 }

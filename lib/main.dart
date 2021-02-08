@@ -64,12 +64,15 @@ class App extends StatelessWidget {
 }
 
 class AuthenticationWrapper extends StatelessWidget {
+  static const user = 153;
+
   @override
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User>();
     if (firebaseUser != null) {
-      return LandingPageLogged();
+      return LandingPageLogged(user: user);
+    } else {
+      return LoginPage();
     }
-    return LoginPage();
   }
 }
