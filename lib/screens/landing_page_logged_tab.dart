@@ -12,24 +12,22 @@ import '../components/bot_nav_bar.dart';
 Landing Page for a user that is currently logged in
  */
 class LandingPageLogged extends StatefulWidget {
-  const LandingPageLogged({Key key}) : super(key: key);
+  const LandingPageLogged({Key key, this.user}) : super(key: key);
+  final int user; //#TODO - make User Class
   @override
   _LandingPageLogged createState() => _LandingPageLogged();
   static String routeName = '/landing_page';
 }
 
 class _LandingPageLogged extends State<LandingPageLogged> {
-  void _pushRoute() {
-    Navigator.pushReplacementNamed(context, '/landing_page');
-  }
-
   Widget build(BuildContext context) {
     //build a news feed list
+
     return Scaffold(
-      appBar: Top_Nav_Bar(),
-      drawer: SideDrawer(),
-      body: _buildBody(),
-      bottomNavigationBar: Bot_Nav_Bar(),
+      appBar: Top_Nav_Bar(user: widget.user),
+      drawer: SideDrawer(user: widget.user),
+      body: _buildBody(widget.user),
+      bottomNavigationBar: Bot_Nav_Bar(user: widget.user),
     );
   }
 
@@ -38,21 +36,22 @@ class _LandingPageLogged extends State<LandingPageLogged> {
   }
 }
 
-Widget _buildBody() {
+Widget _buildBody(int user) {
   return Container(
       child: Column(children: [
     Expanded(
         child: Row(children: [
       Container(width: 360, color: Colors.red, child: Feed())
     ])),
-    Expanded(child: Container(width: 360, child: _buildBox()))
+    Expanded(child: Container(width: 360, child: _buildBox(user)))
   ]));
 }
 
-Widget _buildBox() {
+Widget _buildBox(int user) {
   return Container(
     child: Column(
       children: [
+        Text(user.toString()),
         TextFormField(
             decoration: InputDecoration(
                 labelText: 'Enter a catchy Title',

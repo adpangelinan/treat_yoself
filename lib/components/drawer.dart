@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:treat_yoself/routes.dart';
 
 class SideDrawer extends StatelessWidget {
+  const SideDrawer({Key key, @required this.user}) : super(key: key);
+  final int user;
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -30,21 +33,39 @@ class SideDrawer extends StatelessWidget {
             //leading: NewsTab.androidIcon,
             title: Text('Shopping List'),
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/shopping_list');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ShoppingList(
+                      user: user,
+                    ),
+                  ));
             },
           ),
           ListTile(
             //leading: ProfileTab.androidIcon,
             title: Text('Find Items'),
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/item_search');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ItemSearch(
+                      user: user,
+                    ),
+                  ));
             },
           ),
           ListTile(
             //leading: SettingsTab.androidIcon,
             title: Text("Shop Categories"),
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/category');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Category(
+                      user: user,
+                    ),
+                  ));
             },
           ),
           // Long drawer contents are often segmented.
@@ -55,7 +76,13 @@ class SideDrawer extends StatelessWidget {
             //leading: SettingsTab.androidIcon,
             title: Text("Settings"),
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/user_settings');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UserSettings(
+                      user: user,
+                    ),
+                  ));
             },
           ),
         ],

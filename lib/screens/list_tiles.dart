@@ -1,28 +1,20 @@
 import 'package:flutter/material.dart';
+import '../utils/entities/shoppinglist.dart';
 
 class ListTiles extends StatefulWidget {
+  const ListTiles({Key key, @required this.shoppinglists}) : super(key: key);
+  final List<sList> shoppinglists;
+
   @override
   _ListTilesState createState() => _ListTilesState();
 }
 
 class _ListTilesState extends State<ListTiles> {
-  /*Dummy Data*/
-  var numLists = 7;
-  var listNames = [
-    'List 1',
-    'Dinner',
-    'Adrian',
-    'List',
-    'List 5',
-    'List 6',
-    'List 7'
-  ];
   var listToSend;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-
       child: _buildBody(context),
     );
   }
@@ -35,18 +27,30 @@ class _ListTilesState extends State<ListTiles> {
     }
   }
 
-  Widget _buildShoppingListTiles() => GridView.extent(
-      maxCrossAxisExtent: 150,
-      padding: const EdgeInsets.all(18),
-      mainAxisSpacing: 20,
-      crossAxisSpacing: 20,
-      children: shoppingListTiles(numLists, listNames));
+  Widget _buildShoppingListTiles() {
+    if (widget.shoppinglists != null) {
+      return GridView.extent(
+          maxCrossAxisExtent: 150,
+          padding: const EdgeInsets.all(18),
+          mainAxisSpacing: 20,
+          crossAxisSpacing: 20,
+          children: shoppingListTiles(
+              widget.shoppinglists.length, widget.shoppinglists));
+    } else {
+      return GridView.extent(
+          maxCrossAxisExtent: 150,
+          padding: const EdgeInsets.all(18),
+          mainAxisSpacing: 20,
+          crossAxisSpacing: 20,
+          children: shoppingListTiles(0, widget.shoppinglists));
+    }
+  }
 
-  List<Container> shoppingListTiles(int count, names) {
+  List<Container> shoppingListTiles(int count, List<sList> shoppinglists) {
     List<Container> tilesList, tilesList2;
 
     tilesList = [addNewListTile()];
-    tilesList2 = existingShoppingLists(count, names);
+    tilesList2 = existingShoppingLists(count, shoppinglists);
     tilesList = tilesList + tilesList2;
 
     return tilesList;
@@ -70,22 +74,26 @@ class _ListTilesState extends State<ListTiles> {
         ]));
   }
 
-  List<Container> existingShoppingLists(int count, names) => List.generate(
-      count,
-      (i) => Container(
-          decoration: BoxDecoration(
-              border: Border.all(width: 10, color: Colors.blueAccent),
-              borderRadius: const BorderRadius.all(const Radius.circular(8))),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                IconButton(
-                    icon: Icon(Icons.shopping_cart_outlined),
-                    onPressed: () {
-                      setState(() {
-                        listToSend = names[i];
-                      });
-                    }),
-                FittedBox(fit: BoxFit.fitWidth, child: Text(names[i]))
-              ])));
+  List<Container> existingShoppingLists(int count, List<sList> shoppinglists) =>
+      List.generate(
+          count,
+          (i) => Container(
+              decoration: BoxDecoration(
+                  border: Border.all(width: 10, color: Colors.blueAccent),
+                  borderRadius:
+                      const BorderRadius.all(const Radius.circular(8))),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    IconButton(
+                        icon: Icon(Icons.shopping_cart_outlined),
+                        onPressed: () {
+                          setState(() {
+                            listToSend = shoppinglists[i].getListName();
+                          });
+                        }),
+                    FittedBox(
+                        fit: BoxFit.fitWidth,
+                        child: Text(shoppinglists[i].getListName()))
+                  ])));
 }
