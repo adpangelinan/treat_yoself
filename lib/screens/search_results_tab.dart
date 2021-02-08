@@ -41,10 +41,10 @@ class _Results extends State<Results> {
   @override
   Widget build(BuildContext context)  {
     return Scaffold(
-      appBar: Top_Nav_Bar(),
-      drawer: SideDrawer(),
+      appBar: Top_Nav_Bar(user:widget.user),
+      drawer: SideDrawer(user:widget.user),
       body: printing(),
-      bottomNavigationBar: Bot_Nav_Bar());
+      bottomNavigationBar: Bot_Nav_Bar(user:widget.user));
   }
 
   Future<List<ItemDetails>> _buildItems(query) async {

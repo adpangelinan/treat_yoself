@@ -12,7 +12,7 @@ import '../components/bot_nav_bar.dart';
 Landing Page for a user that is currently logged in
  */
 class LandingPageLogged extends StatefulWidget {
-  const LandingPageLogged({Key key, @required this.user}) : super(key: key);
+  const LandingPageLogged({Key key, this.user}) : super(key: key);
   final int user; //#TODO - make User Class
   @override
   _LandingPageLogged createState() => _LandingPageLogged();

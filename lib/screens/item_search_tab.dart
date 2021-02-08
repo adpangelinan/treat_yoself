@@ -5,7 +5,7 @@ import '../components/bot_nav_bar.dart';
 import 'package:treat_yoself/routes.dart';
 
 class ItemSearch extends StatelessWidget {
-  const ItemSearch({Key key, @required this.user}) : super(key: key);
+  const ItemSearch({Key key, this.user}) : super(key: key);
   final int user;
   static String routeName = '/item_search';
   @override
