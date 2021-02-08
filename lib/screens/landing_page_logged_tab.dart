@@ -47,7 +47,7 @@ Widget _buildBody(int user) {
         child: Row(children: [
       Container(width: 360, color: Colors.red, child: Feed())
     ])),
-    Expanded(child: Container(width: 360, child: _buildBox()))
+    Expanded(child: Container(width: 360, child: MyCustomForm()))
   ]));
 }
 
