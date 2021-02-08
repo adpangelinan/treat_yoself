@@ -5,11 +5,10 @@ import 'package:treat_yoself/screens/search_results_tab.dart';
 import 'package:treat_yoself/screens/shoppinglist_tab.dart';
 import 'package:treat_yoself/utils/entities/authentication_service.dart';
 import 'package:treat_yoself/utils/entities/user.dart';
-import 'utils/database/db_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:treat_yoself/routes.dart';
-import 'package:treat_yoself/utils/database/db_utils.dart';
+import 'dart:convert';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -68,8 +67,23 @@ class AuthenticationWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User>();
     if (firebaseUser != null) {
+      UserData user = fetchUserData(context.read<AuthenticationService>());
       return LandingPageLogged();
     }
     return LoginPage();
+  }
+
+  Future<UserData> fetchUserData(
+      AuthenticationService authenticationService) async {
+    DatabaseEngine dbEngine = DatabaseEngine();
+    var email = authenticationService.getEmail();
+    var results = await dbEngine.manualQuery(
+        "SELECT * FROM athdy9ib33fbmfvk.Users WHERE Email = ?;", [email]);
+    if (results.length > 0) {
+      var user = UserData.fromJson(json.decode(results[0].toString()));
+      return user;
+    } else {
+      //Create a new user object if there isn't one for some reason.
+    }
   }
 }

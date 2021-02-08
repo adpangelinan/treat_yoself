@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'package:treat_yoself/utils/entities/authentication_service.dart';
 
+/// Eventually refactor using: https://pub.dev/packages/flutter_login#-installing-tab-
+
 class LoginPage extends StatelessWidget {
   static String routeName = '/login';
   var email = '';
