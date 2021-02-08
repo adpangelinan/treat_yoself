@@ -56,6 +56,7 @@ class App extends StatelessWidget {
             UserSettings.routeName: (context) => UserSettings(),
             Category.routeName: (context) => Category(),
             Results.routeName: (context) => Results(),
+            ShoppingTripGen.routeName: (context) => ShoppingTripGen(),
           },
           home: AuthenticationWrapper(),
         ));
@@ -68,6 +69,7 @@ class AuthenticationWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User>();
+    print(firebaseUser);
     if (firebaseUser != null) {
       return LandingPageLogged(user: user);
     } else {

@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:treat_yoself/routes.dart';
 
 class Top_Nav_Bar extends StatelessWidget implements PreferredSizeWidget {
-  Top_Nav_Bar({Key key, @required this.user})
+  Top_Nav_Bar({Key key, @required this.user,this.title})
       : preferredSize = Size.fromHeight(kToolbarHeight),
         super(key: key);
   final int user;
+  final String title; 
 
   @override
   final Size preferredSize;
@@ -17,7 +18,7 @@ class Top_Nav_Bar extends StatelessWidget implements PreferredSizeWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ShoppingList(
+                  builder: (context) => ShoppingTripGen(
                     user: user,
                   ),
                 ));
