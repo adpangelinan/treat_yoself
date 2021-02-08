@@ -67,7 +67,7 @@ class AuthenticationWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User>();
     if (firebaseUser != null) {
-      UserData user = fetchUserData(context.read<AuthenticationService>());
+      //UserData user = fetchUserData(context.read<AuthenticationService>());
       return LandingPageLogged();
     }
     return LoginPage();
