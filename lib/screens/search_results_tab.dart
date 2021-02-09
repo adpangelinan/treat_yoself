@@ -80,8 +80,8 @@ class _Results extends State<Results> {
           last = temp[i + 1];
           last = last.replaceAll(RegExp(r'[^\w\s]+'), '');
         }
-        list.add(ItemDetails(first, mid, last, id));
       }
+      list.add(ItemDetails(first, mid, last, id));
     });
     return list;
   }
