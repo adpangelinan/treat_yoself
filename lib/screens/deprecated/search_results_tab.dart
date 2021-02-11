@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 //import 'package:mysql1/mysql1.dart';
 //import 'package:mysql1/mysql1.dart';
@@ -177,3 +178,4 @@ class ItemDetails {
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)),
       ));
 }
+*/

@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import '../utils/entities/shoppinglist.dart';
 
@@ -97,3 +98,4 @@ class _ListTilesState extends State<ListTiles> {
                         child: Text(shoppinglists[i].getListName()))
                   ])));
 }
+*/

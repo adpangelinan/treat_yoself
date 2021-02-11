@@ -1,34 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:treat_yoself/routes.dart';
+import 'package:get/get.dart';
+import 'package:treat_yoself/localizations.dart';
 
-class Top_Nav_Bar extends StatelessWidget implements PreferredSizeWidget {
-  Top_Nav_Bar({Key key, @required this.user,this.title})
-      : preferredSize = Size.fromHeight(kToolbarHeight),
-        super(key: key);
-  final int user;
-  final String title; 
-
-  @override
-  final Size preferredSize;
+class TopNavBar extends StatelessWidget {
+  TopNavBar({Key key});
   Widget build(BuildContext context) {
-    return AppBar(title: Text('Home'), actions: [
-      IconButton(
-          icon: Icon(Icons.shopping_cart),
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ShoppingTripGen(
-                    user: user,
-                  ),
-                ));
-          }),
-      IconButton(
-          icon: Icon(Icons.camera_alt_outlined),
-          onPressed: () {
-            //TODO: Camera page and route
-          }),
-      IconButton(icon: Icon(Icons.account_circle), onPressed: () {}),
-    ]);
+    final labels = AppLocalizations.of(context);
+    return AppBar(
+      title: Text(labels?.home?.title),
+      actions: [
+        IconButton(
+            icon: Icon(Icons.shopping_cart),
+            onPressed: () {
+              //Get.to(ShoppingCart());
+            }),
+        IconButton(
+            icon: Icon(Icons.camera_alt_outlined),
+            onPressed: () {
+              //Get.to(CameraPage());
+            }),
+        IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              Get.to(SettingsUI());
+            }),
+      ],
+    );
   }
 }

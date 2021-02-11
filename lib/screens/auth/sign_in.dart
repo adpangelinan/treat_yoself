@@ -9,7 +9,7 @@ import 'package:treat_yoself/screens/components/components.dart';
 import 'package:treat_yoself/helpers/helpers.dart';
 import 'package:treat_yoself/controllers/controllers.dart';
 
-class SignInUI extends StatelessWidget {
+class SignIn extends StatelessWidget {
   final AuthController authController = AuthController.to;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 

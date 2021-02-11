@@ -6,7 +6,7 @@ import 'package:treat_yoself/screens/screens.dart';
 import 'package:get/get.dart';
 import 'auth/auth.dart';
 
-class HomeUI extends StatelessWidget {
+class AccountDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final labels = AppLocalizations.of(context);
@@ -106,7 +106,7 @@ class HomeUI extends StatelessWidget {
             //leading: SongsTab.androidIcon,
             title: Text('Profile'),
             onTap: () {
-              Get.to(AccountDetails());
+              Get.to(SettingsUI());
             },
           ),
           ListTile(

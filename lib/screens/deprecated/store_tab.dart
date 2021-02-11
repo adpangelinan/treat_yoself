@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import 'components/components.dart';
 
@@ -7,3 +8,4 @@ class Store extends StatelessWidget {
     return Container();
   }
 }
+*/

@@ -8,9 +8,9 @@ import 'package:simple_gravatar/simple_gravatar.dart';
 import 'package:treat_yoself/models/models.dart';
 import 'package:treat_yoself/routes.dart';
 import 'package:treat_yoself/localizations/localizations.dart';
-import 'package:treat_yoself/screens/auth/auth.dart';
 import 'package:treat_yoself/screens/screens.dart';
 import 'package:treat_yoself/screens/components/components.dart';
+import 'package:treat_yoself/screens/auth/auth.dart';
 
 class AuthController extends GetxController {
   static AuthController to = Get.find();
@@ -49,9 +49,9 @@ class AuthController extends GetxController {
     }
 
     if (_firebaseUser == null) {
-      Get.offAll(LoginPage());
+      Get.offAll(SignIn());
     } else {
-      Get.offAll(LandingPageLogged());
+      Get.offAll(HomeUI());
     }
   }
 

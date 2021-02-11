@@ -29,7 +29,7 @@ class SettingsUI extends StatelessWidget {
 
     return ListView(
       children: <Widget>[
-        languageListTile(context),
+        //languageListTile(context),
         themeListTile(context),
         ListTile(
             title: Text(labels.settings.updateProfile),

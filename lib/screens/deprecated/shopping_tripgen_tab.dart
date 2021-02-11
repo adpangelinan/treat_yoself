@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 
 import 'package:treat_yoself/utils/database/db_utils.dart';
@@ -159,3 +160,4 @@ class ShoppingItem {
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)),
       ));
 }
+*/

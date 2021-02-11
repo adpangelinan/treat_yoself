@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:treat_yoself/routes.dart';
+import 'package:treat_yoself/screens/auth/auth.dart';
+import 'package:get/get.dart';
 
 class SideDrawer extends StatelessWidget {
-  const SideDrawer({Key key, @required this.user}) : super(key: key);
-  final int user;
+  const SideDrawer({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -26,46 +27,28 @@ class SideDrawer extends StatelessWidget {
             //leading: SongsTab.androidIcon,
             title: Text('Profile'),
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/user_settings');
+              Get.to(SettingsUI());
             },
           ),
           ListTile(
             //leading: NewsTab.androidIcon,
             title: Text('Shopping List'),
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ShoppingList(
-                      user: user,
-                    ),
-                  ));
+              //Get.to(ShoppingCartTab());
             },
           ),
           ListTile(
             //leading: ProfileTab.androidIcon,
             title: Text('Find Items'),
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ItemSearch(
-                      user: user,
-                    ),
-                  ));
+              //Get.to(ItemSearchTab());
             },
           ),
           ListTile(
             //leading: SettingsTab.androidIcon,
             title: Text("Shop Categories"),
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Category(
-                      user: user,
-                    ),
-                  ));
+              //Get.to(CategoriesTab());
             },
           ),
           // Long drawer contents are often segmented.
@@ -76,13 +59,7 @@ class SideDrawer extends StatelessWidget {
             //leading: SettingsTab.androidIcon,
             title: Text("Settings"),
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => UserSettings(
-                      user: user,
-                    ),
-                  ));
+              Get.to(UpdateProfileUI());
             },
           ),
         ],

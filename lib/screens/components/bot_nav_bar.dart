@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:treat_yoself/routes.dart';
-
+/*
 class Bot_Nav_Bar extends StatelessWidget implements PreferredSizeWidget {
   Bot_Nav_Bar({Key key, @required this.user})
       : preferredSize = Size.fromHeight(kToolbarHeight),
@@ -25,3 +25,4 @@ class Bot_Nav_Bar extends StatelessWidget implements PreferredSizeWidget {
             }));
   }
 }
+*/
