@@ -15,5 +15,6 @@ class AppRoutes {
     //GetPage(name: '/category', page: () => Category()),
     //GetPage(name: '/results', page: () => Results()),
     GetPage(name: '/home', page: () => HomeUI()),
+    //Add settings page.
   ];
 }

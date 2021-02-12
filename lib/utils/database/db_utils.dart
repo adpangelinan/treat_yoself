@@ -6,11 +6,9 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
 import 'package:mysql1/mysql1.dart';
-import 'package:treat_yoself/utils/database/sql_controller.dart';
 
 class DatabaseEngine {
   DatabaseEngine();
-  SQLController sqlController;
   final dbConnectionString = ConnectionSettings(
       host: 'j21q532mu148i8ms.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
       port: 3306,
@@ -18,38 +16,23 @@ class DatabaseEngine {
       password: 'rbs034lkb2ecn4iu',
       db: 'athdy9ib33fbmfvk');
 
-  /// Creates a SQLController object that is bound to the existing DatabaseEngine object.
-  /*Future<SQLController> get database async {
-    var queryString = await File('../lib/data/sql_queries.json').readAsString();
-    var jsonData = json.decode(queryString);
-    sqlController = SQLController.fromJson(jsonData);
-    print("Database is connected.");
-    return sqlController;
-  }*/
-
-  /// Validates the SQL Query string and parameters.
-  /// Passes them to the server, and returns any data passed back by the server.
-  Future<List<String>> dbQuery(String type, String table,
-      [List context]) async {
-    var queryString = sqlController.getQuery(type, table);
-    var result = await contactServer(queryString, [context]);
-    return result;
-  }
-
-  Future<List<String>> manualQuery(String queryString, List context) async {
-    var result = await contactServer(queryString, context);
-    return result;
+  Future<List<dynamic>> manualQuery(String queryString, [List context]) async {
+    var results = await contactServer(queryString, context);
+    var tabulatedResults = [];
+    for (var row in results) {
+      tabulatedResults.add(row);
+    }
+    return tabulatedResults;
   }
 
   /// Creates a connection to the SQL server and handles sending/receiving data.
-  Future<List<String>> contactServer(String query, [List context]) async {
+  Future<List<dynamic>> contactServer(String query, [List context]) async {
     final conn = await MySqlConnection.connect(dbConnectionString);
     var results = await conn.query(query, context);
-    List<String> resultArray = [];
+    List<dynamic> resultArray = [];
     print(results.toString());
     for (var row in results) {
-      resultArray.add(row.toString());
-      print(row);
+      resultArray.add(row);
     }
     conn.close();
     return resultArray;

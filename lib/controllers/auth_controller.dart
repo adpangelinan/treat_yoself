@@ -70,7 +70,6 @@ class AuthController extends GetxController {
           .snapshots()
           .map((snapshot) => UserModel.fromMap(snapshot.data()));
     }
-
     return null;
   }
 

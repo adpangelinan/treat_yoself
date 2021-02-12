@@ -11,3 +11,4 @@ export 'logo_graphic_header.dart';
 export 'dropdown_picker.dart';
 export 'dropdown_picker_with_icon.dart';
 export 'avatar.dart';
+export 'round_add_button.dart';
