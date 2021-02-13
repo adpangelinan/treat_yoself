@@ -1,14 +1,15 @@
 import './item.dart';
 
 class sList {
-  int listID;
+  String listID;
   String name;
   String owner;
+  String fuid;
   List<Item> items;
 
-  sList(this.listID, this.name, this.owner, this.items);
+  sList(this.listID, this.name, this.owner, this.fuid, this.items);
 
-  void setListID(int id) {
+  void setListID(String id) {
     listID = id;
   }
 
@@ -20,7 +21,7 @@ class sList {
     owner = listOwner;
   }
 
-  int getListID() {
+  String getListID() {
     return listID;
   }
 

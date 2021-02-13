@@ -196,7 +196,7 @@ class _HomeUIState extends State<HomeUI> {
             //leading: NewsTab.androidIcon,
             title: Text('Shopping List'),
             onTap: () {
-              //Get.to(ShoppingCartTab());
+              Get.to(ListOverviewUI());
             },
           ),
           ListTile(
