@@ -14,5 +14,6 @@ void main() async {
   Get.put<AuthController>(AuthController());
   Get.put<ThemeController>(ThemeController());
   Get.put<LanguageController>(LanguageController());
+  Get.put<ShoppingListController>(ShoppingListController());
   runApp(App());
 }

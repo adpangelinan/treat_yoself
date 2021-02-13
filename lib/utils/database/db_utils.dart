@@ -8,6 +8,8 @@ import 'dart:convert';
 import 'package:mysql1/mysql1.dart';
 
 class DatabaseEngine {
+  int insertID;
+
   DatabaseEngine();
   final dbConnectionString = ConnectionSettings(
       host: 'j21q532mu148i8ms.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
@@ -29,6 +31,7 @@ class DatabaseEngine {
   Future<List<dynamic>> contactServer(String query, [List context]) async {
     final conn = await MySqlConnection.connect(dbConnectionString);
     var results = await conn.query(query, context);
+    insertID = results.insertId;
     List<dynamic> resultArray = [];
     print(results.toString());
     for (var row in results) {

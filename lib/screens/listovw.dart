@@ -37,13 +37,15 @@ class _ListOverviewState extends State<ListOverviewUI> {
   Widget listovwBody(BuildContext context, String uid) {
     print("user is $uid");
 
+    //Gets user lists based off the firestone user id
     List<sList> userLists = _shoppingListController.getUserLists(uid);
 
     return Container(
-        child: Column(children: [Expanded(child: _buildTiles(userLists))]));
+        child:
+            Column(children: [Expanded(child: _buildTiles(userLists, uid))]));
   }
 
-  Widget _buildTiles(List<sList> userLists) {
+  Widget _buildTiles(List<sList> userLists, String fuid) {
     int count;
     if (userLists != null) {
       count = userLists.length;
@@ -56,20 +58,21 @@ class _ListOverviewState extends State<ListOverviewUI> {
         padding: const EdgeInsets.all(18),
         mainAxisSpacing: 20,
         crossAxisSpacing: 20,
-        children: shoppingListTiles(count, userLists));
+        children: shoppingListTiles(count, userLists, fuid));
   }
 
-  List<Container> shoppingListTiles(int count, List<sList> userLists) {
+  List<Container> shoppingListTiles(
+      int count, List<sList> userLists, String fuid) {
     List<Container> tilesList, tilesList2;
 
-    tilesList = [addNewListTile()];
+    tilesList = [addNewListTile(fuid)];
     tilesList2 = existingShoppingLists(count, userLists);
     tilesList = tilesList + tilesList2;
 
     return tilesList;
   }
 
-  Container addNewListTile() {
+  Container editNewListTile() {
     return Container(
         decoration: BoxDecoration(
             border: Border.all(width: 10, color: Colors.blueAccent),
@@ -79,6 +82,23 @@ class _ListOverviewState extends State<ListOverviewUI> {
           IconButton(
               icon: Icon(Icons.add),
               onPressed: () {
+                setState(() {});
+              }),
+          FittedBox(fit: BoxFit.fitWidth, child: Text("Create New List"))
+        ]));
+  }
+
+  Container addNewListTile(String fuid) {
+    return Container(
+        decoration: BoxDecoration(
+            border: Border.all(width: 10, color: Colors.blueAccent),
+            borderRadius: const BorderRadius.all(const Radius.circular(8))),
+        child:
+            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                _shoppingListController.addList("my new test list", fuid);
                 setState(() {});
               }),
           FittedBox(fit: BoxFit.fitWidth, child: Text("Create New List"))

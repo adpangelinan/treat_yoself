@@ -143,7 +143,7 @@ class _HomeUIState extends State<HomeUI> {
         IconButton(
             icon: Icon(Icons.shopping_cart),
             onPressed: () {
-              //Get.to(ShoppingCart());
+              Get.to(ListOverviewUI());
             }),
         IconButton(
             icon: Icon(Icons.camera_alt_outlined),

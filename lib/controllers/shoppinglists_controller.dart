@@ -8,12 +8,11 @@ import 'dart:convert';
 
 class ShoppingListController extends GetxController {
   var shoppingLists = List<sList>().obs;
-  TextEditingController addTaskController;
-  AuthController user;
+  TextEditingController addListController;
 
   @override
   void onInit() {
-    addTaskController = TextEditingController();
+    addListController = TextEditingController();
 
     _getData();
     super.onInit();
@@ -33,6 +32,26 @@ class ShoppingListController extends GetxController {
         shoppingLists.add(newList);
       }
     });
+  }
+
+  void addList(String name, String fuid) async {
+    //Initialize db
+    final dbEngine = new DatabaseEngine();
+    //get correct userID;
+    var userQuery = "SELECT UserID FROM Users WHERE Users.fuid = ?;";
+    var result = await dbEngine.manualQuery(userQuery, [fuid]);
+
+    String userID = result[0][0].toString();
+
+    //TODO, need to change db so items aren't as critical
+    var query2 =
+        "INSERT INTO `athdy9ib33fbmfvk`.`ShoppingLists` (`UserID`, `ItemID`, `ListName`) VALUES (?, '1', ?);";
+    await dbEngine.manualQuery(query2, [userID, name]);
+
+    String listID = dbEngine.insertID.toString();
+    sList newList = new sList(listID, name, userID, fuid, null);
+    shoppingLists.add(newList);
+    return;
   }
 
   /*Used to pull shopping lists for a particular user using their firestoreUserId */
