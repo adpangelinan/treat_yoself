@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:treat_yoself/constants/app_routes.dart';
 import 'package:treat_yoself/localizations/localizations.dart';
 import 'package:treat_yoself/controllers/controllers.dart';
+import 'package:treat_yoself/screens/category_tab.dart';
 import 'package:treat_yoself/screens/components/components.dart';
 import 'package:treat_yoself/screens/screens.dart';
 import 'package:get/get.dart';
@@ -35,7 +36,7 @@ class _HomeUIState extends State<HomeUI> {
               child: CircularProgressIndicator(),
             )
           : Scaffold(
-              appBar: topNavBar(context),
+              appBar: TopNavBar(title: "Home",),
               drawer: mainDrawer(context),
               body: homepageBody(context, results),
               bottomNavigationBar: botNavBar(context),
@@ -210,7 +211,7 @@ class _HomeUIState extends State<HomeUI> {
             //leading: SettingsTab.androidIcon,
             title: Text("Shop Categories"),
             onTap: () {
-              //Get.to(CategoriesTab());
+              Get.to(Category());
             },
           ),
           // Long drawer contents are often segmented.

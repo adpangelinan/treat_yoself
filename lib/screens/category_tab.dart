@@ -1,10 +1,15 @@
-/*
+
 import 'package:flutter/material.dart';
 import 'package:treat_yoself/screens/search_results_tab.dart';
 import 'const_lists.dart';
 import 'package:flutter/cupertino.dart';
 import './search_results_tab.dart';
 import 'components/components.dart';
+import 'package:treat_yoself/screens/components/components.dart';
+import './components/bot_nav_bar.dart';
+import './components/top_nav_bar.dart';
+import 'package:get/get.dart';
+
 
 class Category extends StatefulWidget {
   const Category({Key key, this.user}) : super(key: key);
@@ -17,10 +22,10 @@ class _Categories extends State<Category> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Top_Nav_Bar(user: widget.user),
-      drawer: SideDrawer(user: widget.user),
+      appBar: TopNavBar(title: "Categories"),
+      drawer: SideDrawer(),
       body: _buildGrid(),
-      bottomNavigationBar: Bot_Nav_Bar(user: widget.user),
+      bottomNavigationBar: Bot_Nav_Bar(),
     );
   }
 
@@ -137,8 +142,7 @@ class HeroAnimatingSongCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(25.0)),
             color: getRandomColors(),
             child: InkWell(
-              onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => Results(query: query, args: arg))),
+              onTap: () => Get.to(Results(query: query,args: arg)),
               splashColor: Colors.white,
               child: SizedBox(
                 height: 200,
@@ -160,4 +164,4 @@ class HeroAnimatingSongCard extends StatelessWidget {
             )));
   }
 }
-*/
+

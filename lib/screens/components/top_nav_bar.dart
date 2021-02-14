@@ -3,17 +3,18 @@ import 'package:treat_yoself/routes.dart';
 import 'package:get/get.dart';
 import 'package:treat_yoself/localizations.dart';
 
-class TopNavBar extends StatelessWidget {
-  TopNavBar({Key key});
+class TopNavBar extends StatelessWidget implements PreferredSize{
+  Size get preferredSize => const Size.fromHeight(50.0);
+  final title;
+  TopNavBar({Key key,this.title});
   Widget build(BuildContext context) {
-    final labels = AppLocalizations.of(context);
     return AppBar(
-      title: Text(labels?.home?.title),
+      title: Text(title),
       actions: [
         IconButton(
             icon: Icon(Icons.shopping_cart),
             onPressed: () {
-              //Get.to(ShoppingCart());
+              Get.to(ListOverviewUI());
             }),
         IconButton(
             icon: Icon(Icons.camera_alt_outlined),
@@ -28,4 +29,8 @@ class TopNavBar extends StatelessWidget {
       ],
     );
   }
+
+    @override
+  // TODO: implement child
+  Widget get child => throw UnimplementedError();
 }

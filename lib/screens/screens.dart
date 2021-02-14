@@ -1,6 +1,4 @@
 export 'deprecated/brand_tab.dart';
-export 'deprecated/category_tab.dart';
-export 'deprecated/const_lists.dart';
 export 'deprecated/feed.dart';
 export 'deprecated/item_search_tab.dart';
 export 'deprecated/item_tab.dart';
@@ -21,3 +19,6 @@ export 'splash.dart';
 export 'app.dart';
 export 'account_details.dart';
 export 'listovw.dart';
+export 'const_lists.dart';
+export 'category_tab.dart';
+export 'search_results_tab.dart';

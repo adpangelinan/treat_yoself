@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:treat_yoself/routes.dart';
 import 'package:treat_yoself/screens/auth/auth.dart';
 import 'package:get/get.dart';
+import 'package:treat_yoself/screens/category_tab.dart';
 
 class SideDrawer extends StatelessWidget {
   const SideDrawer({Key key}) : super(key: key);
@@ -48,7 +49,7 @@ class SideDrawer extends StatelessWidget {
             //leading: SettingsTab.androidIcon,
             title: Text("Shop Categories"),
             onTap: () {
-              //Get.to(CategoriesTab());
+              Get.to(Category());
             },
           ),
           // Long drawer contents are often segmented.
