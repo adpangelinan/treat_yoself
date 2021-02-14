@@ -12,7 +12,7 @@ class AppRoutes {
     //GetPage(name: '/landing_page', page: () => LandingPageLogged()),
     GetPage(name: '/account', page: () => AccountDetails()),
     GetPage(name: '/shopping_list', page: () => ListOverviewUI()),
-    //GetPage(name: '/category', page: () => Category()),
+    GetPage(name: '/category', page: () => Category()),
     //GetPage(name: '/results', page: () => Results()),
     GetPage(name: '/home', page: () => HomeUI()),
     //Add settings page.
