@@ -1,5 +1,4 @@
 export 'package:treat_yoself/screens/deprecated/brand_tab.dart';
-export 'screens/deprecated/category_tab.dart';
 export 'screens/deprecated/item_tab.dart';
 export 'screens/deprecated/login_tab.dart';
 export 'screens/deprecated/registration_tab.dart';
@@ -13,3 +12,5 @@ export 'screens/deprecated/user_settings_tab.dart';
 export 'screens/splash.dart';
 export 'package:treat_yoself/utils/database/db_utils.dart';
 export 'screens/screens.dart';
+export 'screens/category_tab.dart';
+export 'screens/search_results_tab.dart';
