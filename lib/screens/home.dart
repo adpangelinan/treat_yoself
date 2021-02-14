@@ -37,9 +37,9 @@ class _HomeUIState extends State<HomeUI> {
             )
           : Scaffold(
               appBar: TopNavBar(title: "Home",),
-              drawer: mainDrawer(context),
+              drawer: SideDrawer(),
               body: homepageBody(context, results),
-              bottomNavigationBar: botNavBar(context),
+              bottomNavigationBar: Bot_Nav_Bar(),
             ),
     );
   }
@@ -136,97 +136,7 @@ class _HomeUIState extends State<HomeUI> {
     }
   }
 
-  Widget topNavBar(BuildContext context) {
-    final labels = AppLocalizations.of(context);
-    return AppBar(
-      title: Text(labels?.home?.title),
-      actions: [
-        IconButton(
-            icon: Icon(Icons.shopping_cart),
-            onPressed: () {
-              Get.to(ListOverviewUI());
-            }),
-        IconButton(
-            icon: Icon(Icons.camera_alt_outlined),
-            onPressed: () {
-              //Get.to(CameraPage());
-            }),
-        IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              Get.to(SettingsUI());
-            }),
-      ],
-    );
-  }
 
-  Widget botNavBar(BuildContext context) {
-    return BottomAppBar(
-        color: Colors.white,
-        child: IconButton(
-            icon: Icon(Icons.home),
-            onPressed: () {
-              Get.to(HomeUI());
-            }));
-  }
 
-  Widget mainDrawer(BuildContext context) {
-    return Drawer(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          DrawerHeader(
-            decoration: BoxDecoration(color: Colors.green),
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: Icon(
-                Icons.account_circle,
-                color: Colors.green.shade800,
-                size: 96,
-              ),
-            ),
-          ),
-          ListTile(
-            //leading: SongsTab.androidIcon,
-            title: Text('Profile'),
-            onTap: () {
-              Get.to(AccountDetails());
-            },
-          ),
-          ListTile(
-            //leading: NewsTab.androidIcon,
-            title: Text('Shopping List'),
-            onTap: () {
-              Get.to(ListOverviewUI());
-            },
-          ),
-          ListTile(
-            //leading: ProfileTab.androidIcon,
-            title: Text('Find Items'),
-            onTap: () {
-              //Get.to(ItemSearchTab());
-            },
-          ),
-          ListTile(
-            //leading: SettingsTab.androidIcon,
-            title: Text("Shop Categories"),
-            onTap: () {
-              Get.to(Category());
-            },
-          ),
-          // Long drawer contents are often segmented.
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-          ),
-          ListTile(
-            //leading: SettingsTab.androidIcon,
-            title: Text("Settings"),
-            onTap: () {
-              Get.to(SettingsUI());
-            },
-          ),
-        ],
-      ),
-    );
-  }
+
 }

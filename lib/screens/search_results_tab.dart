@@ -41,38 +41,10 @@ class _Results extends State<Results> {
     var newstring = await database.manualQuery(widget.query, [widget.args]);
     List<ItemDetails> list = [];
     newstring.forEach((element) {
-      temp = element.split(" ");
-      var first;
-      var two;
-      var mid;
-      var last;
-      var id;
-      for (var i = 0; i < temp.length; i++) {
-        if (temp[i] == "{Item:") {
-          first = temp[i + 1];
-          first = first.replaceAll(RegExp(r'[^\w\s]+'), '');
-          if (temp[i + 2] != "Price:") {
-            two = temp[i + 2];
-            two = two.replaceAll(RegExp(r'[^\w\s]+'), '');
-            first = first + " " + two;
-          }
-        } else if (temp[i] == "Price:") {
-          mid = temp[i + 1];
-          mid = mid.replaceAll(RegExp(r'[^\w\s]+'), '');
-        } else if (temp[i] == "ID:") {
-          id = temp[i + 1];
-          id = id.replaceAll(RegExp(r'[^\w\s]+'), '');
-        } else if (temp[i] == "Brand:") {
-          last = temp[i + 1];
-          last = last.replaceAll(RegExp(r'[^\w\s]+'), '');
-        } else if (temp[i] == "Price:") {
-          mid = temp[i + 1];
-          mid = mid.replaceAll(RegExp(r'[^\w\s]+'), '');
-        } else if (temp[i] == "Brand:") {
-          last = temp[i + 1];
-          last = last.replaceAll(RegExp(r'[^\w\s]+'), '');
-        }
-      }
+      var first = element.values[0];
+      var mid = element.values[1].toString();
+      var last = element.values[3];
+      var id = element.values[2].toString();
       list.add(ItemDetails(first, mid, last, id));
     });
     return list;

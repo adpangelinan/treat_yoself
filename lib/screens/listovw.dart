@@ -26,10 +26,10 @@ class _ListOverviewState extends State<ListOverviewUI> {
               child: CircularProgressIndicator(),
             )
           : Scaffold(
-              appBar: topNavBar(context),
-              drawer: mainDrawer(context),
+              appBar: TopNavBar(title: "Cart",),
+              drawer: SideDrawer(),
               body: listovwBody(context, controller.firestoreUser.value.uid),
-              bottomNavigationBar: botNavBar(context),
+              bottomNavigationBar: Bot_Nav_Bar(),
             ),
     );
   }

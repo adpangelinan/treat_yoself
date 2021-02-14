@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:treat_yoself/routes.dart';
 import 'package:get/get.dart';
 import 'package:treat_yoself/localizations.dart';
+import 'package:treat_yoself/screens/shopping_tripgen_tab.dart';
 
 class TopNavBar extends StatelessWidget implements PreferredSize{
   Size get preferredSize => const Size.fromHeight(50.0);
@@ -14,7 +15,7 @@ class TopNavBar extends StatelessWidget implements PreferredSize{
         IconButton(
             icon: Icon(Icons.shopping_cart),
             onPressed: () {
-              Get.to(ListOverviewUI());
+              Get.to(ShoppingTripGen());
             }),
         IconButton(
             icon: Icon(Icons.camera_alt_outlined),
