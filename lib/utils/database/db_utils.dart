@@ -27,6 +27,7 @@ class DatabaseEngine {
     return tabulatedResults;
   }
 
+
   /// Creates a connection to the SQL server and handles sending/receiving data.
   Future<List<dynamic>> contactServer(String query, [List context]) async {
     final conn = await MySqlConnection.connect(dbConnectionString);
@@ -40,4 +41,7 @@ class DatabaseEngine {
     conn.close();
     return resultArray;
   }
+
+
+
 }

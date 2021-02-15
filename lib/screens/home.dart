@@ -19,10 +19,11 @@ class HomeUI extends StatefulWidget {
 class _HomeUIState extends State<HomeUI> {
   List<dynamic> results;
   final dbConn = DatabaseEngine();
-  final queryString = "SELECT * FROM Comments ORDER BY DateAdded LIMIT 30";
+  final queryString = "SELECT * FROM Comments ORDER BY DateAdded LIMIT ?";
+  //final LocationController location = Get.put(LocationController()); 
 
   _HomeUIState() {
-    dbConn.manualQuery(queryString).then((res) => setState(() {
+    dbConn.manualQuery(queryString, [30]).then((res) => setState(() {
           results = res;
         }));
   }
@@ -44,7 +45,8 @@ class _HomeUIState extends State<HomeUI> {
     );
   }
 
-  Widget homepageBody(BuildContext context, List<dynamic> results) {
+  Widget homepageBody(BuildContext context, List<dynamic> results)  {
+
     return Container(
         child: Column(children: [
       Expanded(child: _buildTiles(results)),

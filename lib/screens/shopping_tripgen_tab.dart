@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:treat_yoself/utils/database/db_utils.dart';
-
+import './item_location_services.dart';
 import 'const_lists.dart';
 import 'package:flutter/cupertino.dart';
 import 'components/components.dart';
@@ -117,13 +117,17 @@ class ShoppingItem {
           child: Material(
         color: getRandomColors(),
         child: InkWell(
-          onTap: () => null,
+          onTap: () => _pushRoute(),
           splashColor: Colors.white,
           child: ListTile(
             title: Text(name),
             subtitle: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text(brand), Text(price)],
+              children: [
+                Text(brand), 
+                Text(price),
+                ],
+                
             ),
             trailing: IconButton(
               icon: Icon(Icons.delete),
@@ -131,11 +135,16 @@ class ShoppingItem {
               onPressed: () => _deleteItem(context, listID),
             ),
             tileColor: getRandomColors(),
-          ),
+          ),)
         ),
         elevation: 10,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)),
-      ));
+      );
+
+
+  _pushRoute(){
+    Get.to(ItemLocation());
+  }
 }
 
