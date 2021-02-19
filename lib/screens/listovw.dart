@@ -8,6 +8,8 @@ import 'package:get/get.dart';
 import 'package:treat_yoself/utils/database/db_utils.dart';
 import 'auth/auth.dart';
 import '../utils/entities/shoppinglist.dart';
+import '../utils/entities/shoppingitem.dart';
+import 'package:treat_yoself/helpers/helpers.dart';
 
 class ListOverviewUI extends StatefulWidget {
   @override
@@ -26,7 +28,9 @@ class _ListOverviewState extends State<ListOverviewUI> {
               child: CircularProgressIndicator(),
             )
           : Scaffold(
-              appBar: TopNavBar(title: "Cart",),
+              appBar: TopNavBar(
+                title: "Cart",
+              ),
               drawer: SideDrawer(),
               body: listovwBody(context, controller.firestoreUser.value.uid),
               bottomNavigationBar: Bot_Nav_Bar(),
@@ -35,8 +39,6 @@ class _ListOverviewState extends State<ListOverviewUI> {
   }
 
   Widget listovwBody(BuildContext context, String uid) {
-    print("user is $uid");
-
     //Gets user lists based off the firestone user id
     List<sList> userLists = _shoppingListController.getUserLists(uid);
 
@@ -52,9 +54,9 @@ class _ListOverviewState extends State<ListOverviewUI> {
     } else {
       count = 0;
     }
-
+    double c_width = MediaQuery.of(context).size.width;
     return GridView.extent(
-        maxCrossAxisExtent: 150,
+        maxCrossAxisExtent: c_width * 0.5,
         padding: const EdgeInsets.all(18),
         mainAxisSpacing: 20,
         crossAxisSpacing: 20,
@@ -72,36 +74,23 @@ class _ListOverviewState extends State<ListOverviewUI> {
     return tilesList;
   }
 
-  Container editNewListTile() {
-    return Container(
-        decoration: BoxDecoration(
-            border: Border.all(width: 10, color: Colors.blueAccent),
-            borderRadius: const BorderRadius.all(const Radius.circular(8))),
-        child:
-            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-                setState(() {});
-              }),
-          FittedBox(fit: BoxFit.fitWidth, child: Text("Create New List"))
-        ]));
-  }
-
   Container addNewListTile(String fuid) {
     return Container(
         decoration: BoxDecoration(
-            border: Border.all(width: 10, color: Colors.blueAccent),
+            border: Border.all(width: 4, color: Colors.blueAccent),
             borderRadius: const BorderRadius.all(const Radius.circular(8))),
         child:
             Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
           IconButton(
               icon: Icon(Icons.add),
               onPressed: () {
-                _shoppingListController.addList("my new test list", fuid);
-                setState(() {});
+                _showMaterialDialog(fuid);
+                //setState(() {});
               }),
-          FittedBox(fit: BoxFit.fitWidth, child: Text("Create New List"))
+          Align(
+              alignment: Alignment.bottomCenter,
+              child: FittedBox(
+                  fit: BoxFit.fitWidth, child: Text("Create New List")))
         ]));
   }
 
@@ -110,115 +99,88 @@ class _ListOverviewState extends State<ListOverviewUI> {
           count,
           (i) => Container(
               decoration: BoxDecoration(
-                  border: Border.all(width: 10, color: Colors.blueAccent),
+                  border: Border.all(width: 4, color: Colors.blueAccent),
                   borderRadius:
                       const BorderRadius.all(const Radius.circular(8))),
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    IconButton(
-                        icon: Icon(Icons.shopping_cart_outlined),
-                        onPressed: () {
-                          setState(() {
-                            //listToSend = shoppinglists[i].getListName();
-                          });
-                        }),
-                    FittedBox(
-                        fit: BoxFit.fitWidth,
-                        child: Text(userLists[i].getListName()))
+                    Align(
+                        alignment: Alignment.topRight,
+                        child: IconButton(
+                          icon: Icon(Icons.delete_outline_rounded),
+                          onPressed: () {
+                            _shoppingListController
+                                .deleteList(userLists[i].listID);
+                            setState(() {});
+                          },
+                        )),
+                    Align(
+                        alignment: Alignment.center,
+                        child: IconButton(
+                            icon: Icon(Icons.shopping_cart_outlined),
+                            onPressed: () {
+                              _shoppingListController.setList(userLists[i]);
+                              Get.to(ShoppingTripGen());
+                            })),
+                    Align(
+                        alignment: Alignment.bottomCenter,
+                        child: FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: Text(userLists[i].getListName())))
                   ])));
-}
 
-Widget topNavBar(BuildContext context) {
-  final labels = AppLocalizations.of(context);
-  return AppBar(
-    title: Text(labels?.home?.title),
-    actions: [
-      IconButton(
-          icon: Icon(Icons.shopping_cart),
-          onPressed: () {
-            //Get.to(ShoppingCart());
-          }),
-      IconButton(
-          icon: Icon(Icons.camera_alt_outlined),
-          onPressed: () {
-            //Get.to(CameraPage());
-          }),
-      IconButton(
-          icon: Icon(Icons.settings),
-          onPressed: () {
-            Get.to(SettingsUI());
-          }),
-    ],
-  );
-}
+  _showMaterialDialog(String fuid) {
+    double c_width = MediaQuery.of(context).size.width * 0.8;
 
-Widget botNavBar(BuildContext context) {
-  return BottomAppBar(
-      color: Colors.white,
-      child: IconButton(
-          icon: Icon(Icons.home),
-          onPressed: () {
-            Get.to(HomeUI());
-          }));
-}
-
-Widget mainDrawer(BuildContext context) {
-  return Drawer(
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        DrawerHeader(
-          decoration: BoxDecoration(color: Colors.green),
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 20),
-            child: Icon(
-              Icons.account_circle,
-              color: Colors.green.shade800,
-              size: 96,
-            ),
-          ),
-        ),
-        ListTile(
-          //leading: SongsTab.androidIcon,
-          title: Text('Profile'),
-          onTap: () {
-            Get.to(AccountDetails());
-          },
-        ),
-        ListTile(
-          //leading: NewsTab.androidIcon,
-          title: Text('Shopping List'),
-          onTap: () {
-            Get.to(ListOverviewUI());
-          },
-        ),
-        ListTile(
-          //leading: ProfileTab.androidIcon,
-          title: Text('Find Items'),
-          onTap: () {
-            //Get.to(ItemSearchTab());
-          },
-        ),
-        ListTile(
-          //leading: SettingsTab.androidIcon,
-          title: Text("Shop Categories"),
-          onTap: () {
-            //Get.to(CategoriesTab());
-          },
-        ),
-        // Long drawer contents are often segmented.
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-        ),
-        ListTile(
-          //leading: SettingsTab.androidIcon,
-          title: Text("Settings"),
-          onTap: () {
-            Get.to(SettingsUI());
-          },
-        ),
-      ],
-    ),
-  );
+    return showDialog(
+        context: context,
+        builder: (_) => new SimpleDialog(
+              title: new Text("New Shopping List"),
+              children: [
+                Container(
+                    padding: const EdgeInsets.all(8.0),
+                    width: c_width,
+                    child: Center(
+                        child: Column(
+                      children: [
+                        Row(children: <Widget>[
+                          Container(
+                              width: c_width * 0.6,
+                              child: Center(
+                                  child: Text(
+                                      "What would you like to name your shopping list?"))),
+                        ]),
+                        Row(children: <Widget>[
+                          Container(
+                              width: c_width * 0.8,
+                              child: FormInputField(
+                                controller:
+                                    _shoppingListController.addListController,
+                                onChanged: (value) => null,
+                                onSaved: (value) => _shoppingListController
+                                    .addListController.text = value,
+                              )),
+                        ]),
+                        Row(children: <Widget>[
+                          FlatButton(
+                            child: Text('Add List'),
+                            onPressed: () {
+                              _shoppingListController.addList(context, fuid);
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          FlatButton(
+                            child: Text('Cancel'),
+                            onPressed: () {
+                              _shoppingListController.addListController.clear();
+                              Navigator.of(context).pop();
+                            },
+                          )
+                        ]),
+                      ],
+                    )))
+              ],
+            ));
+  }
 }

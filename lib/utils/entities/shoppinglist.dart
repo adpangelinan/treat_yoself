@@ -1,11 +1,11 @@
-import './item.dart';
+import './shoppingitem.dart';
 
 class sList {
   String listID;
   String name;
   String owner;
   String fuid;
-  List<Item> items;
+  List<ShoppingItem> items;
 
   sList(this.listID, this.name, this.owner, this.fuid, this.items);
 

@@ -1,14 +1,18 @@
+import 'package:treat_yoself/controllers/controllers.dart';
+
 import '../utils/database/db_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/get.dart';
 import '../utils/entities/shoppinglist.dart';
+import '../utils/entities/shoppingitem.dart';
 import '../controllers/auth_controller.dart';
 import 'dart:convert';
 
 class ShoppingListController extends GetxController {
   var shoppingLists = List<sList>().obs;
-  TextEditingController addListController;
+  sList currentList;
+  TextEditingController addListController = TextEditingController();
 
   @override
   void onInit() {
@@ -25,18 +29,30 @@ class ShoppingListController extends GetxController {
       for (var i = 0; i < value.length; i++) {
         sList newList = new sList(
             value[i][0].toString(),
-            value[i][3].toString(),
             value[i][1].toString(),
-            value[i][4].toString(),
+            value[i][2].toString(),
+            value[i][3].toString(),
             null);
         shoppingLists.add(newList);
       }
     });
+    //set current list to null
+    setList(null);
   }
 
-  void addList(String name, String fuid) async {
+  //Sets active shopping list for purposes of pulls when looking at the current shopping cart
+  void setList(sList list) {
+    print("set list called with $list");
+    currentList = list;
+  }
+
+  void addList(BuildContext context, String fuid) async {
     //Initialize db
+    print("in add list");
     final dbEngine = new DatabaseEngine();
+    //get list name from controller
+    String name = addListController.text.trim();
+    addListController.clear();
     //get correct userID;
     var userQuery = "SELECT UserID FROM Users WHERE Users.fuid = ?;";
     var result = await dbEngine.manualQuery(userQuery, [fuid]);
@@ -45,7 +61,7 @@ class ShoppingListController extends GetxController {
 
     //TODO, need to change db so items aren't as critical
     var query2 =
-        "INSERT INTO `athdy9ib33fbmfvk`.`ShoppingLists` (`UserID`, `ItemID`, `ListName`) VALUES (?, '1', ?);";
+        "INSERT INTO `athdy9ib33fbmfvk`.`ShoppingLists` (`UserID`,  `ListName`) VALUES (?,  ?);";
     await dbEngine.manualQuery(query2, [userID, name]);
 
     String listID = dbEngine.insertID.toString();
@@ -54,43 +70,86 @@ class ShoppingListController extends GetxController {
     return;
   }
 
+  void deleteList(String listID) {
+    print("Deleting list $listID");
+    deleteListByID(listID);
+    int deleteIndex = _getUserListIndex(listID);
+    if (deleteIndex > -1) {
+      shoppingLists.removeAt(deleteIndex);
+    } else {
+      print("Error, list does not exist");
+    }
+  }
+
   /*Used to pull shopping lists for a particular user using their firestoreUserId */
   List<sList> getUserLists(String fuid) {
+    //  print("getting user lists, fuid: $fuid");
     List<sList> userLists = [];
     for (int i = 0; i < shoppingLists.length; i++) {
+      //    print("${shoppingLists[i].fuid} comparing $fuid");
       if (shoppingLists[i].fuid == fuid) {
+        //Add shopping list items to the user list
+        print("getting list items for ${shoppingLists[i].listID}");
+        getListItems(shoppingLists[i], i);
         userLists.add(shoppingLists[i]);
       }
     }
+    // print(userLists);
     return userLists;
+  }
+
+  int _getUserListIndex(String listID) {
+    for (int i = 0; i < shoppingLists.length; i++) {
+      if (shoppingLists[i].listID == listID) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  /*Adds the items from the database into the shopping list in controller when called*/
+  void getListItems(sList shoppinglist, int index) {
+    List<ShoppingItem> newItemList = [];
+    getListItemsByID(shoppinglist.listID).then((value) {
+      for (var i = 0; i < value.length; i++) {
+        ShoppingItem newItem = new ShoppingItem(
+            value[i][0].toString(), //itemID
+            value[i][1].toString(), //name
+            value[i][2].toString(), //brand
+            value[i][3].toString(), //description
+            value[i][4].toDouble(), //price
+            value[i][5]); //quantity
+        newItemList.add(newItem);
+        //     print("name is ${newItemList[i].name}");
+
+      }
+    });
+    shoppingLists[index].items = newItemList;
   }
 }
 
 Future<List<dynamic>> fetchAllShoppingLists() async {
   final dbEngine = new DatabaseEngine();
   var query =
-      "SELECT ShoppingLists.ListID, ShoppingLists.UserID, ShoppingLists.ItemID, ShoppingLists.ListName, Users.fuid FROM ShoppingLists INNER JOIN Users ON Users.UserID = ShoppingLists.UserID;";
+      "SELECT ShoppingLists.ListID, ShoppingLists.ListName, ShoppingLists.UserID, Users.fuid FROM ShoppingLists INNER JOIN Users ON Users.UserID = ShoppingLists.UserID;";
   var results = await dbEngine.manualQuery(query);
 
   return results;
 }
 
-/*
-Future<List<sList>> fetchShoppingLists() async {
-    List<sList> userShoppingLists = new List<sList>();
-    var query =
-        "SELECT ShoppingLists.ListName as ListName FROM ShoppingLists JOIN Users ON Users.UserID = ShoppingLists.UserID JOIN Items ON Items.ItemID = ShoppingLists.ItemID WHERE Users.UserID = ?;";
-    var results = await dbEngine.manualQuery(query, [widget.user]);
+Future deleteListByID(String listID) async {
+  final dbEngine = new DatabaseEngine();
+  var query =
+      "DELETE FROM `athdy9ib33fbmfvk`.`ShoppingLists` WHERE (`ListID` = ?);";
+  var results = await dbEngine.manualQuery(query, [listID]);
+}
 
-    if (results.length > 0) {
-      for (var i = 0; i < results.length; i++) {
-        sList newList = new sList(0, results[i], "Adrian", null);
-        print(newList.name);
-        userShoppingLists.add(newList);
-      }
-    } else {
-      print("no user shopping lists found");
-    }
-    return userShoppingLists;
-  }
-*/
+Future getListItemsByID(String listID) async {
+  final dbEngine = new DatabaseEngine();
+  var query =
+      "SELECT Items.ItemID, Items.Name, Items.BrandID, Items.Description, Items.Price, ListItems.Quantity, Items.BrandID FROM athdy9ib33fbmfvk.ListItems JOIN Items on Items.ItemID = ListItems.ItemID WHERE ListItems.ListID = ?;";
+  int id = int.parse(listID);
+  var results = await dbEngine.manualQuery(query, [listID]);
+
+  return results;
+}
