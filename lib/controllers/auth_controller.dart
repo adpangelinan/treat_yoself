@@ -8,9 +8,7 @@ import 'package:simple_gravatar/simple_gravatar.dart';
 import 'package:treat_yoself/models/models.dart';
 import 'package:treat_yoself/routes.dart';
 import 'package:treat_yoself/localizations/localizations.dart';
-import 'package:treat_yoself/screens/screens.dart';
-import 'package:treat_yoself/screens/components/components.dart';
-import 'package:treat_yoself/screens/auth/auth.dart';
+import 'package:treat_yoself/views/views.dart';
 
 class AuthController extends GetxController {
   static AuthController to = Get.find();
@@ -112,8 +110,6 @@ class AuthController extends GetxController {
           .createUserWithEmailAndPassword(
               email: emailController.text, password: passwordController.text)
           .then((result) async {
-        print('uID: ' + result.user.uid);
-        print('email: ' + result.user.email);
         //get photo url from gravatar if user has one
         Gravatar gravatar = Gravatar(emailController.text);
         String gravatarUrl = gravatar.imageUrl(

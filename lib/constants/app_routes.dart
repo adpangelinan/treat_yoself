@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
-import 'package:treat_yoself/screens/screens.dart';
+import 'package:treat_yoself/views/views.dart';
 import 'package:treat_yoself/utils/entities/authentication_service.dart';
-import 'package:treat_yoself/screens/auth/auth.dart';
 
 class AppRoutes {
   AppRoutes._(); //this is to prevent anyone from instantiating this object

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 //import 'package:mysql1/mysql1.dart';
 //import 'package:mysql1/mysql1.dart';
@@ -6,7 +5,6 @@ import 'package:treat_yoself/utils/database/db_utils.dart';
 import 'components/components.dart';
 import 'const_lists.dart';
 import 'package:flutter/cupertino.dart';
-
 
 class Results extends StatefulWidget {
   //const Results({Key key, @required this.user}) : super(key: key);
@@ -29,10 +27,12 @@ class _Results extends State<Results> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: TopNavBar(title: "Results",),
+        appBar: TopNavBar(
+          title: "Results",
+        ),
         drawer: SideDrawer(),
         body: printing(),
-        bottomNavigationBar: Bot_Nav_Bar());
+        bottomNavigationBar: BotNavBar());
   }
 
   Future<List<ItemDetails>> _buildItems(query) async {
@@ -141,4 +141,3 @@ class ItemDetails {
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)),
       ));
 }
-

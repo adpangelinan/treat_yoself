@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:treat_yoself/constants/app_routes.dart';
 import 'package:treat_yoself/localizations/localizations.dart';
 import 'package:treat_yoself/controllers/controllers.dart';
-import 'package:treat_yoself/screens/category_tab.dart';
-import 'package:treat_yoself/screens/components/components.dart';
-import 'package:treat_yoself/screens/screens.dart';
+import 'views.dart';
 import 'package:get/get.dart';
 import 'package:treat_yoself/utils/database/db_utils.dart';
 import 'auth/auth.dart';
@@ -20,7 +18,7 @@ class _HomeUIState extends State<HomeUI> {
   List<dynamic> results;
   final dbConn = DatabaseEngine();
   final queryString = "SELECT * FROM Comments ORDER BY DateAdded LIMIT ?";
-  //final LocationController location = Get.put(LocationController()); 
+  //final LocationController location = Get.put(LocationController());
 
   _HomeUIState() {
     dbConn.manualQuery(queryString, [30]).then((res) => setState(() {
@@ -37,16 +35,17 @@ class _HomeUIState extends State<HomeUI> {
               child: CircularProgressIndicator(),
             )
           : Scaffold(
-              appBar: TopNavBar(title: "Home",),
+              appBar: TopNavBar(
+                title: "Home",
+              ),
               drawer: SideDrawer(),
               body: homepageBody(context, results),
-              bottomNavigationBar: Bot_Nav_Bar(),
+              bottomNavigationBar: BotNavBar(),
             ),
     );
   }
 
-  Widget homepageBody(BuildContext context, List<dynamic> results)  {
-
+  Widget homepageBody(BuildContext context, List<dynamic> results) {
     return Container(
         child: Column(children: [
       Expanded(child: _buildTiles(results)),
@@ -81,7 +80,6 @@ class _HomeUIState extends State<HomeUI> {
                   new Text(
                     "${convertDateFromString(result[2].toString(), 'date')}",
                     style: TextStyle(
-                      color: Colors.black,
                       fontWeight: FontWeight.w600,
                       fontSize: 16.0,
                     ),
@@ -90,9 +88,7 @@ class _HomeUIState extends State<HomeUI> {
                     child: RichText(
                       overflow: TextOverflow.ellipsis,
                       strutStyle: StrutStyle(fontSize: 12.0),
-                      text: TextSpan(
-                          style: TextStyle(color: Colors.black),
-                          text: '${result[1]}'),
+                      text: TextSpan(text: '${result[1]}'),
                     ),
                   ),
                 ])));
@@ -137,8 +133,4 @@ class _HomeUIState extends State<HomeUI> {
       return formatDate(todayDate, [h, ':', mm, ' ', am]);
     }
   }
-
-
-
-
 }

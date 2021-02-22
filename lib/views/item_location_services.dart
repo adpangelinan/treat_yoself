@@ -2,38 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:treat_yoself/constants/app_routes.dart';
 import 'package:treat_yoself/localizations/localizations.dart';
 import 'package:treat_yoself/controllers/controllers.dart';
-import 'package:treat_yoself/screens/category_tab.dart';
-import 'package:treat_yoself/screens/components/components.dart';
-import 'package:treat_yoself/screens/screens.dart';
+import 'views.dart';
 import 'package:get/get.dart';
 import 'package:treat_yoself/utils/database/db_utils.dart';
 import 'auth/auth.dart';
 import 'package:date_format/date_format.dart';
 import 'dart:math';
 
-
-
-class ItemLocation extends StatefulWidget{
+class ItemLocation extends StatefulWidget {
   @override
   _ItemLocation createState() => _ItemLocation();
-
 }
 
-class _ItemLocation extends State<ItemLocation>{
-List<dynamic> stuff; 
-final LocationController controller = Get.put(LocationController());
+class _ItemLocation extends State<ItemLocation> {
+  List<dynamic> stuff;
+  final LocationController controller = Get.put(LocationController());
 
-@override build(BuildContext context) {
-     return  Scaffold(
-              appBar: TopNavBar(title: "Best Prices",),
-              drawer: SideDrawer(),
-              body:  buildZip(),
-              bottomNavigationBar: Bot_Nav_Bar(),
-            );
-
-
-
-}
+  @override
+  build(BuildContext context) {
+    return Scaffold(
+      appBar: TopNavBar(
+        title: "Best Prices",
+      ),
+      drawer: SideDrawer(),
+      body: buildZip(),
+      bottomNavigationBar: BotNavBar(),
+    );
+  }
 
   Widget buildZip() {
     return FutureBuilder<String>(
@@ -50,30 +45,26 @@ final LocationController controller = Get.put(LocationController());
         });
   }
 
+  Widget generateLocation(zip) {
+    return FutureBuilder<List<ItemLocationTile>>(
+        future: zipQuery(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<ItemLocationTile> items = snapshot.data ?? [];
+            return buildTiles(items);
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        });
+  }
 
-Widget generateLocation(zip) {
-  return FutureBuilder<List<ItemLocationTile>>(
-          future: zipQuery(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              List<ItemLocationTile> items = snapshot.data ?? [];
-              return buildTiles(items);
-            } else {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          });
+  Widget buildTiles(items) {
+    zipQuery();
+  }
 
-}
-
-Widget buildTiles(items){
-
-  zipQuery();
-}
-
-
- Future<List<ItemLocationTile>> zipQuery() async{
+  Future<List<ItemLocationTile>> zipQuery() async {
     var database = DatabaseEngine();
     var args = "arg";
     var query = "q";
@@ -87,21 +78,16 @@ Widget buildTiles(items){
       list.add(ItemLocationTile(first, mid, last, id));
     });
     return list;
+  }
 
+  Future<String> getzip() async {
+    var results = await controller.tranlateToZip();
 
- }
-
-Future<String>getzip() async{
-
-var results = await controller.tranlateToZip();
-
-return results; 
-}
+    return results;
+  }
 }
 
-
-class ItemLocationTile{
-
+class ItemLocationTile {
   final String name;
   final String price;
   final String brand;
@@ -161,5 +147,4 @@ class ItemLocationTile{
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)),
       ));
-
 }

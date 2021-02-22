@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:treat_yoself/screens/auth/auth.dart';
 import 'package:get/get.dart';
-import 'package:treat_yoself/screens/components/segmented_selector.dart';
 import 'package:treat_yoself/localizations/localizations.dart';
-import 'package:treat_yoself/controllers/controllers.dart';
-import 'package:treat_yoself/screens/components/components.dart';
+import 'views.dart';
 import 'package:treat_yoself/models/models.dart';
 import 'package:treat_yoself/constants/constants.dart';
+import 'package:treat_yoself/controllers/controllers.dart';
 
 class SettingsUI extends StatelessWidget {
   //final LanguageController languageController = LanguageController.to;

@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:treat_yoself/localizations/localizations.dart';
-import 'package:treat_yoself/screens/auth/auth.dart';
-import 'package:treat_yoself/screens/components/components.dart';
+import 'package:treat_yoself/views/views.dart';
 import 'package:treat_yoself/helpers/helpers.dart';
 import 'package:treat_yoself/controllers/controllers.dart';
 
-class ResetPasswordUI extends StatelessWidget {
+class SignUpUI extends StatelessWidget {
   final AuthController authController = AuthController.to;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -15,7 +14,6 @@ class ResetPasswordUI extends StatelessWidget {
     final labels = AppLocalizations.of(context);
 
     return Scaffold(
-      appBar: appBar(context),
       body: Form(
         key: _formKey,
         child: Padding(
@@ -29,6 +27,16 @@ class ResetPasswordUI extends StatelessWidget {
                   LogoGraphicHeader(),
                   SizedBox(height: 48.0),
                   FormInputFieldWithIcon(
+                    controller: authController.nameController,
+                    iconPrefix: Icons.person,
+                    labelText: labels?.auth?.nameFormField,
+                    validator: Validator(labels).name,
+                    onChanged: (value) => null,
+                    onSaved: (value) =>
+                        authController.nameController.text = value,
+                  ),
+                  FormVerticalSpace(),
+                  FormInputFieldWithIcon(
                     controller: authController.emailController,
                     iconPrefix: Icons.email,
                     labelText: labels?.auth?.emailFormField,
@@ -39,15 +47,32 @@ class ResetPasswordUI extends StatelessWidget {
                         authController.emailController.text = value,
                   ),
                   FormVerticalSpace(),
+                  FormInputFieldWithIcon(
+                    controller: authController.passwordController,
+                    iconPrefix: Icons.lock,
+                    labelText: labels?.auth?.passwordFormField,
+                    validator: Validator(labels).password,
+                    obscureText: true,
+                    onChanged: (value) => null,
+                    onSaved: (value) =>
+                        authController.passwordController.text = value,
+                    maxLines: 1,
+                  ),
+                  FormVerticalSpace(),
                   PrimaryButton(
-                      labelText: labels?.auth?.resetPasswordButton,
+                      labelText: labels?.auth?.signUpButton,
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
-                          await authController.sendPasswordResetEmail(context);
+                          SystemChannels.textInput.invokeMethod(
+                              'TextInput.hide'); //to hide the keyboard - if any
+                          authController.registerWithEmailAndPassword(context);
                         }
                       }),
                   FormVerticalSpace(),
-                  signInLink(context),
+                  LabelButton(
+                    labelText: labels?.auth?.signInLabelButton,
+                    onPressed: () => Get.to(SignIn()),
+                  ),
                 ],
               ),
             ),
@@ -55,26 +80,5 @@ class ResetPasswordUI extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  appBar(BuildContext context) {
-    final labels = AppLocalizations.of(context);
-    if ((authController.emailController.text == '') ||
-        (authController.emailController.text == null)) {
-      return null;
-    }
-    return AppBar(title: Text(labels?.auth?.resetPasswordTitle));
-  }
-
-  signInLink(BuildContext context) {
-    final labels = AppLocalizations.of(context);
-    if ((authController.emailController.text == '') ||
-        (authController.emailController.text == null)) {
-      return LabelButton(
-        labelText: labels?.auth?.signInonResetPasswordLabelButton,
-        onPressed: () => Get.offAll(SignIn()),
-      );
-    }
-    return Container(width: 0, height: 0);
   }
 }

@@ -3,9 +3,8 @@ import 'package:flutter/services.dart';
 
 import 'dart:core';
 import 'package:get/get.dart';
-import 'package:treat_yoself/screens/auth/auth.dart';
+import 'package:treat_yoself/views/views.dart';
 import 'package:treat_yoself/localizations/localizations.dart';
-import 'package:treat_yoself/screens/components/components.dart';
 import 'package:treat_yoself/helpers/helpers.dart';
 import 'package:treat_yoself/controllers/controllers.dart';
 
