@@ -54,19 +54,18 @@ class _CurrentItems extends State<ShoppingTripGen> {
   Future<List<ShoppingItem>> _buildItems() async {
     var items;
     var dataquery =
-        "Select Items.Name as Item, Items.Price as Price, Items.ItemID as ID, ListItems.ListItemID as ListID, Brands.Name as Brand FROM Items JOIN Brands On Brands.BrandID = Items.BrandID JOIN ListItems ON Items.ItemID = ListItems.ItemID WHERE ListItems.ListID = ?;";
+        "Select Items.Name as Item, Items.ItemID as ID, ListItems.ListItemID as ListID, Brands.Name as Brand FROM Items JOIN BrandsItems On BrandsItems.ItemID = Items.ItemID JOIN Brands ON Brands.BrandID = BrandsItems.BrandID JOIN ListItems ON Items.ItemID = ListItems.ItemID WHERE ListItems.ListID = ?;";
     var listID = "42";
     var database = DatabaseEngine();
     var newstring = await database.manualQuery(dataquery, [listID]);
     List<ShoppingItem> list = [];
     newstring.forEach((element) {
       var first = element.values[0];
-      var mid = element.values[1].toString();
-      var last = element.values[4];
-      var id = element.values[2].toString();
-      var listID = element.values[3].toString();
+      var last = element.values[3];
+      var id = element.values[1].toString();
+      var listID = element.values[2].toString();
 
-      list.add(ShoppingItem(first, mid, last, id, listID));
+      list.add(ShoppingItem(first, id, listID,last));
     });
     return list;
   }
@@ -74,17 +73,16 @@ class _CurrentItems extends State<ShoppingTripGen> {
 
 class ShoppingItem {
   final String name;
-  final String price;
   final String brand;
   final String id;
   final String listID;
 
-  ShoppingItem(this.name, this.price, this.brand, this.id, this.listID);
+  ShoppingItem(this.name, this.id, this.listID,this.brand);
 
   delete(deleting) async {
     //add user data class to extract this id from it
     var database = DatabaseEngine();
-    var insertquery = "Delete FROM ListItems WHERE ListItemID = ?";
+    var insertquery = "Delete FROM ListItems WHERE ItemID = ?";
     var data;
     data = await database.manualQuery(insertquery, [deleting]);
     return data;
@@ -126,13 +124,13 @@ class ShoppingItem {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(brand),
-                    Text(price),
+                    Text("Tap for more info"),
                   ],
                 ),
                 trailing: IconButton(
                   icon: Icon(Icons.delete),
                   tooltip: 'Delete Item',
-                  onPressed: () => _deleteItem(context, listID),
+                  onPressed: () => _deleteItem(context, id),
                 ),
                 tileColor: getRandomColors(),
               ),

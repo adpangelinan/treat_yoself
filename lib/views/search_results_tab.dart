@@ -43,9 +43,8 @@ class _Results extends State<Results> {
     newstring.forEach((element) {
       var first = element.values[0];
       var mid = element.values[1].toString();
-      var last = element.values[3];
       var id = element.values[2].toString();
-      list.add(ItemDetails(first, mid, last, id));
+      list.add(ItemDetails(first, mid, id));
     });
     return list;
   }
@@ -82,11 +81,10 @@ abstract class ListItem {
 
 class ItemDetails {
   final String name;
-  final String price;
   final String brand;
   final String id;
 
-  ItemDetails(this.name, this.price, this.brand, this.id);
+  ItemDetails(this.name, this.id, this.brand);
 
   insertData(id) async {
     var listID = "42"; //add user data class to extract this id from it
@@ -126,7 +124,7 @@ class ItemDetails {
             title: Text(name),
             subtitle: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text(brand), Text(price)],
+              children: [Text(brand), Text("Tap for Price info")],
             ),
             trailing: IconButton(
               icon: Icon(Icons.add_shopping_cart_sharp),

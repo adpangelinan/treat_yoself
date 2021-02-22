@@ -76,16 +76,17 @@ class CategoryCard extends StatelessWidget {
   CategoryCard(this.index);
   final int index;
   final List<String> _categoryQueries = [
-    'Select Items.Name as Item, Items.Price, Items.ItemID as ID, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN Brands ON Items.BrandID = Brands.BrandID WHERE Categories.Name = ?;',
-    'Select Items.Name as Item, Items.Price, Items.ItemID as ID, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN Brands ON Items.BrandID = Brands.BrandID WHERE Categories.Name = ?;',
-    'Select Items.Name as Item, Items.Price, Items.ItemID as ID, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN Brands ON Items.BrandID = Brands.BrandID WHERE Categories.Name = ?;',
-    'Select Items.Name as Item, Items.Price, Items.ItemID as ID, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN Brands ON Items.BrandID = Brands.BrandID WHERE Categories.Name = ?;',
-    'Select Items.Name as Item, Items.Price, Items.ItemID as ID, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN Brands ON Items.BrandID = Brands.BrandID WHERE Categories.Name = ?;',
-    'Select Items.Name as Item, Items.Price, Items.ItemID as ID, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN Brands ON Items.BrandID = Brands.BrandID WHERE Categories.Name = ?;',
-    'Select Items.Name as Item, Items.Price, Items.ItemID as ID, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN Brands ON Items.BrandID = Brands.BrandID WHERE Categories.Name = ?;',
-    'Select Items.Name as Item, Items.Price, Items.ItemID as ID, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN Brands ON Items.BrandID = Brands.BrandID WHERE Categories.Name = ?;',
-    'Select Items.Name as Item, Items.Price, Items.ItemID as ID, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN Brands ON Items.BrandID = Brands.BrandID WHERE Categories.Name = ?;',
-    'Select Items.Name as Item, Items.Price, Items.ItemID as ID, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN Brands ON Items.BrandID = Brands.BrandID WHERE Categories.Name = ?;',
+    'Select Items.Name as Item, Items.ItemID as ID, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN BrandsItems ON BrandsItems.ItemID = Items.ItemID JOIN Brands ON Brands.BrandID = BrandsItems.BrandID WHERE Categories.Name = ?;'
+    'Select Items.Name as Item, Items.ItemID as ID, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN BrandsItems ON BrandsItems.ItemID = Items.ItemID JOIN Brands ON Brands.BrandID = BrandsItems.BrandID WHERE Categories.Name = ?;',
+    'Select Items.Name as Item, Items.ItemID as ID, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN BrandsItems ON BrandsItems.ItemID = Items.ItemID JOIN Brands ON Brands.BrandID = BrandsItems.BrandID WHERE Categories.Name = ?;',
+    'Select Items.Name as Item, Items.ItemID as ID, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN BrandsItems ON BrandsItems.ItemID = Items.ItemID JOIN Brands ON Brands.BrandID = BrandsItems.BrandID WHERE Categories.Name = ?;',
+    'Select Items.Name as Item, Items.ItemID as ID, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN BrandsItems ON BrandsItems.ItemID = Items.ItemID JOIN Brands ON Brands.BrandID = BrandsItems.BrandID WHERE Categories.Name = ?;',
+    'Select Items.Name as Item, Items.ItemID as ID, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN BrandsItems ON BrandsItems.ItemID = Items.ItemID JOIN Brands ON Brands.BrandID = BrandsItems.BrandID WHERE Categories.Name = ?;',
+    'Select Items.Name as Item, Items.ItemID as ID, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN BrandsItems ON BrandsItems.ItemID = Items.ItemID JOIN Brands ON Brands.BrandID = BrandsItems.BrandID WHERE Categories.Name = ?;',
+    'Select Items.Name as Item, Items.ItemID as ID, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN BrandsItems ON BrandsItems.ItemID = Items.ItemID JOIN Brands ON Brands.BrandID = BrandsItems.BrandID WHERE Categories.Name = ?;',
+    'Select Items.Name as Item, Items.ItemID as ID, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN BrandsItems ON BrandsItems.ItemID = Items.ItemID JOIN Brands ON Brands.BrandID = BrandsItems.BrandID WHERE Categories.Name = ?;',
+    'Select Items.Name as Item, Items.ItemID as ID, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN BrandsItems ON BrandsItems.ItemID = Items.ItemID JOIN Brands ON Brands.BrandID = BrandsItems.BrandID WHERE Categories.Name = ?;',
+    'Select Items.Name as Item, Items.ItemID as ID, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN BrandsItems ON BrandsItems.ItemID = Items.ItemID JOIN Brands ON Brands.BrandID = BrandsItems.BrandID WHERE Categories.Name = ?;',
   ];
 
   @override
