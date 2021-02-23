@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import '../controllers/shoppinglists_controller.dart';
 import 'package:treat_yoself/utils/database/db_utils.dart';
 import './item_location_services.dart';
 import 'const_lists.dart';
@@ -52,10 +52,10 @@ class _CurrentItems extends State<ShoppingTripGen> {
   }
 
   Future<List<ShoppingItem>> _buildItems() async {
-    var items;
+    final ShoppingListController curLis = Get.find(); 
     var dataquery =
-        "Select Items.Name as Item, Items.ItemID as ID, ListItems.ListItemID as ListID, Brands.Name as Brand FROM Items JOIN BrandsItems On BrandsItems.ItemID = Items.ItemID JOIN Brands ON Brands.BrandID = BrandsItems.BrandID JOIN ListItems ON Items.ItemID = ListItems.ItemID WHERE ListItems.ListID = ?;";
-    var listID = "42";
+        "Select Items.Name as Item, BrandsItems.BrandItemID as ID, ListItems.ListItemID as ListID, Brands.Name as Brand FROM Items JOIN BrandsItems On BrandsItems.ItemID = Items.ItemID JOIN Brands ON Brands.BrandID = BrandsItems.BrandID JOIN ListItems ON BrandsItems.BrandItemID = ListItems.ItemID WHERE ListItems.ListID = ?;";
+    var listID = curLis.currentList.listID;
     var database = DatabaseEngine();
     var newstring = await database.manualQuery(dataquery, [listID]);
     List<ShoppingItem> list = [];
@@ -82,7 +82,7 @@ class ShoppingItem {
   delete(deleting) async {
     //add user data class to extract this id from it
     var database = DatabaseEngine();
-    var insertquery = "Delete FROM ListItems WHERE ItemID = ?";
+    var insertquery = "Delete FROM ListItems WHERE ListItemID = ?";
     var data;
     data = await database.manualQuery(insertquery, [deleting]);
     return data;
@@ -92,8 +92,8 @@ class ShoppingItem {
     Get.to(ShoppingTripGen());
   }
 
-  _deleteItem(context, id) async {
-    await delete(id);
+  _deleteItem(context, listID) async {
+    await delete(listID);
 
     return showDialog(
         context: context,
@@ -130,7 +130,7 @@ class ShoppingItem {
                 trailing: IconButton(
                   icon: Icon(Icons.delete),
                   tooltip: 'Delete Item',
-                  onPressed: () => _deleteItem(context, id),
+                  onPressed: () => _deleteItem(context, listID),
                 ),
                 tileColor: getRandomColors(),
               ),

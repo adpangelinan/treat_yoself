@@ -5,6 +5,8 @@ import 'package:treat_yoself/utils/database/db_utils.dart';
 import 'components/components.dart';
 import 'const_lists.dart';
 import 'package:flutter/cupertino.dart';
+import '../controllers/shoppinglists_controller.dart';
+import 'package:get/get.dart';
 
 class Results extends StatefulWidget {
   //const Results({Key key, @required this.user}) : super(key: key);
@@ -87,7 +89,8 @@ class ItemDetails {
   ItemDetails(this.name, this.id, this.brand);
 
   insertData(id) async {
-    var listID = "42"; //add user data class to extract this id from it
+    final ShoppingListController curLis = Get.find();
+    var listID = curLis.currentList.listID; //add user data class to extract this id from it
     var database = DatabaseEngine();
     var insertquery = "Insert Into ListItems VALUES(NULL,?,?,1)";
     var data;
