@@ -10,8 +10,10 @@ import 'package:date_format/date_format.dart';
 import 'dart:math';
 
 class ItemLocation extends StatefulWidget {
+  final name; 
   @override
   _ItemLocation createState() => _ItemLocation();
+  const ItemLocation({this.name});
 }
 
 class _ItemLocation extends State<ItemLocation> {
@@ -61,14 +63,22 @@ class _ItemLocation extends State<ItemLocation> {
   }
 
   Widget buildTiles(items) {
-    zipQuery();
+        return ListView.builder(
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        final item = items[index];
+        return Container(
+          child: item.buildItem(context),
+        );
+      },
+    );
   }
 
   Future<List<ItemLocationTile>> zipQuery() async {
     var database = DatabaseEngine();
-    var args = "arg";
-    var query = "q";
-    var newstring = await database.manualQuery(query, [args]);
+    var args = [widget.name,"92129",];
+    var query = "Select Stores.Name as Item, Stores.ZipCode as ID, ListItems.ListItemID as ListID, Brands.Name as Brand FROM Items JOIN BrandsItems On BrandsItems.ItemID = Items.ItemID JOIN Brands ON Brands.BrandID = BrandsItems.BrandID JOIN ListItems ON BrandsItems.BrandItemID = ListItems.ItemID JOIN StoresItems ON BrandsItems.BrandItemID = StoresItems.BrandItemID JOIN Stores ON Stores.StoreID = StoresItems.StoreID WHERE BrandsItems.BrandItemID = ? AND Stores.ZipCode = ?;";
+    var newstring = await database.manualQuery(query, args);
     List<ItemLocationTile> list = [];
     newstring.forEach((element) {
       var first = element.values[0];

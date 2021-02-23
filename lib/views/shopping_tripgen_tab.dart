@@ -141,6 +141,6 @@ class ShoppingItem {
       );
 
   _pushRoute() {
-    Get.to(ItemLocation());
+    Get.to(ItemLocation(name:id));
   }
 }
