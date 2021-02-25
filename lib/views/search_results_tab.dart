@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 //import 'package:mysql1/mysql1.dart';
 //import 'package:mysql1/mysql1.dart';
@@ -6,7 +5,8 @@ import 'package:treat_yoself/utils/database/db_utils.dart';
 import 'components/components.dart';
 import 'const_lists.dart';
 import 'package:flutter/cupertino.dart';
-
+import '../controllers/shoppinglists_controller.dart';
+import 'package:get/get.dart';
 
 class Results extends StatefulWidget {
   //const Results({Key key, @required this.user}) : super(key: key);
@@ -29,10 +29,12 @@ class _Results extends State<Results> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: TopNavBar(title: "Results",),
+        appBar: TopNavBar(
+          title: "Results",
+        ),
         drawer: SideDrawer(),
         body: printing(),
-        bottomNavigationBar: Bot_Nav_Bar());
+        bottomNavigationBar: BotNavBar());
   }
 
   Future<List<ItemDetails>> _buildItems(query) async {
@@ -43,9 +45,8 @@ class _Results extends State<Results> {
     newstring.forEach((element) {
       var first = element.values[0];
       var mid = element.values[1].toString();
-      var last = element.values[3];
       var id = element.values[2].toString();
-      list.add(ItemDetails(first, mid, last, id));
+      list.add(ItemDetails(first, mid, id));
     });
     return list;
   }
@@ -82,14 +83,14 @@ abstract class ListItem {
 
 class ItemDetails {
   final String name;
-  final String price;
   final String brand;
   final String id;
 
-  ItemDetails(this.name, this.price, this.brand, this.id);
+  ItemDetails(this.name, this.id, this.brand);
 
   insertData(id) async {
-    var listID = "42"; //add user data class to extract this id from it
+    final ShoppingListController curLis = Get.find();
+    var listID = curLis.currentList.listID; //add user data class to extract this id from it
     var database = DatabaseEngine();
     var insertquery = "Insert Into ListItems VALUES(NULL,?,?,1)";
     var data;
@@ -126,7 +127,7 @@ class ItemDetails {
             title: Text(name),
             subtitle: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text(brand), Text(price)],
+              children: [Text(brand), Text("Tap for Price info")],
             ),
             trailing: IconButton(
               icon: Icon(Icons.add_shopping_cart_sharp),
@@ -141,4 +142,3 @@ class ItemDetails {
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)),
       ));
 }
-

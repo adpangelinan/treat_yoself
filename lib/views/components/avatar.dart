@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:treat_yoself/models/models.dart';
-import 'package:treat_yoself/screens/components/components.dart';
+import 'package:treat_yoself/views/views.dart';
 
 class Avatar extends StatelessWidget {
   Avatar(

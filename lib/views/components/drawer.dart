@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:treat_yoself/routes.dart';
-import 'package:treat_yoself/screens/auth/auth.dart';
+import 'package:treat_yoself/views/views.dart';
 import 'package:get/get.dart';
-import 'package:treat_yoself/screens/category_tab.dart';
 
 class SideDrawer extends StatelessWidget {
   const SideDrawer({Key key}) : super(key: key);
@@ -16,19 +15,19 @@ class SideDrawer extends StatelessWidget {
           DrawerHeader(
             decoration: BoxDecoration(color: Colors.green),
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: Icon(
-                Icons.account_circle,
-                color: Colors.green.shade800,
-                size: 96,
-              ),
-            ),
+                padding: const EdgeInsets.only(bottom: 20),
+                child: CircleAvatar(
+                  backgroundImage:
+                      new NetworkImage('https://picsum.photos/200/200'),
+                  backgroundColor: Colors.lightGreen,
+                  radius: 24.0,
+                )),
           ),
           ListTile(
             //leading: SongsTab.androidIcon,
             title: Text('Profile'),
             onTap: () {
-              Get.to(SettingsUI());
+              Get.to(AccountDetails());
             },
           ),
           ListTile(

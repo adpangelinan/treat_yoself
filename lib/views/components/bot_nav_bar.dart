@@ -1,14 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:treat_yoself/routes.dart';
 import 'package:get/get.dart';
 
-
-
-class Bot_Nav_Bar extends StatelessWidget{
-
-    @override
-    Widget build(BuildContext context){
+class BotNavBar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return BottomAppBar(
         color: Colors.white,
         child: IconButton(
@@ -16,5 +12,5 @@ class Bot_Nav_Bar extends StatelessWidget{
             onPressed: () {
               Get.to(HomeUI());
             }));
-    }
+  }
 }

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:treat_yoself/routes.dart';
 import 'package:get/get.dart';
-import 'package:treat_yoself/localizations.dart';
-import 'package:treat_yoself/screens/shopping_tripgen_tab.dart';
+import 'package:treat_yoself/views/views.dart';
 
-class TopNavBar extends StatelessWidget implements PreferredSize{
+class TopNavBar extends StatelessWidget implements PreferredSize {
   Size get preferredSize => const Size.fromHeight(50.0);
   final title;
-  TopNavBar({Key key,this.title});
+  TopNavBar({Key key, this.title});
   Widget build(BuildContext context) {
     return AppBar(
       title: Text(title),
@@ -31,7 +30,7 @@ class TopNavBar extends StatelessWidget implements PreferredSize{
     );
   }
 
-    @override
+  @override
   // TODO: implement child
   Widget get child => throw UnimplementedError();
 }

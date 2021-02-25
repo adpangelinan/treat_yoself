@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:treat_yoself/localizations/localizations.dart';
 import 'package:treat_yoself/controllers/controllers.dart';
-import 'package:treat_yoself/screens/components/components.dart';
-import 'package:treat_yoself/screens/screens.dart';
+import 'views.dart';
 import 'package:get/get.dart';
 import 'auth/auth.dart';
 
@@ -10,7 +9,6 @@ class AccountDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final labels = AppLocalizations.of(context);
-
     return GetBuilder<AuthController>(
       init: AuthController(),
       builder: (controller) => controller?.firestoreUser?.value?.uid == null
@@ -18,8 +16,11 @@ class AccountDetails extends StatelessWidget {
               child: CircularProgressIndicator(),
             )
           : Scaffold(
-              appBar: topNavBar(context),
+              appBar: TopNavBar(
+                title: "Account",
+              ),
               drawer: mainDrawer(context),
+              bottomNavigationBar: BotNavBar(),
               body: Center(
                 child: Column(
                   children: <Widget>[
@@ -31,27 +32,24 @@ class AccountDetails extends StatelessWidget {
                       children: <Widget>[
                         FormVerticalSpace(),
                         Text(
-                            labels.home.uidLabel +
-                                ': ' +
-                                controller.firestoreUser.value.uid,
+                            'Username: ' +
+                                controller.firestoreUser.value.username,
+                            style: TextStyle(fontSize: 16)),
+                        FormVerticalSpace(),
+                        Text('Name: ' + controller.firestoreUser.value.name,
+                            style: TextStyle(fontSize: 16)),
+                        FormVerticalSpace(),
+                        Text('Email: ' + controller.firestoreUser.value.email,
                             style: TextStyle(fontSize: 16)),
                         FormVerticalSpace(),
                         Text(
-                            labels.home.nameLabel +
-                                ': ' +
-                                controller.firestoreUser.value.name,
-                            style: TextStyle(fontSize: 16)),
-                        FormVerticalSpace(),
-                        Text(
-                            labels.home.emailLabel +
-                                ': ' +
-                                controller.firestoreUser.value.email,
-                            style: TextStyle(fontSize: 16)),
-                        FormVerticalSpace(),
-                        Text(
-                            labels.home.adminUserLabel +
-                                ': ' +
+                            'Admin Access: ' +
                                 controller.admin.value.toString(),
+                            style: TextStyle(fontSize: 16)),
+                        FormVerticalSpace(),
+                        Text(
+                            'ZipCode: ' +
+                                controller.firestoreUser.value.zipcode,
                             style: TextStyle(fontSize: 16)),
                       ],
                     ),

@@ -3,10 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:treat_yoself/models/models.dart';
 import 'package:treat_yoself/localizations/localizations.dart';
-import 'package:treat_yoself/screens/components/components.dart';
+import 'package:treat_yoself/views/views.dart';
 import 'package:treat_yoself/helpers/helpers.dart';
 import 'package:treat_yoself/controllers/controllers.dart';
-import 'package:treat_yoself/screens/auth/auth.dart';
 
 class UpdateProfileUI extends StatelessWidget {
   final AuthController authController = AuthController.to;

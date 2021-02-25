@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:treat_yoself/constants/constants.dart';
-import 'package:treat_yoself/screens/components/components.dart';
+import 'views.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';

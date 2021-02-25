@@ -22,4 +22,6 @@ export 'listovw.dart';
 export 'const_lists.dart';
 export 'category_tab.dart';
 export 'search_results_tab.dart';
+export 'auth/auth.dart';
+export 'components/components.dart';
 export 'shopping_tripgen_tab.dart';
