@@ -7,10 +7,14 @@ class BotNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomAppBar(
         color: Colors.white,
-        child: IconButton(
+        shape:  CircularNotchedRectangle(),
+        notchMargin: 4.0,
+        child: 
+            IconButton(
             icon: Icon(Icons.home),
             onPressed: () {
               Get.to(HomeUI());
-            }));
+            }),
+            );
   }
 }

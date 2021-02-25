@@ -51,6 +51,13 @@ class SideDrawer extends StatelessWidget {
               Get.to(Category());
             },
           ),
+          ListTile(
+            //leading: SettingsTab.androidIcon,
+            title: Text("Add Item"),
+            onTap: () {
+              Get.to(MyCustomForm());
+            },
+          ),
           // Long drawer contents are often segmented.
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
