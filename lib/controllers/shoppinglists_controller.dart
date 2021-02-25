@@ -70,7 +70,7 @@ class ShoppingListController extends GetxController {
     return;
   }
 
-  void deleteList(String listID) {
+  void deleteList(String listID) async {
     print("Deleting list $listID");
     deleteListByID(listID);
     int deleteIndex = _getUserListIndex(listID);
@@ -111,13 +111,15 @@ class ShoppingListController extends GetxController {
   void getListItems(sList shoppinglist, int index) {
     List<ShoppingItem> newItemList = [];
     getListItemsByID(shoppinglist.listID).then((value) {
+      print("getting items length is ${value.length}");
       for (var i = 0; i < value.length; i++) {
+        print("adding items is ${value[i]}");
         ShoppingItem newItem = new ShoppingItem(
             value[i][0].toString(), //itemID
             value[i][1].toString(), //name
             value[i][2].toString(), //brand
             value[i][3].toString(), //description
-            value[i][4].toDouble(), //price
+            0.0, //price - TODO add into query
             value[i][5]); //quantity
         newItemList.add(newItem);
         //     print("name is ${newItemList[i].name}");
@@ -125,6 +127,9 @@ class ShoppingListController extends GetxController {
       }
     });
     shoppingLists[index].items = newItemList;
+    print("Added list ${shoppingLists[index].name}");
+    print("Items is ${shoppingLists[index].items}");
+    //print("name of first item is ${shoppingLists[index].items[0].name}");
   }
 }
 
@@ -146,9 +151,17 @@ Future deleteListByID(String listID) async {
 
 Future getListItemsByID(String listID) async {
   final dbEngine = new DatabaseEngine();
+  var querySel =
+      "SELECT Items.ItemID, Items.Name, Brands.Name, Items.Description, ListItems.Quantity";
+  var queryFrom = " FROM athdy9ib33fbmfvk.ListItems";
+  var queryJoin1 = " JOIN Items on Items.ItemID = ListItems.ItemID";
+  var queryJoin2 =
+      " LEFT JOIN BrandsItems on Items.ItemID = BrandsItems.ItemID";
+  var queryJoin3 = " LEFT JOIN Brands on BrandsItems.BrandID = Brands.BrandID";
+  var queryWher = " WHERE ListItems.ListID = ?;";
   var query =
-      "SELECT Items.ItemID, Items.Name, Items.BrandID, Items.Description, Items.Price, ListItems.Quantity, Items.BrandID FROM athdy9ib33fbmfvk.ListItems JOIN Items on Items.ItemID = ListItems.ItemID WHERE ListItems.ListID = ?;";
-  int id = int.parse(listID);
+      querySel + queryFrom + queryJoin1 + queryJoin2 + queryJoin3 + queryWher;
+  print(query);
   var results = await dbEngine.manualQuery(query, [listID]);
 
   return results;

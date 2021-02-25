@@ -167,7 +167,9 @@ class _ListOverviewState extends State<ListOverviewUI> {
                             child: Text('Add List'),
                             onPressed: () {
                               _shoppingListController.addList(context, fuid);
+
                               Navigator.of(context).pop();
+                              _addListDialog();
                             },
                           ),
                           FlatButton(
@@ -180,6 +182,37 @@ class _ListOverviewState extends State<ListOverviewUI> {
                         ]),
                       ],
                     )))
+              ],
+            ));
+  }
+
+  _addListDialog() {
+    double c_width = MediaQuery.of(context).size.width * 0.5;
+
+    return showDialog(
+        context: context,
+        builder: (_) => new SimpleDialog(
+              title: new Text("List Added"),
+              children: [
+                Container(
+                    padding: const EdgeInsets.all(8.0),
+                    width: c_width,
+                    child: Center(
+                        child: Column(children: [
+                      Row(children: <Widget>[
+                        Container(
+                            width: c_width * 0.6,
+                            child: Center(child: Text("New List Added"))),
+                      ]),
+                      Row(children: <Widget>[
+                        FlatButton(
+                            child: Text('OK'),
+                            onPressed: () {
+                              setState(() {});
+                              Navigator.of(context).pop();
+                            })
+                      ]),
+                    ])))
               ],
             ));
   }
