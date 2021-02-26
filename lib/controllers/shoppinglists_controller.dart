@@ -114,16 +114,16 @@ class ShoppingListController extends GetxController {
       print("getting items length is ${value.length}");
       for (var i = 0; i < value.length; i++) {
         print("adding items is ${value[i]}");
+        print("item name is ${value[i][1]}");
         ShoppingItem newItem = new ShoppingItem(
             value[i][0].toString(), //itemID
             value[i][1].toString(), //name
             value[i][2].toString(), //brand
             value[i][3].toString(), //description
             0.0, //price - TODO add into query
-            value[i][5]); //quantity
+            value[i][4]); //quantity
         newItemList.add(newItem);
-        //     print("name is ${newItemList[i].name}");
-
+        print("name is ${newItemList[i].name}");
       }
     });
     shoppingLists[index].items = newItemList;
@@ -152,7 +152,7 @@ Future deleteListByID(String listID) async {
 Future getListItemsByID(String listID) async {
   final dbEngine = new DatabaseEngine();
   var querySel =
-      "SELECT Items.ItemID, Items.Name, Brands.Name, Items.Description, ListItems.Quantity";
+      "SELECT Items.ItemID, Items.Name As ItemName, Brands.Name As BrandName, Items.Description, ListItems.Quantity";
   var queryFrom = " FROM athdy9ib33fbmfvk.ListItems";
   var queryJoin1 = " JOIN Items on Items.ItemID = ListItems.ItemID";
   var queryJoin2 =
