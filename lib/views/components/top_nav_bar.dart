@@ -26,6 +26,9 @@ class TopNavBar extends StatelessWidget implements PreferredSize {
             onPressed: () {
               Get.to(SettingsUI());
             }),
+        IconButton(
+          icon: Icon(Icons.comment), 
+          onPressed: () {Get.to(Comment());})
       ],
     );
   }

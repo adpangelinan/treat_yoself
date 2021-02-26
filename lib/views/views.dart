@@ -25,3 +25,5 @@ export 'search_results_tab.dart';
 export 'auth/auth.dart';
 export 'components/components.dart';
 export 'shopping_tripgen_tab.dart';
+export 'additem.dart';
+export 'addComment.dart';
