@@ -19,7 +19,7 @@ class AccountDetails extends StatelessWidget {
               appBar: TopNavBar(
                 title: "Account",
               ),
-              drawer: mainDrawer(context),
+              drawer: SideDrawer(),
               bottomNavigationBar: BotNavBar(),
               body: Center(
                 child: Column(
@@ -51,6 +51,12 @@ class AccountDetails extends StatelessWidget {
                             'ZipCode: ' +
                                 controller.firestoreUser.value.zipcode,
                             style: TextStyle(fontSize: 16)),
+                        FormVerticalSpace(),
+                        RaisedButton(
+                            onPressed: () {
+                              Get.to(UpdateProfileUI());
+                            },
+                            child: Text('Edit Profile'))
                       ],
                     ),
                   ],

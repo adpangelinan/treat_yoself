@@ -80,6 +80,36 @@ class AuthController extends GetxController {
     return null;
   }
 
+  String getFirestoreUsername(String uid) {
+    if (uid != null) {
+      var docRef = _db.collection("users").doc(uid);
+      var userName = "";
+      docRef.get().then((doc) => {
+            if (doc.exists)
+              {userName = doc.get(userName).toString()}
+            else
+              {userName = "Unknown User"}
+          });
+      return userName;
+    }
+    return null;
+  }
+
+  String getFirestoreImageUrl(String uid) {
+    if (uid != null) {
+      var docRef = _db.collection("users").doc(uid);
+      var photoUrl = "";
+      docRef.get().then((doc) => {
+            if (doc.exists)
+              {photoUrl = doc.get("photoUrl").toString()}
+            else
+              {photoUrl = "No Image"}
+          });
+      return photoUrl;
+    }
+    return null;
+  }
+
   //Method to handle user sign in using email and password
   signInWithEmailAndPassword(BuildContext context) async {
     final labels = AppLocalizations.of(context);

@@ -1,3 +1,4 @@
+import 'package:get_storage/get_storage.dart';
 import 'package:treat_yoself/controllers/controllers.dart';
 
 import '../utils/database/db_utils.dart';
@@ -42,8 +43,19 @@ class ShoppingListController extends GetxController {
 
   //Sets active shopping list for purposes of pulls when looking at the current shopping cart
   void setList(sList list) {
+    final store = GetStorage();
+    var currList = store.read('currList');
+    if (list == null) {
+      if (store.read('currList') == null) {
+        currentList = list;
+      } else {
+        currentList = shoppingLists[_getUserListIndex(currList)];
+      }
+    } else {
+      currentList = list;
+      store.write('currList', list.listID);
+    }
     print("set list called with $list");
-    currentList = list;
   }
 
   void addList(BuildContext context, String fuid) async {

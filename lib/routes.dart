@@ -7,10 +7,13 @@ export 'views/deprecated/store_tab.dart';
 export 'views/deprecated/landing_page_logged_tab.dart';
 export 'views/deprecated/login_tab.dart';
 export 'views/deprecated/item_search_tab.dart';
-export 'package:treat_yoself/views/deprecated/shoppinglist_tab.dart';
+export 'views/deprecated/shoppinglist_tab.dart';
 export 'views/deprecated/user_settings_tab.dart';
-export 'views/splash.dart';
-export 'package:treat_yoself/utils/database/db_utils.dart';
+
 export 'views/views.dart';
-export 'views/category_tab.dart';
-export 'views/search_results_tab.dart';
+export 'views/components/components.dart';
+export 'views/auth/auth.dart';
+export 'utils/database/db_utils.dart';
+export 'models/models.dart';
+export 'controllers/controllers.dart';
+export 'constants/constants.dart';

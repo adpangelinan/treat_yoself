@@ -5,7 +5,8 @@ import 'package:treat_yoself/views/views.dart';
 import 'package:get/get.dart';
 
 class SideDrawer extends StatelessWidget {
-  const SideDrawer({Key key}) : super(key: key);
+  final AuthController controller = Get.find();
+  SideDrawer({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -15,13 +16,9 @@ class SideDrawer extends StatelessWidget {
           DrawerHeader(
             decoration: BoxDecoration(color: Colors.green),
             child: Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: CircleAvatar(
-                  backgroundImage:
-                      new NetworkImage('https://picsum.photos/200/200'),
-                  backgroundColor: Colors.lightGreen,
-                  radius: 24.0,
-                )),
+              padding: const EdgeInsets.only(bottom: 20),
+              child: Avatar(controller.firestoreUser.value),
+            ),
           ),
           ListTile(
             //leading: SongsTab.androidIcon,
@@ -66,7 +63,7 @@ class SideDrawer extends StatelessWidget {
             //leading: SettingsTab.androidIcon,
             title: Text("Settings"),
             onTap: () {
-              Get.to(UpdateProfileUI());
+              Get.to(SettingsUI());
             },
           ),
         ],
