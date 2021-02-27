@@ -20,7 +20,7 @@ class _HomeUIState extends State<HomeUI> {
   List<dynamic> priceResults;
   final dbConn = DatabaseEngine();
   final commentQueryString =
-      "SELECT * FROM Comments ORDER BY DateAdded LIMIT ?";
+      "SELECT c.*,  s.Name as store, u.fuid as uid FROM Comments c left join Stores s on s.StoreID = c.StoreID left join Users u on u.UserID = c.UserID ORDER BY DateAdded LIMIT ?";
   var priceQueryString =
       "SELECT p.Price, p.DateAdded, p.OnSale, s.Name as store, i.Name as item, b.Name as brand, u.fuid from Prices p left join StoresItems si on si.StoreItemID = p.StoreItemID left join Stores s on si.StoreID = s.StoreID left join BrandsItems bi on bi.BrandItemID = si.BrandItemID left join Items i on bi.ItemID = i.ItemID left join Brands b on b.BrandID = bi.BrandID left join Users u on u.UserID = p.UserID where p.OnSale = 1 group by p.PriceID order by DateAdded desc limit 30;";
   //final LocationController location = Get.put(LocationController());
@@ -155,11 +155,7 @@ class _HomeUIState extends State<HomeUI> {
     final leftSection = new Container(
         child: ClipRRect(
       borderRadius: BorderRadius.circular(24.0),
-      child: Image.network(
-        'https://picsum.photos/200/200',
-        width: 30.0,
-        height: 30.0,
-      ),
+      child: GetUserImage(context, result[6]),
     ));
     final middleTile = new Expanded(
         child: Container(
@@ -168,13 +164,7 @@ class _HomeUIState extends State<HomeUI> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  new Text(
-                    "${convertDateFromString(result[2].toString(), 'date')}",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16.0,
-                    ),
-                  ),
+                  GetUserName(context, result[6]),
                   Flexible(
                     child: RichText(
                       overflow: TextOverflow.ellipsis,
@@ -189,17 +179,13 @@ class _HomeUIState extends State<HomeUI> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           new Text(
+            "${convertDateFromString(result[2].toString(), 'shortDate')}",
+            style: new TextStyle(color: Colors.lightGreen, fontSize: 12.0),
+          ),
+          new Text(
             "${convertDateFromString(result[2].toString(), 'time')}",
             style: new TextStyle(color: Colors.lightGreen, fontSize: 12.0),
           ),
-          new CircleAvatar(
-            backgroundColor: Colors.lightGreen,
-            radius: 10.0,
-            child: new Text(
-              "2",
-              style: new TextStyle(color: Colors.white, fontSize: 12.0),
-            ),
-          )
         ],
       ),
     );
@@ -225,10 +211,6 @@ class _HomeUIState extends State<HomeUI> {
     } else {
       return formatDate(todayDate, [h, ':', mm, ' ', am]);
     }
-  }
-
-  ImageProvider<Object> getRandomImage() {
-    return NetworkImage('https://picsum.photos/200/200');
   }
 
   Widget _priceTiles(List<dynamic> res) {

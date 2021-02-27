@@ -13,7 +13,6 @@ class UpdateProfileUI extends StatelessWidget {
 
   Widget build(BuildContext context) {
     final labels = AppLocalizations.of(context);
-
     //print('user.name: ' + user?.value?.name);
     authController.nameController.text =
         authController?.firestoreUser?.value?.name;
@@ -31,7 +30,7 @@ class UpdateProfileUI extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  LogoGraphicHeader(),
+                  Avatar(authController.firestoreUser.value),
                   SizedBox(height: 48.0),
                   FormInputFieldWithIcon(
                     controller: authController.nameController,
