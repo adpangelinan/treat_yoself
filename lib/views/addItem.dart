@@ -84,6 +84,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   ];
   var dblist = [];
   var category = "Dairy";
+  var checkboxval = false; 
 
   void clearText() {
     fieldText.clear();
@@ -229,6 +230,21 @@ class MyCustomFormState extends State<MyCustomForm> {
                 ),
                 controller: zipcodetext),
           ),
+            Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children:[
+              Text("Item On Sale?",style: TextStyle(color: Colors.green),),
+              Checkbox(
+                  value: checkboxval,
+                  onChanged: (value){
+                    setState(() {
+                      checkboxval = value;
+                    });
+                  },
+                ),
+            ])),
           SizedBox(
             height: 10,
           ),
@@ -248,6 +264,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                       Scaffold.of(ctx).showSnackBar(
                           SnackBar(content: Text('Processing Data')));
                       dblist.add(category);
+                      dblist.add(checkboxval);
                       print(dblist);
                       clearText();
                       var test = await addData();
@@ -310,6 +327,8 @@ class MyCustomFormState extends State<MyCustomForm> {
     var brandname = dblist[1];
     var itemname = dblist[0];
     var itemprice = dblist[2];
+    var box; 
+    if(dblist[6] == false){box = "0";} else{box = "1";}
     var catID;
     var now = DateTime.now();
     var date = DateTime(now.year,now.month,now.day).toString();
@@ -328,7 +347,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     var branditemid = await database.manualQuery(selectbrandsitems,[brandID[0].values[0],itemID[0].values[0]]);
     result = await database.manualQuery(insertstoreitems,["1",branditemid[0].values[0],storeID[0].values[0]]);
     var storeitemID = await database.manualQuery(selectstoreitemid,[branditemid[0].values[0],storeID[0].values[0]]);
-    result = await database.manualQuery(insertprices,[storeitemID[0].values[0],itemprice,date,newuid[0].values[0],"1"]);
+    result = await database.manualQuery(insertprices,[storeitemID[0].values[0],itemprice,date,newuid[0].values[0],box]);
     return true;
   }
 }
