@@ -21,7 +21,6 @@ class MyCustomFormState extends State<MyCustomForm> {
   final fieldText = TextEditingController();
   final othertext = TextEditingController();
   final pricetext = TextEditingController();
-  final zipcodetext = TextEditingController();
   final storenametext = TextEditingController();
   
   final list = [
@@ -90,7 +89,6 @@ class MyCustomFormState extends State<MyCustomForm> {
     fieldText.clear();
     othertext.clear();
     pricetext.clear();
-    zipcodetext.clear();
     storenametext.clear();
   }
 
@@ -211,25 +209,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                 ),
                 controller: storenametext),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextFormField(
-                validator: (value) {
-                  final number = num.tryParse(value);
-                  if (value.isEmpty) {
-                    return "Please enter Store Zip Code";
-                  } else if (number == null || value.length != 5) {
-                    return "Please enter a 5 digit number";
-                  }
-                  dblist.add(value);
-                  return null;
-                },
-                decoration: InputDecoration(
-                  labelText: 'Enter Store Zip Code here',
-                  labelStyle: TextStyle(color: Colors.green),
-                ),
-                controller: zipcodetext),
-          ),
             Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
@@ -323,12 +302,12 @@ class MyCustomFormState extends State<MyCustomForm> {
     var currentzip= controller.firestoreUser.value.zipcode;
     final uid = controller.firestoreUser.value.uid; 
     var newuid = await database.manualQuery("Select UserID from Users Where fuid = ?",[uid]);
-    var catname = dblist[5];
+    var catname = dblist[4];
     var brandname = dblist[1];
     var itemname = dblist[0];
     var itemprice = dblist[2];
     var box; 
-    if(dblist[6] == false){box = "0";} else{box = "1";}
+    if(dblist[5] == false){box = "0";} else{box = "1";}
     var catID;
     var now = DateTime.now();
     var date = DateTime(now.year,now.month,now.day).toString();
