@@ -264,6 +264,7 @@ class MyCustomFormState extends State<MyCustomForm> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: FloatingActionButton.extended(
+                  key: null,
                   label: Text('Reset'),
                   icon: Icon(Icons.sync),
                   shape: RoundedRectangleBorder(

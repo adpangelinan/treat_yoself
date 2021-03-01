@@ -43,6 +43,7 @@ class ShoppingListController extends GetxController {
 
   //Sets active shopping list for purposes of pulls when looking at the current shopping cart
   void setList(sList list) {
+    /*
     final store = GetStorage();
     var currList = store.read('currList');
     if (list == null) {
@@ -55,6 +56,8 @@ class ShoppingListController extends GetxController {
       currentList = list;
       store.write('currList', list.listID);
     }
+    */
+    currentList = list;
     print("set list called with $list");
   }
 

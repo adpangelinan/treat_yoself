@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 import 'package:treat_yoself/utils/database/db_utils.dart';
 import 'auth/auth.dart';
 import 'package:date_format/date_format.dart';
-import 'dart:math';
 
 class HomeUI extends StatefulWidget {
   @override
