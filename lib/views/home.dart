@@ -110,6 +110,7 @@ class _HomeUIState extends State<HomeUI> {
                   return AlertFormUpdate(_updatePricekey);
                 }
               });
+
         });
   }
 
