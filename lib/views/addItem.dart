@@ -8,7 +8,6 @@ import 'package:treat_yoself/utils/database/db_utils.dart';
 import 'package:treat_yoself/localizations/localizations.dart';
 import 'package:get/get.dart';
 
-
 class MyCustomForm extends StatefulWidget {
   //final int user;
   //MyCustomForm(this.user);
@@ -22,7 +21,8 @@ class MyCustomFormState extends State<MyCustomForm> {
   final othertext = TextEditingController();
   final pricetext = TextEditingController();
   final storenametext = TextEditingController();
-  
+  final rewards = Get.put(RewardsController());
+
   final list = [
     DropdownMenuItem<String>(
       child: Text("Dairy"),
@@ -83,7 +83,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   ];
   var dblist = [];
   var category = "Dairy";
-  var checkboxval = false; 
+  var checkboxval = false;
 
   void clearText() {
     fieldText.clear();
@@ -209,21 +209,22 @@ class MyCustomFormState extends State<MyCustomForm> {
                 ),
                 controller: storenametext),
           ),
-            Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children:[
-              Text("Item On Sale?",style: TextStyle(color: Colors.green),),
-              Checkbox(
+          Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                Text(
+                  "Item On Sale?",
+                  style: TextStyle(color: Colors.green),
+                ),
+                Checkbox(
                   value: checkboxval,
-                  onChanged: (value){
+                  onChanged: (value) {
                     setState(() {
                       checkboxval = value;
                     });
                   },
                 ),
-            ])),
+              ])),
           SizedBox(
             height: 10,
           ),
@@ -248,6 +249,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                       clearText();
                       var test = await addData();
                       if (test) {
+                        //reward points
+                        rewards.userUpdatesList();
                         dblist = [];
                         Scaffold.of(ctx).showSnackBar(SnackBar(
                           content: Text("Data Sent"),
@@ -294,23 +297,32 @@ class MyCustomFormState extends State<MyCustomForm> {
         "Insert into BrandsItems (BrandID,ItemID) Values(?,?);";
     var selectitemID = "Select ItemID from Items Where Items.Name = ?;";
     var selectstoreID = "Select StoreID from Stores Where Stores.ZipCode = ?;";
-    var selectbrandsitems = "Select BrandItemID from BrandsItems Where BrandsItems.BrandID = ? and BrandsItems.ItemID = ?;";
-    var insertstoreitems = "Insert into StoresItems (Inventory,BrandItemID,StoreID) Values(?,?,?);";
-    var selectstoreitemid = "Select StoreItemID from StoresItems Where StoresItems.BrandItemID = ? and StoresItems.StoreID = ?;";
-    var insertprices = "Insert into Prices (StoreItemID,Price,DateAdded,UserID,OnSale) Values(?,?,?,?,?);";
-    final AuthController controller = Get.find(); 
-    var currentzip= controller.firestoreUser.value.zipcode;
-    final uid = controller.firestoreUser.value.uid; 
-    var newuid = await database.manualQuery("Select UserID from Users Where fuid = ?",[uid]);
+    var selectbrandsitems =
+        "Select BrandItemID from BrandsItems Where BrandsItems.BrandID = ? and BrandsItems.ItemID = ?;";
+    var insertstoreitems =
+        "Insert into StoresItems (Inventory,BrandItemID,StoreID) Values(?,?,?);";
+    var selectstoreitemid =
+        "Select StoreItemID from StoresItems Where StoresItems.BrandItemID = ? and StoresItems.StoreID = ?;";
+    var insertprices =
+        "Insert into Prices (StoreItemID,Price,DateAdded,UserID,OnSale) Values(?,?,?,?,?);";
+    final AuthController controller = Get.find();
+    var currentzip = controller.firestoreUser.value.zipcode;
+    final uid = controller.firestoreUser.value.uid;
+    var newuid = await database
+        .manualQuery("Select UserID from Users Where fuid = ?", [uid]);
     var catname = dblist[4];
     var brandname = dblist[1];
     var itemname = dblist[0];
     var itemprice = dblist[2];
-    var box; 
-    if(dblist[5] == false){box = "0";} else{box = "1";}
+    var box;
+    if (dblist[5] == false) {
+      box = "0";
+    } else {
+      box = "1";
+    }
     var catID;
     var now = DateTime.now();
-    var date = DateTime(now.year,now.month,now.day).toString();
+    var date = DateTime(now.year, now.month, now.day).toString();
     catID = await database.manualQuery(selectcatquery, [catname]);
     print(catID);
     var result;
@@ -322,11 +334,15 @@ class MyCustomFormState extends State<MyCustomForm> {
     var itemID = await database.manualQuery(selectitemID, [itemname]);
     result = await database.manualQuery(
         insertbranditems, [brandID[0].values[0], itemID[0].values[0]]);
-    var storeID = await database.manualQuery(selectstoreID,[currentzip]);
-    var branditemid = await database.manualQuery(selectbrandsitems,[brandID[0].values[0],itemID[0].values[0]]);
-    result = await database.manualQuery(insertstoreitems,["1",branditemid[0].values[0],storeID[0].values[0]]);
-    var storeitemID = await database.manualQuery(selectstoreitemid,[branditemid[0].values[0],storeID[0].values[0]]);
-    result = await database.manualQuery(insertprices,[storeitemID[0].values[0],itemprice,date,newuid[0].values[0],box]);
+    var storeID = await database.manualQuery(selectstoreID, [currentzip]);
+    var branditemid = await database.manualQuery(
+        selectbrandsitems, [brandID[0].values[0], itemID[0].values[0]]);
+    result = await database.manualQuery(insertstoreitems,
+        ["1", branditemid[0].values[0], storeID[0].values[0]]);
+    var storeitemID = await database.manualQuery(
+        selectstoreitemid, [branditemid[0].values[0], storeID[0].values[0]]);
+    result = await database.manualQuery(insertprices,
+        [storeitemID[0].values[0], itemprice, date, newuid[0].values[0], box]);
     return true;
   }
 }

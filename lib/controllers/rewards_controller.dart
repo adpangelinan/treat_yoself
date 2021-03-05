@@ -84,6 +84,7 @@ class RewardsController extends GetxController {
 
   //if a user updates a list rewards points
   void userUpdatesList() {
+    print("adding points");
     addPoints(userRewards, 15);
   }
 
