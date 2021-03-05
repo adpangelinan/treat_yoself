@@ -27,3 +27,4 @@ export 'components/components.dart';
 export 'shopping_tripgen_tab.dart';
 export 'additem.dart';
 export 'addComment.dart';
+export 'camerapage.dart';

@@ -19,7 +19,7 @@ class TopNavBar extends StatelessWidget implements PreferredSize {
         IconButton(
             icon: Icon(Icons.camera_alt_outlined),
             onPressed: () {
-              //Get.to(CameraPage());
+              Get.to(CameraPage());
             }),
         IconButton(
             icon: Icon(Icons.settings),
