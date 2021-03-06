@@ -23,6 +23,17 @@ class _CameraPageState extends State<CameraPage> {
     super.initState();
   }
 
+  Future attempUpdate(barcodeScanRes) async{
+    var value =  await showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                  final _updatePricekey = GlobalKey<FormState>();
+                  return AlertFormModUpdate(_updatePricekey,barcodeScanRes);
+                }
+             );
+    return value; 
+  }
+
   Future attemptAdd(barcodeScanRes) async {
 
 
@@ -68,6 +79,8 @@ class _CameraPageState extends State<CameraPage> {
                         ));
     }
 
+    
+
     // If the widget was removed from the tree while the asynchronous platform
     // message was in flight, we want to discard the reply rather than calling
     // setState to update our non-existent appearance.
@@ -75,6 +88,35 @@ class _CameraPageState extends State<CameraPage> {
 
 
   }
+  Future<void> scanBarcodeupdatePrice(context) async {
+    String barcodeScanRes;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          "#ff6666", "Cancel", true, ScanMode.BARCODE);
+      var add = await attempUpdate(barcodeScanRes);
+      if(add){
+         Scaffold.of(context).showSnackBar(SnackBar(
+                          content: Text("Item Updated"),
+                        ));
+
+      }
+      else{
+          Get.to(MyCustomForm());
+
+      }
+    } on PlatformException {
+      barcodeScanRes = 'Failed to get platform version.';
+      Scaffold.of(context).showSnackBar(SnackBar(
+                          content: Text("Failed to get platform version"),
+                        ));
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+    }
 
 
 @override
@@ -96,7 +138,10 @@ Widget buildBody(context){
                       children: <Widget>[
                         RaisedButton(
                             onPressed: () => scanBarcodeNormal(context),
-                            child: Text("Start barcode scan")),
+                            child: Text("Scan to Add item to cart")),
+                        RaisedButton(
+                            onPressed: () => scanBarcodeupdatePrice(context),
+                            child: Text("Scan to Update Price")),
                       ]));
 
 
