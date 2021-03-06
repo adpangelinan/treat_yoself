@@ -18,83 +18,24 @@ class MyCustomFormState extends State<MyCustomForm> {
   final othertext = TextEditingController();
   final pricetext = TextEditingController();
   final storenametext = TextEditingController();
-<<<<<<< HEAD:lib/views/addItem.dart
-  final rewards = Get.put(RewardsController());
-  final bartext = TextEditingController();
-
-
-  final list = [
-    DropdownMenuItem<String>(
-      child: Text("Dairy"),
-      value: "Dairy",
-    ),
-    DropdownMenuItem<String>(
-      child: Text("Meat"),
-      value: "Meat",
-    ),
-    DropdownMenuItem<String>(
-      child: Text("Pantry"),
-      value: "Pantry",
-    ),
-    DropdownMenuItem<String>(
-      child: Text("Fruits"),
-      value: "Fruits",
-    ),
-    DropdownMenuItem<String>(
-      child: Text("Vegetables"),
-      value: "Vegetables",
-    ),
-    DropdownMenuItem<String>(
-      child: Text("Frozen"),
-      value: "Frozen",
-    ),
-    DropdownMenuItem<String>(
-      child: Text("Bakery"),
-      value: "Bakery",
-    ),
-    DropdownMenuItem<String>(
-      child: Text("Seafood"),
-      value: "Seafood",
-    ),
-    DropdownMenuItem<String>(
-      child: Text("Beverages"),
-      value: "Beverages",
-    ),
-    DropdownMenuItem<String>(
-      child: Text("Deli"),
-      value: "Deli",
-    ),
-    DropdownMenuItem<String>(
-      child: Text("Personal Care"),
-      value: "Personal Care",
-    ),
-    DropdownMenuItem<String>(
-      child: Text("Condiments"),
-      value: "Condiments",
-    ),
-    DropdownMenuItem<String>(
-      child: Text("Cleaning"),
-      value: "Cleaning",
-    ),
-    DropdownMenuItem<String>(
-      child: Text("Baking"),
-      value: "Baking",
-    )
-  ];
-=======
   final RewardsController rewards = Get.find();
   var list = <DropdownMenuItem<String>>[];
->>>>>>> 0f7f2c68e1243a87b794dfa9770a18aeda1e5b35:lib/views/add_item.dart
   var dblist = [];
   var category = "Dairy";
   var checkboxval = false;
   var dbConn = DatabaseEngine();
   var query = "SELECT Name from Categories;";
-
+  var bartext;
   @override
   initState() {
     super.initState();
     getDBData();
+    if (widget.barcode == null) {
+      bartext = TextEditingController(text: "NONE");
+    }
+    else{
+      bartext = TextEditingController(text: widget.barcode);
+    }
   }
 
   void getDBData() async {
@@ -234,7 +175,6 @@ class MyCustomFormState extends State<MyCustomForm> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
-                initialValue: widget.barcode,
                 validator: (value) {
                   if (value.isEmpty) {
                     return "Please enter item Bar Code";
@@ -246,7 +186,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   labelText: 'Enter Bar code here',
                   labelStyle: TextStyle(color: Colors.green),
                 ),
-                controller: storenametext),
+                controller: bartext),
           ),
           Padding(
               padding: const EdgeInsets.all(8.0),
@@ -345,7 +285,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     final uid = controller.firestoreUser.value.uid;
     var newuid = await database
         .manualQuery("Select UserID from Users Where fuid = ?", [uid]);
-    var catname = dblist[4];
+    var catname = dblist[5];
     var brandname = dblist[1];
     var itemname = dblist[0];
     var itemprice = dblist[2];
@@ -363,34 +303,34 @@ class MyCustomFormState extends State<MyCustomForm> {
     var itemID;
     result = await database
         .manualQuery(insertitem, [itemname, catID[0].values[0].toString()]);
-    if(result.insertID != null){
-    itemID = result.insertID; }
+    if(database.insertID != null){
+    itemID = database.insertID; }
     else return false; 
     var brandID;
     result = await database.manualQuery(insertbrand, [brandname]);
-       if(result.insertID != null){
-    brandID = result.insertID; }
+       if(database.insertID != null){
+    brandID = database.insertID; }
     else return false; 
 
     result = await database.manualQuery(
-        insertbranditems, [brandID[0].values[0], itemID[0].values[0],dblist[5]]);
+        insertbranditems, [brandID, itemID,dblist[4]]);
     var branditemid;
-    if(result.insertID != null){
-      branditemid = result.insertID; }
+    if(database.insertID != null){
+      branditemid = database.insertID; }
     else return false; 
 
     var storeID = await database.manualQuery(selectstoreID, [currentzip]);
 
     result = await database.manualQuery(insertstoreitems,
-        ["1", branditemid[0].values[0], storeID[0].values[0]]);
+        ["1", branditemid, storeID[0].values[0]]);
     var storeitemID; 
-    if(result.insertID != null){
-      storeitemID = result.insertID; }
+    if(database.insertID != null){
+      storeitemID = database.insertID; }
     else return false; 
 
     result = await database.manualQuery(insertprices,
-        [storeitemID[0].values[0], itemprice, date, newuid[0].values[0], box]);
-    if(result.insertID != null){
+        [storeitemID, itemprice, date, newuid[0].values[0], box]);
+    if(database.insertID != null){
      return true;}
     else return false; 
   }
