@@ -17,15 +17,14 @@ class ShoppingListController extends GetxController {
 
   @override
   void onInit() {
-    addListController = TextEditingController();
-
-    _getData();
     super.onInit();
+    addListController = TextEditingController();
+    _getData();
   }
 
   /*When Controller is initialized, grabs every single shopping list in db and 
   converts to sList items */
-  void _getData() {
+  void _getData() async {
     fetchAllShoppingLists().then((value) {
       for (var i = 0; i < value.length; i++) {
         sList newList = new sList(
@@ -36,29 +35,24 @@ class ShoppingListController extends GetxController {
             null);
         shoppingLists.add(newList);
       }
+      setList(null);
     });
-    //set current list to null
-    setList(null);
   }
 
   //Sets active shopping list for purposes of pulls when looking at the current shopping cart
-  void setList(sList list) {
-    /*
+  void setList(sList list) async {
     final store = GetStorage();
-    var currList = store.read('currList');
+    var storeList = await store.read('currList');
     if (list == null) {
-      if (store.read('currList') == null) {
+      if (storeList == null) {
         currentList = list;
       } else {
-        currentList = shoppingLists[_getUserListIndex(currList)];
+        currentList = shoppingLists[_getUserListIndex(storeList)];
       }
     } else {
       currentList = list;
-      store.write('currList', list.listID);
+      store.write('storeList', list.listID);
     }
-    */
-    currentList = list;
-    print("set list called with $list");
   }
 
   void addList(BuildContext context, String fuid) async {
@@ -82,7 +76,6 @@ class ShoppingListController extends GetxController {
     String listID = dbEngine.insertID.toString();
     sList newList = new sList(listID, name, userID, fuid, null);
     shoppingLists.add(newList);
-    return;
   }
 
   void deleteList(String listID) async {

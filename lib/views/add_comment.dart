@@ -10,7 +10,6 @@ class Comment extends StatefulWidget {
   //MyCustomForm(this.user);
   @override
   _Comment createState() => _Comment();
-
 }
 
 class _Comment extends State<Comment> {
@@ -19,7 +18,7 @@ class _Comment extends State<Comment> {
   final othertext = TextEditingController();
   //final int user;
 
- // MyCustomFormState(this.user);
+  // MyCustomFormState(this.user);
 
   void clearText() {
     fieldText.clear();
@@ -29,19 +28,20 @@ class _Comment extends State<Comment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TopNavBar(title: "Categories"),
-      drawer: SideDrawer(),
-      body: _buildBody(),
-      bottomNavigationBar: BotNavBar());
-  }
-  Widget _buildBody(){
-    return Form(
-        key: _formKey,
-        child: Builder(builder:(ctx) => Column(
-          children: <Widget>[_buildBox(_formKey,ctx)],
-        )));
+        appBar: TopNavBar(title: "Categories"),
+        drawer: SideDrawer(),
+        body: _buildBody(),
+        bottomNavigationBar: BotNavBar());
   }
 
+  Widget _buildBody() {
+    return Form(
+        key: _formKey,
+        child: Builder(
+            builder: (ctx) => Column(
+                  children: <Widget>[_buildBox(_formKey, ctx)],
+                )));
+  }
 
   Widget _buildBox(_formKey, ctx) {
     return Expanded(

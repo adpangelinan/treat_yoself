@@ -10,7 +10,7 @@ import 'package:date_format/date_format.dart';
 import 'dart:math';
 
 class ItemLocation extends StatefulWidget {
-  final name; 
+  final name;
   @override
   _ItemLocation createState() => _ItemLocation();
   const ItemLocation({this.name});
@@ -23,10 +23,9 @@ class _ItemLocation extends State<ItemLocation> {
   @override
   build(BuildContext context) {
     return Scaffold(
-      appBar: TopNavBar(
-        title: "Best Prices",
+      appBar: AppBar(
+        title: Text("Best Prices"),
       ),
-      drawer: SideDrawer(),
       body: buildZip(),
       bottomNavigationBar: BotNavBar(),
     );
@@ -63,21 +62,36 @@ class _ItemLocation extends State<ItemLocation> {
   }
 
   Widget buildTiles(items) {
-        return ListView.builder(
-      itemCount: items.length,
-      itemBuilder: (context, index) {
-        final item = items[index];
-        return Container(
-          child: item.buildItem(context),
-        );
-      },
-    );
+    if (items.length == 0) {
+      return Center(
+          child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          "No Nearby Prices Found",
+          style: TextStyle(fontSize: 30.00),
+        ),
+      ));
+    } else {
+      return ListView.builder(
+        itemCount: items.length,
+        itemBuilder: (context, index) {
+          final item = items[index];
+          return Container(
+            child: item.buildItem(context),
+          );
+        },
+      );
+    }
   }
 
   Future<List<ItemLocationTile>> zipQuery() async {
     var database = DatabaseEngine();
-    var args = [widget.name,"92129",];
-    var query = "Select Stores.Name as Item, Stores.ZipCode as ID, ListItems.ListItemID as ListID, Brands.Name as Brand FROM Items JOIN BrandsItems On BrandsItems.ItemID = Items.ItemID JOIN Brands ON Brands.BrandID = BrandsItems.BrandID JOIN ListItems ON BrandsItems.BrandItemID = ListItems.ItemID JOIN StoresItems ON BrandsItems.BrandItemID = StoresItems.BrandItemID JOIN Stores ON Stores.StoreID = StoresItems.StoreID WHERE BrandsItems.BrandItemID = ? AND Stores.ZipCode = ?;";
+    var args = [
+      widget.name,
+      "12345",
+    ];
+    var query =
+        "Select Stores.Name as Item, Stores.ZipCode as ID, ListItems.ListItemID as ListID, Brands.Name as Brand FROM Items JOIN BrandsItems On BrandsItems.ItemID = Items.ItemID JOIN Brands ON Brands.BrandID = BrandsItems.BrandID JOIN ListItems ON BrandsItems.BrandItemID = ListItems.ItemID JOIN StoresItems ON BrandsItems.BrandItemID = StoresItems.BrandItemID JOIN Stores ON Stores.StoreID = StoresItems.StoreID WHERE BrandsItems.BrandItemID = ? AND Stores.ZipCode = ?;";
     var newstring = await database.manualQuery(query, args);
     List<ItemLocationTile> list = [];
     newstring.forEach((element) {
@@ -135,7 +149,6 @@ class ItemLocationTile {
 
   Widget buildItem(BuildContext context) => Card(
           child: Material(
-        color: getRandomColors(),
         child: InkWell(
           onTap: () => null,
           splashColor: Colors.white,
@@ -150,11 +163,9 @@ class ItemLocationTile {
               tooltip: 'Add Item',
               onPressed: () => _popUp(context, id),
             ),
-            tileColor: getRandomColors(),
           ),
         ),
         elevation: 10,
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       ));
 }

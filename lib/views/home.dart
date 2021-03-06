@@ -11,22 +11,21 @@ import 'auth/auth.dart';
 import 'package:date_format/date_format.dart';
 
 class HomeUI extends StatefulWidget {
-  var commentBox = true; 
+  var commentBox = true;
   @override
   _HomeUIState createState() => _HomeUIState();
 }
 
 class _HomeUIState extends State<HomeUI> {
-  var commentBox = true; 
+  var commentBox = true;
   List<dynamic> results;
   List<dynamic> priceResults;
   final dbConn = DatabaseEngine();
+  final RewardsController rewardsController = Get.find();
   final commentQueryString =
       "SELECT c.*,  s.Name as store, u.fuid as uid FROM Comments c left join Stores s on s.StoreID = c.StoreID left join Users u on u.UserID = c.UserID ORDER BY DateAdded LIMIT ?";
   var priceQueryString =
       "SELECT p.Price, p.DateAdded, p.OnSale, s.Name as store, i.Name as item, b.Name as brand, u.fuid from Prices p left join StoresItems si on si.StoreItemID = p.StoreItemID left join Stores s on si.StoreID = s.StoreID left join BrandsItems bi on bi.BrandItemID = si.BrandItemID left join Items i on bi.ItemID = i.ItemID left join Brands b on b.BrandID = bi.BrandID left join Users u on u.UserID = p.UserID where p.OnSale = 1 group by p.PriceID order by DateAdded desc limit 30;";
-  //final LocationController location = Get.put(LocationController());
-  final rewardsController = Get.put(RewardsController());
 
   _HomeUIState() {
     dbConn.manualQuery(commentQueryString, [30]).then((res) => setState(() {
@@ -66,10 +65,14 @@ class _HomeUIState extends State<HomeUI> {
         length: 2,
         child: Scaffold(
             appBar: TabBar(
-              onTap: (int index) {setState(() {
-                if(index == 0) widget.commentBox = true;
-                else widget.commentBox = false;  
-              });},
+              onTap: (int index) {
+                setState(() {
+                  if (index == 0)
+                    widget.commentBox = true;
+                  else
+                    widget.commentBox = false;
+                });
+              },
               tabs: [
                 Tab(icon: Icon(Icons.chat_bubble)),
                 Tab(icon: Icon(Icons.attach_money))
@@ -101,15 +104,12 @@ class _HomeUIState extends State<HomeUI> {
               builder: (BuildContext context) {
                 if (widget.commentBox == true) {
                   final _formKey = GlobalKey<FormState>();
-                  return AlertFormComment(_formKey); 
-                 
-                 }
-                else{ 
+                  return AlertFormComment(_formKey);
+                } else {
                   final _updatePricekey = GlobalKey<FormState>();
                   return AlertFormUpdate(_updatePricekey);
                 }
               });
-
         });
   }
 

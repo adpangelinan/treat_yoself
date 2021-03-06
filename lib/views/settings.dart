@@ -42,6 +42,7 @@ class SettingsUI extends StatelessWidget {
         ListTile(
           title: Text(labels.settings.signOut),
           trailing: RaisedButton(
+            color: Colors.red,
             onPressed: () {
               AuthController.to.signOut();
             },

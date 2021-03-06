@@ -6,7 +6,7 @@ class BotNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
-      color: Colors.white,
+      color: Colors.lightGreen,
       shape: CircularNotchedRectangle(),
       notchMargin: 4.0,
       child: IconButton(
