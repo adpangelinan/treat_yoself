@@ -21,6 +21,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   final othertext = TextEditingController();
   final pricetext = TextEditingController();
   final storenametext = TextEditingController();
+  final rewards = Get.put(RewardsController());
 
   final list = [
     DropdownMenuItem<String>(
@@ -248,6 +249,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                       clearText();
                       var test = await addData();
                       if (test) {
+                        //reward points
+                        rewards.userUpdatesList();
                         dblist = [];
                         Scaffold.of(ctx).showSnackBar(SnackBar(
                           content: Text("Data Sent"),

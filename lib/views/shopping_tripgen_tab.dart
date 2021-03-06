@@ -34,7 +34,7 @@ class _CurrentItems extends State<ShoppingTripGen> {
             List<ShoppingItem> olditems = snapshot.data ?? [];
             return _printItems(olditems);
           } else {
-            return Text("Loading Results.....");
+            return Center(child:Text("No Items Added", style: TextStyle(fontSize: 50.00),));
           }
         });
   }

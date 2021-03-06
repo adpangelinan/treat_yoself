@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:treat_yoself/constants/app_routes.dart';
+import 'package:treat_yoself/controllers/rewards_controller.dart';
 import 'package:treat_yoself/localizations/localizations.dart';
 import 'package:treat_yoself/controllers/controllers.dart';
 import 'views.dart';
@@ -10,11 +11,13 @@ import 'auth/auth.dart';
 import 'package:date_format/date_format.dart';
 
 class HomeUI extends StatefulWidget {
+  var commentBox = true; 
   @override
   _HomeUIState createState() => _HomeUIState();
 }
 
 class _HomeUIState extends State<HomeUI> {
+  var commentBox = true; 
   List<dynamic> results;
   List<dynamic> priceResults;
   final dbConn = DatabaseEngine();
@@ -23,6 +26,7 @@ class _HomeUIState extends State<HomeUI> {
   var priceQueryString =
       "SELECT p.Price, p.DateAdded, p.OnSale, s.Name as store, i.Name as item, b.Name as brand, u.fuid from Prices p left join StoresItems si on si.StoreItemID = p.StoreItemID left join Stores s on si.StoreID = s.StoreID left join BrandsItems bi on bi.BrandItemID = si.BrandItemID left join Items i on bi.ItemID = i.ItemID left join Brands b on b.BrandID = bi.BrandID left join Users u on u.UserID = p.UserID where p.OnSale = 1 group by p.PriceID order by DateAdded desc limit 30;";
   //final LocationController location = Get.put(LocationController());
+  final rewardsController = Get.put(RewardsController());
 
   _HomeUIState() {
     dbConn.manualQuery(commentQueryString, [30]).then((res) => setState(() {
@@ -31,6 +35,10 @@ class _HomeUIState extends State<HomeUI> {
     dbConn.manualQuery(priceQueryString).then((res) => setState(() {
           priceResults = res;
         }));
+
+    //set the user for rewards/points
+    rewardsController.setUserReward(rewardsController
+        .getUserReward(AuthController.to.firestoreUser.value.uid));
   }
 
   @override
@@ -58,6 +66,10 @@ class _HomeUIState extends State<HomeUI> {
         length: 2,
         child: Scaffold(
             appBar: TabBar(
+              onTap: (int index) {setState(() {
+                if(index == 0) widget.commentBox = true;
+                else widget.commentBox = false;  
+              });},
               tabs: [
                 Tab(icon: Icon(Icons.chat_bubble)),
                 Tab(icon: Icon(Icons.attach_money))
@@ -81,54 +93,23 @@ class _HomeUIState extends State<HomeUI> {
   }
 
   Widget newCommentButton(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
     return FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
           showDialog(
               context: context,
               builder: (BuildContext context) {
-                return AlertDialog(
-                    content:
-                        Stack(overflow: Overflow.visible, children: <Widget>[
-                  Positioned(
-                    right: -40.0,
-                    top: -40.0,
-                    child: InkResponse(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: CircleAvatar(
-                        child: Icon(Icons.close),
-                        backgroundColor: Colors.red,
-                      ),
-                    ),
-                  ),
-                  Form(
-                      key: _formKey,
-                      child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: TextFormField(),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: TextFormField(),
-                            ),
-                            Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: RaisedButton(
-                                    child: Text("Submit"),
-                                    onPressed: () {
-                                      if (_formKey.currentState.validate()) {
-                                        _formKey.currentState.save();
-                                      }
-                                    }))
-                          ]))
-                ]));
+                if (widget.commentBox == true) {
+                  final _formKey = GlobalKey<FormState>();
+                  return AlertFormComment(_formKey); 
+                 
+                 }
+                else{ 
+                  final _updatePricekey = GlobalKey<FormState>();
+                  return AlertFormUpdate(_updatePricekey);
+                }
               });
+
         });
   }
 
