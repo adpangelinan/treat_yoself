@@ -122,7 +122,7 @@ class _CameraPageState extends State<CameraPage> {
 @override
 Widget build(BuildContext context){
       return Scaffold(
-        appBar: TopNavBar(title: "Add New Item"),
+        appBar: TopNavBar(title: "Scan Item"),
         drawer: SideDrawer(),
         body: Builder(builder: (BuildContext context){ return buildBody(context);},),
         //resizeToAvoidBottomPadding: false,
