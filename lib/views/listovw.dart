@@ -119,7 +119,7 @@ class _ListOverviewState extends State<ListOverviewUI> {
                             icon: Icon(Icons.shopping_cart_outlined),
                             onPressed: () {
                               _shoppingListController.setList(userLists[i]);
-                              Get.to(ShoppingTripGen());
+                              Get.to(ShoppingListView());
                             })),
                     Align(
                         alignment: Alignment.bottomCenter,

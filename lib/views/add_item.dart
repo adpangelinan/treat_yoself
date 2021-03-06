@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:treat_yoself/localizations/localizations.dart';
 import 'package:treat_yoself/controllers/controllers.dart';
 import 'views.dart';
 import 'package:get/get.dart';
-import 'auth/auth.dart';
 import 'package:treat_yoself/utils/database/db_utils.dart';
-import 'package:treat_yoself/localizations/localizations.dart';
-import 'package:get/get.dart';
 
 class MyCustomForm extends StatefulWidget {
   //final int user;
@@ -21,69 +17,31 @@ class MyCustomFormState extends State<MyCustomForm> {
   final othertext = TextEditingController();
   final pricetext = TextEditingController();
   final storenametext = TextEditingController();
-  final rewards = Get.put(RewardsController());
-
-  final list = [
-    DropdownMenuItem<String>(
-      child: Text("Dairy"),
-      value: "Dairy",
-    ),
-    DropdownMenuItem<String>(
-      child: Text("Meat"),
-      value: "Meat",
-    ),
-    DropdownMenuItem<String>(
-      child: Text("Pantry"),
-      value: "Pantry",
-    ),
-    DropdownMenuItem<String>(
-      child: Text("Fruits"),
-      value: "Fruits",
-    ),
-    DropdownMenuItem<String>(
-      child: Text("Vegetables"),
-      value: "Vegetables",
-    ),
-    DropdownMenuItem<String>(
-      child: Text("Frozen"),
-      value: "Frozen",
-    ),
-    DropdownMenuItem<String>(
-      child: Text("Bakery"),
-      value: "Bakery",
-    ),
-    DropdownMenuItem<String>(
-      child: Text("Seafood"),
-      value: "Seafood",
-    ),
-    DropdownMenuItem<String>(
-      child: Text("Beverages"),
-      value: "Beverages",
-    ),
-    DropdownMenuItem<String>(
-      child: Text("Deli"),
-      value: "Deli",
-    ),
-    DropdownMenuItem<String>(
-      child: Text("Personal Care"),
-      value: "Personal Care",
-    ),
-    DropdownMenuItem<String>(
-      child: Text("Condiments"),
-      value: "Condiments",
-    ),
-    DropdownMenuItem<String>(
-      child: Text("Cleaning"),
-      value: "Cleaning",
-    ),
-    DropdownMenuItem<String>(
-      child: Text("Baking"),
-      value: "Baking",
-    )
-  ];
+  final RewardsController rewards = Get.find();
+  var list = <DropdownMenuItem<String>>[];
   var dblist = [];
   var category = "Dairy";
   var checkboxval = false;
+  var dbConn = DatabaseEngine();
+  var query = "SELECT Name from Categories;";
+
+  @override
+  initState() {
+    super.initState();
+    getDBData();
+  }
+
+  void getDBData() async {
+    var res = await dbConn.manualQuery(query);
+
+    setState(() {
+      for (var i in res) {
+        list.add(DropdownMenuItem<String>(
+            child: Text(i.values[0]), value: i.values[0]));
+      }
+      category = list[0].value;
+    });
+  }
 
   void clearText() {
     fieldText.clear();
@@ -94,10 +52,8 @@ class MyCustomFormState extends State<MyCustomForm> {
 
   @override
   Widget build(BuildContext context) {
-    final labels = AppLocalizations.of(context);
     return Scaffold(
-        appBar: TopNavBar(title: "Add New Item"),
-        drawer: SideDrawer(),
+        appBar: AppBar(title: Text("Add New Item")),
         body: _buildBody(),
         //resizeToAvoidBottomPadding: false,
         bottomNavigationBar: BotNavBar());

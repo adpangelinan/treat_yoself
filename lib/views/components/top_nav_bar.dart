@@ -14,7 +14,7 @@ class TopNavBar extends StatelessWidget implements PreferredSize {
         IconButton(
             icon: Icon(Icons.shopping_cart),
             onPressed: () {
-              Get.to(ShoppingTripGen());
+              Get.to(ShoppingListView());
             }),
         IconButton(
             icon: Icon(Icons.camera_alt_outlined),

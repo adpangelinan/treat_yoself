@@ -2,28 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/shoppinglists_controller.dart';
 import 'package:treat_yoself/utils/database/db_utils.dart';
-import './item_location_services.dart';
+import 'item_location_services.dart';
+import 'views.dart';
 import 'const_lists.dart';
 import 'package:flutter/cupertino.dart';
 import 'components/components.dart';
 
-class ShoppingTripGen extends StatefulWidget {
+class ShoppingListView extends StatefulWidget {
   final int user;
   static String routeName = '/current_list';
   final String args;
-  const ShoppingTripGen({Key key, this.args, this.user}) : super(key: key);
+  const ShoppingListView({Key key, this.args, this.user}) : super(key: key);
   @override
   State<StatefulWidget> createState() => _CurrentItems();
 }
 
-class _CurrentItems extends State<ShoppingTripGen> {
+class _CurrentItems extends State<ShoppingListView> {
+  final ShoppingListController slController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: TopNavBar(title: "Shopping Cart"),
-        drawer: SideDrawer(),
-        body: printing(),
-        bottomNavigationBar: BotNavBar());
+      appBar: TopNavBar(title: "Shopping Cart"),
+      drawer: SideDrawer(),
+      body: printing(),
+      bottomNavigationBar: BotNavBar(),
+      floatingActionButton: addItemButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+    );
   }
 
   Widget printing() {
@@ -31,28 +36,48 @@ class _CurrentItems extends State<ShoppingTripGen> {
         future: _buildItems(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            String lName = slController.currentList.getListName();
             List<ShoppingItem> olditems = snapshot.data ?? [];
-            return _printItems(olditems);
+            return _printItems(olditems, lName);
           } else {
-            return Center(child:Text("No Items Added", style: TextStyle(fontSize: 50.00),));
+            return Center(
+                child: Text(
+              "No Items Added",
+              style: TextStyle(fontSize: 50.00),
+            ));
           }
         });
   }
 
-  _printItems(items) {
-    return ListView.builder(
-      itemCount: items.length,
-      itemBuilder: (context, index) {
-        final item = items[index];
-        return Container(
-          child: item.buildItem(context),
-        );
-      },
+  _printItems(items, lName) {
+    return Column(
+      children: [
+        Center(
+          child: RichText(
+            overflow: TextOverflow.ellipsis,
+            strutStyle: StrutStyle(fontSize: 12.0),
+            text: TextSpan(text: lName, style: TextStyle(fontSize: 21.0)),
+          ),
+        ),
+        SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height * 0.7,
+          child: ListView.builder(
+            itemCount: items.length,
+            itemBuilder: (context, index) {
+              final item = items[index];
+              return Container(
+                child: item.buildItem(context),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 
   Future<List<ShoppingItem>> _buildItems() async {
-    final ShoppingListController curLis = Get.find(); 
+    final ShoppingListController curLis = Get.find();
     var dataquery =
         "Select Items.Name as Item, BrandsItems.BrandItemID as ID, ListItems.ListItemID as ListID, Brands.Name as Brand FROM Items JOIN BrandsItems On BrandsItems.ItemID = Items.ItemID JOIN Brands ON Brands.BrandID = BrandsItems.BrandID JOIN ListItems ON BrandsItems.BrandItemID = ListItems.ItemID WHERE ListItems.ListID = ?;";
     var listID = curLis.currentList.listID;
@@ -65,9 +90,17 @@ class _CurrentItems extends State<ShoppingTripGen> {
       var id = element.values[1].toString();
       var listID = element.values[2].toString();
 
-      list.add(ShoppingItem(first, id, listID,last));
+      list.add(ShoppingItem(first, id, listID, last));
     });
     return list;
+  }
+
+  Widget addItemButton() {
+    return FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          Get.to(Category());
+        });
   }
 }
 
@@ -77,7 +110,7 @@ class ShoppingItem {
   final String id;
   final String listID;
 
-  ShoppingItem(this.name, this.id, this.listID,this.brand);
+  ShoppingItem(this.name, this.id, this.listID, this.brand);
 
   delete(deleting) async {
     //add user data class to extract this id from it
@@ -89,7 +122,7 @@ class ShoppingItem {
   }
 
   void setState() {
-    Get.to(ShoppingTripGen());
+    Get.to(ShoppingListView());
   }
 
   _deleteItem(context, listID) async {
@@ -105,7 +138,7 @@ class ShoppingItem {
                     onPressed: () {
                       Navigator.of(context).pop();
                       navigator.push(MaterialPageRoute(builder: (_) {
-                        return ShoppingTripGen();
+                        return ShoppingListView();
                       }));
                     })
               ],
@@ -114,33 +147,31 @@ class ShoppingItem {
 
   Widget buildItem(BuildContext context) => Card(
         child: Material(
-            color: getRandomColors(),
             child: InkWell(
-              onTap: () => _pushRoute(),
-              splashColor: Colors.white,
-              child: ListTile(
-                title: Text(name),
-                subtitle: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(brand),
-                    Text("Tap for more info"),
-                  ],
-                ),
-                trailing: IconButton(
-                  icon: Icon(Icons.delete),
-                  tooltip: 'Delete Item',
-                  onPressed: () => _deleteItem(context, listID),
-                ),
-                tileColor: getRandomColors(),
-              ),
-            )),
+          onTap: () => _pushRoute(),
+          splashColor: Colors.white,
+          child: ListTile(
+            title: Text(name),
+            subtitle: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(brand),
+                Text("Tap for prices."),
+              ],
+            ),
+            trailing: IconButton(
+              icon: Icon(Icons.delete),
+              tooltip: 'Delete Item',
+              onPressed: () => _deleteItem(context, listID),
+            ),
+          ),
+        )),
         elevation: 10,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)),
       );
 
   _pushRoute() {
-    Get.to(ItemLocation(name:id));
+    Get.to(ItemLocation(name: id));
   }
 }
