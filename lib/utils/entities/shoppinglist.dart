@@ -1,13 +1,13 @@
 import './shoppingitem.dart';
 
-class sList {
+class ShoppingList {
   String listID;
   String name;
   String owner;
   String fuid;
   List<ShoppingItem> items;
 
-  sList(this.listID, this.name, this.owner, this.fuid, this.items);
+  ShoppingList(this.listID, this.name, this.owner, this.fuid, this.items);
 
   void setListID(String id) {
     listID = id;

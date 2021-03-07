@@ -7,12 +7,10 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/get.dart';
 import '../utils/entities/shoppinglist.dart';
 import '../utils/entities/shoppingitem.dart';
-import '../controllers/auth_controller.dart';
-import 'dart:convert';
 
 class ShoppingListController extends GetxController {
-  var shoppingLists = List<sList>().obs;
-  sList currentList;
+  var shoppingLists = List<ShoppingList>().obs;
+  ShoppingList currentList;
   TextEditingController addListController = TextEditingController();
 
   @override
@@ -27,7 +25,7 @@ class ShoppingListController extends GetxController {
   void _getData() async {
     fetchAllShoppingLists().then((value) {
       for (var i = 0; i < value.length; i++) {
-        sList newList = new sList(
+        ShoppingList newList = new ShoppingList(
             value[i][0].toString(),
             value[i][1].toString(),
             value[i][2].toString(),
@@ -40,7 +38,7 @@ class ShoppingListController extends GetxController {
   }
 
   //Sets active shopping list for purposes of pulls when looking at the current shopping cart
-  void setList(sList list) async {
+  void setList(ShoppingList list) async {
     final store = GetStorage();
     var storeList = await store.read('currList');
     if (list == null) {
@@ -74,7 +72,7 @@ class ShoppingListController extends GetxController {
     await dbEngine.manualQuery(query2, [userID, name]);
 
     String listID = dbEngine.insertID.toString();
-    sList newList = new sList(listID, name, userID, fuid, null);
+    ShoppingList newList = new ShoppingList(listID, name, userID, fuid, null);
     shoppingLists.add(newList);
   }
 
@@ -90,9 +88,9 @@ class ShoppingListController extends GetxController {
   }
 
   /*Used to pull shopping lists for a particular user using their firestoreUserId */
-  List<sList> getUserLists(String fuid) {
+  List<ShoppingList> getUserLists(String fuid) {
     //  print("getting user lists, fuid: $fuid");
-    List<sList> userLists = [];
+    List<ShoppingList> userLists = [];
     for (int i = 0; i < shoppingLists.length; i++) {
       //    print("${shoppingLists[i].fuid} comparing $fuid");
       if (shoppingLists[i].fuid == fuid) {
@@ -116,7 +114,7 @@ class ShoppingListController extends GetxController {
   }
 
   /*Adds the items from the database into the shopping list in controller when called*/
-  void getListItems(sList shoppinglist, int index) {
+  void getListItems(ShoppingList shoppinglist, int index) {
     List<ShoppingItem> newItemList = [];
     getListItemsByID(shoppinglist.listID).then((value) {
       print("getting items length is ${value.length}");

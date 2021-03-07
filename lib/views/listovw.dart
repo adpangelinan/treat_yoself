@@ -38,14 +38,14 @@ class _ListOverviewState extends State<ListOverviewUI> {
 
   Widget listovwBody(BuildContext context, String uid) {
     //Gets user lists based off the firestone user id
-    List<sList> userLists = _shoppingListController.getUserLists(uid);
+    List<ShoppingList> userLists = _shoppingListController.getUserLists(uid);
 
     return Container(
         child:
             Column(children: [Expanded(child: _buildTiles(userLists, uid))]));
   }
 
-  Widget _buildTiles(List<sList> userLists, String fuid) {
+  Widget _buildTiles(List<ShoppingList> userLists, String fuid) {
     int count;
     if (userLists != null) {
       count = userLists.length;
@@ -62,7 +62,7 @@ class _ListOverviewState extends State<ListOverviewUI> {
   }
 
   List<Container> shoppingListTiles(
-      int count, List<sList> userLists, String fuid) {
+      int count, List<ShoppingList> userLists, String fuid) {
     List<Container> tilesList, tilesList2;
 
     tilesList = [addNewListTile(fuid)];
@@ -92,7 +92,8 @@ class _ListOverviewState extends State<ListOverviewUI> {
         ]));
   }
 
-  List<Container> existingShoppingLists(int count, List<sList> userLists) =>
+  List<Container> existingShoppingLists(
+          int count, List<ShoppingList> userLists) =>
       List.generate(
           count,
           (i) => Container(

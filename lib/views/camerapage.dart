@@ -10,48 +10,41 @@ import 'package:treat_yoself/utils/database/db_utils.dart';
 
 //sources cited:  https://pub.dev/packages/flutter_barcode_scanner/example
 
-class CameraPage extends StatefulWidget{
-
-
+class CameraPage extends StatefulWidget {
   @override
   _CameraPageState createState() => _CameraPageState();
 }
 
 class _CameraPageState extends State<CameraPage> {
- @override
+  @override
   void initState() {
     super.initState();
   }
 
-  Future attempUpdate(barcodeScanRes) async{
-    var value =  await showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                  final _updatePricekey = GlobalKey<FormState>();
-                  return AlertFormModUpdate(_updatePricekey,barcodeScanRes);
-                }
-             );
-    return value; 
+  Future attempUpdate(barcodeScanRes) async {
+    var value = await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          final _updatePricekey = GlobalKey<FormState>();
+          return AlertFormModUpdate(_updatePricekey, barcodeScanRes);
+        });
+    return value;
   }
 
   Future attemptAdd(barcodeScanRes) async {
-
-
     final ShoppingListController curLis = Get.find();
-    var listID = curLis.currentList.listID; //add user data class to extract this id from it
+    var listID = curLis
+        .currentList.listID; //add user data class to extract this id from it
     var database = DatabaseEngine();
     var selectitemID = "Select BrandItemID from BrandsItems where BarCode = ?";
     var insertquery = "Insert Into ListItems VALUES(NULL,?,?,1)";
-    var id = await database.manualQuery(selectitemID,[barcodeScanRes]);
-    if(id.length == 0){
-      return false; 
-    }
-    else{
+    var id = await database.manualQuery(selectitemID, [barcodeScanRes]);
+    if (id.length == 0) {
+      return false;
+    } else {
       await database.manualQuery(insertquery, [listID, id[0].values[0]]);
-      return true; 
+      return true;
     }
-
-
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -62,32 +55,26 @@ class _CameraPageState extends State<CameraPage> {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
           "#ff6666", "Cancel", true, ScanMode.BARCODE);
       var add = await attemptAdd(barcodeScanRes);
-      if(add){
-         Scaffold.of(context).showSnackBar(SnackBar(
-                          content: Text("Item Added to cart"),
-                        ));
-
-      }
-      else{
-          Get.to(MyCustomForm());
-
+      if (add) {
+        Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text("Item Added to cart"),
+        ));
+      } else {
+        Get.to(MyCustomForm());
       }
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
       Scaffold.of(context).showSnackBar(SnackBar(
-                          content: Text("Failed to get platform version"),
-                        ));
+        content: Text("Failed to get platform version"),
+      ));
     }
-
-    
 
     // If the widget was removed from the tree while the asynchronous platform
     // message was in flight, we want to discard the reply rather than calling
     // setState to update our non-existent appearance.
     if (!mounted) return;
-
-
   }
+
   Future<void> scanBarcodeupdatePrice(context) async {
     String barcodeScanRes;
     // Platform messages may fail, so we use a try/catch PlatformException.
@@ -95,61 +82,55 @@ class _CameraPageState extends State<CameraPage> {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
           "#ff6666", "Cancel", true, ScanMode.BARCODE);
       var add = await attempUpdate(barcodeScanRes);
-      if(add){
-         Scaffold.of(context).showSnackBar(SnackBar(
-                          content: Text("Item Updated"),
-                        ));
-
-      }
-      else{
-          Get.to(MyCustomForm());
-
+      if (add) {
+        Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text("Item Updated"),
+        ));
+      } else {
+        Get.to(MyCustomForm());
       }
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
       Scaffold.of(context).showSnackBar(SnackBar(
-                          content: Text("Failed to get platform version"),
-                        ));
+        content: Text("Failed to get platform version"),
+      ));
+    } on AssertionError {
+      Get.to(MyCustomForm());
     }
 
     // If the widget was removed from the tree while the asynchronous platform
     // message was in flight, we want to discard the reply rather than calling
     // setState to update our non-existent appearance.
     if (!mounted) return;
-    }
+  }
 
-
-@override
-Widget build(BuildContext context){
-      return Scaffold(
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
         appBar: TopNavBar(title: "Add New Item"),
         drawer: SideDrawer(),
-        body: Builder(builder: (BuildContext context){ return buildBody(context);},),
+        body: Builder(
+          builder: (BuildContext context) {
+            return buildBody(context);
+          },
+        ),
         //resizeToAvoidBottomPadding: false,
         bottomNavigationBar: BotNavBar());
   }
 
-Widget buildBody(context){
-   return Container(
-                  alignment: Alignment.center,
-                  child: Flex(
-                      direction: Axis.vertical,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        RaisedButton(
-                            onPressed: () => scanBarcodeNormal(context),
-                            child: Text("Scan to Add item to cart")),
-                        RaisedButton(
-                            onPressed: () => scanBarcodeupdatePrice(context),
-                            child: Text("Scan to Update Price")),
-                      ]));
-
-
+  Widget buildBody(context) {
+    return Container(
+        alignment: Alignment.center,
+        child: Flex(
+            direction: Axis.vertical,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              RaisedButton(
+                  onPressed: () => scanBarcodeNormal(context),
+                  child: Text("Scan to Add item to cart")),
+              RaisedButton(
+                  onPressed: () => scanBarcodeupdatePrice(context),
+                  child: Text("Scan to Update Price")),
+            ]));
+  }
 }
-
-
-}
-
-
-
-

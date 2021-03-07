@@ -22,6 +22,7 @@ class _HomeUIState extends State<HomeUI> {
   List<dynamic> priceResults;
   final dbConn = DatabaseEngine();
   final RewardsController rewardsController = Get.find();
+  final ThemeController theme = Get.find();
   final commentQueryString =
       "SELECT c.*,  s.Name as store, u.fuid as uid FROM Comments c left join Stores s on s.StoreID = c.StoreID left join Users u on u.UserID = c.UserID ORDER BY DateAdded LIMIT ?";
   var priceQueryString =
@@ -97,6 +98,7 @@ class _HomeUIState extends State<HomeUI> {
 
   Widget newCommentButton(BuildContext context) {
     return FloatingActionButton(
+        heroTag: "homepageBtn",
         child: Icon(Icons.add),
         onPressed: () {
           showDialog(

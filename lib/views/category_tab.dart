@@ -34,6 +34,8 @@ class _Categories extends State<Category> {
   }
 
   Widget _buildGrid() {
+    var query =
+        'Select Items.Name as Item, BrandsItems.BrandItemID as ID, Brands.Name as Brand FROM Items JOIN Categories ON Categories.CategoryID = Items.CategoryID JOIN BrandsItems ON BrandsItems.ItemID = Items.ItemID JOIN Brands ON Brands.BrandID = BrandsItems.BrandID WHERE Categories.Name = ?;';
     return GridView.count(
         primary: false,
         crossAxisCount: 2,
@@ -41,14 +43,20 @@ class _Categories extends State<Category> {
         mainAxisSpacing: 4,
         crossAxisSpacing: 4,
         children: categories.map((value) {
-          return Container(
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black,
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-              child: Center(
-                  child: Text(value['Name'], style: TextStyle(fontSize: 24))));
+          return GestureDetector(
+            onTap: () {
+              Get.to(Results(query: query, args: value['Name']));
+            },
+            child: Container(
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black,
+                    ),
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
+                child: Center(
+                    child:
+                        Text(value['Name'], style: TextStyle(fontSize: 24)))),
+          );
         }).toList());
   }
 }

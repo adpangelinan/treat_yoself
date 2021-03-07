@@ -19,6 +19,7 @@ class ShoppingListView extends StatefulWidget {
 
 class _CurrentItems extends State<ShoppingListView> {
   final ShoppingListController slController = Get.find();
+  bool populated = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,40 +39,100 @@ class _CurrentItems extends State<ShoppingListView> {
           if (snapshot.hasData) {
             String lName = slController.currentList.getListName();
             List<ShoppingItem> olditems = snapshot.data ?? [];
+            populated = olditems.length == 0 ? false : true;
             return _printItems(olditems, lName);
           } else {
             return Center(
-                child: Text(
-              "No Items Added",
-              style: TextStyle(fontSize: 50.00),
-            ));
+              child: CircularProgressIndicator(),
+            );
           }
         });
   }
 
   _printItems(items, lName) {
+    final _formKey = GlobalKey<FormState>();
     return Column(
       children: [
-        Center(
-          child: RichText(
-            overflow: TextOverflow.ellipsis,
-            strutStyle: StrutStyle(fontSize: 12.0),
-            text: TextSpan(text: lName, style: TextStyle(fontSize: 21.0)),
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            RichText(
+              overflow: TextOverflow.ellipsis,
+              strutStyle: StrutStyle(fontSize: 12.0),
+              text: TextSpan(text: lName, style: TextStyle(fontSize: 21.0)),
+            ),
+            RaisedButton(
+              color: Colors.green,
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        content: Stack(
+                          overflow: Overflow.visible,
+                          children: <Widget>[
+                            Form(
+                              key: _formKey,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: <Widget>[
+                                  Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("What sort of trip?"),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: RaisedButton(
+                                      onPressed: () async {
+                                        Get.to(ShoppingTripGen());
+                                      },
+                                      child: Text("Fewest Stores"),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: RaisedButton(
+                                      onPressed: () async {
+                                        Get.to(ShoppingTripGen());
+                                      },
+                                      child: Text("Lowest Price"),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    });
+              },
+              child: Text("Go Shop!"),
+            ),
+          ],
         ),
         SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height * 0.7,
-          child: ListView.builder(
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              final item = items[index];
-              return Container(
-                child: item.buildItem(context),
-              );
-            },
-          ),
-        ),
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height * 0.7,
+            child: populated
+                ? ListView.builder(
+                    itemCount: items.length,
+                    itemBuilder: (context, index) {
+                      final item = items[index];
+                      return Container(
+                        child: item.buildItem(context),
+                      );
+                    },
+                  )
+                : Center(
+                    child: Text(
+                    "No Items Added",
+                    style: TextStyle(fontSize: 50.00),
+                  ))),
       ],
     );
   }
@@ -97,6 +158,7 @@ class _CurrentItems extends State<ShoppingListView> {
 
   Widget addItemButton() {
     return FloatingActionButton(
+        heroTag: "shoppingListBtn",
         child: Icon(Icons.add),
         onPressed: () {
           Get.to(Category());
