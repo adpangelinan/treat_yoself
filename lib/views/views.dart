@@ -29,3 +29,4 @@ export 'add_item.dart';
 export 'add_comment.dart';
 export 'camerapage.dart';
 export 'shopping_trip_generator.dart';
+export 'search.dart';

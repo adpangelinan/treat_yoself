@@ -38,7 +38,7 @@ class SideDrawer extends StatelessWidget {
             //leading: ProfileTab.androidIcon,
             title: Text('Find Items'),
             onTap: () {
-              //Get.to(ItemSearchTab());
+              Get.to(SearchUI());
             },
           ),
           ListTile(

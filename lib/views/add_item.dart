@@ -6,7 +6,8 @@ import 'package:treat_yoself/utils/database/db_utils.dart';
 
 class MyCustomForm extends StatefulWidget {
   //final int user;
-  //MyCustomForm(this.user);
+  MyCustomForm({this.barcode = "NONE"});
+  final barcode;
   @override
   MyCustomFormState createState() => MyCustomFormState();
 }
@@ -24,11 +25,17 @@ class MyCustomFormState extends State<MyCustomForm> {
   var checkboxval = false;
   var dbConn = DatabaseEngine();
   var query = "SELECT Name from Categories;";
-
+  var bartext;
   @override
   initState() {
     super.initState();
     getDBData();
+    if (widget.barcode == null) {
+      bartext = TextEditingController(text: "NONE");
+    }
+    else{
+      bartext = TextEditingController(text: widget.barcode);
+    }
   }
 
   void getDBData() async {
@@ -166,6 +173,22 @@ class MyCustomFormState extends State<MyCustomForm> {
                 controller: storenametext),
           ),
           Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextFormField(
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return "Please enter item Bar Code";
+                  }
+                  dblist.add(value);
+                  return null;
+                },
+                decoration: InputDecoration(
+                  labelText: 'Enter Bar code here',
+                  labelStyle: TextStyle(color: Colors.green),
+                ),
+                controller: bartext),
+          ),
+          Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                 Text(
@@ -214,7 +237,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                       } else {
                         Scaffold.of(ctx).showSnackBar(SnackBar(
                           content: Text("Data failed to send"),
-                        ));
+                        )
+                        );
+                        dblist = []; 
                       }
                     } else {
                       dblist = [];
@@ -248,17 +273,11 @@ class MyCustomFormState extends State<MyCustomForm> {
         "Select CategoryID from Categories Where Categories.Name = ?;";
     var insertitem = "Insert into Items (Name,CategoryID) Values(?,?);";
     var insertbrand = "Insert into Brands (Name) Values(?);";
-    var selectbrandid = "Select BrandID from Brands Where Brands.Name = ?;";
     var insertbranditems =
-        "Insert into BrandsItems (BrandID,ItemID) Values(?,?);";
-    var selectitemID = "Select ItemID from Items Where Items.Name = ?;";
+        "Insert into BrandsItems (BrandID,ItemID,BarCode) Values(?,?,?);";
     var selectstoreID = "Select StoreID from Stores Where Stores.ZipCode = ?;";
-    var selectbrandsitems =
-        "Select BrandItemID from BrandsItems Where BrandsItems.BrandID = ? and BrandsItems.ItemID = ?;";
     var insertstoreitems =
         "Insert into StoresItems (Inventory,BrandItemID,StoreID) Values(?,?,?);";
-    var selectstoreitemid =
-        "Select StoreItemID from StoresItems Where StoresItems.BrandItemID = ? and StoresItems.StoreID = ?;";
     var insertprices =
         "Insert into Prices (StoreItemID,Price,DateAdded,UserID,OnSale) Values(?,?,?,?,?);";
     final AuthController controller = Get.find();
@@ -266,12 +285,12 @@ class MyCustomFormState extends State<MyCustomForm> {
     final uid = controller.firestoreUser.value.uid;
     var newuid = await database
         .manualQuery("Select UserID from Users Where fuid = ?", [uid]);
-    var catname = dblist[4];
+    var catname = dblist[5];
     var brandname = dblist[1];
     var itemname = dblist[0];
     var itemprice = dblist[2];
     var box;
-    if (dblist[5] == false) {
+    if (dblist[6] == false) {
       box = "0";
     } else {
       box = "1";
@@ -280,25 +299,39 @@ class MyCustomFormState extends State<MyCustomForm> {
     var now = DateTime.now();
     var date = DateTime(now.year, now.month, now.day).toString();
     catID = await database.manualQuery(selectcatquery, [catname]);
-    print(catID);
     var result;
+    var itemID;
     result = await database
         .manualQuery(insertitem, [itemname, catID[0].values[0].toString()]);
-    print(result);
+    if(database.insertID != null){
+    itemID = database.insertID; }
+    else return false; 
+    var brandID;
     result = await database.manualQuery(insertbrand, [brandname]);
-    var brandID = await database.manualQuery(selectbrandid, [brandname]);
-    var itemID = await database.manualQuery(selectitemID, [itemname]);
+       if(database.insertID != null){
+    brandID = database.insertID; }
+    else return false; 
+
     result = await database.manualQuery(
-        insertbranditems, [brandID[0].values[0], itemID[0].values[0]]);
+        insertbranditems, [brandID, itemID,dblist[4]]);
+    var branditemid;
+    if(database.insertID != null){
+      branditemid = database.insertID; }
+    else return false; 
+
     var storeID = await database.manualQuery(selectstoreID, [currentzip]);
-    var branditemid = await database.manualQuery(
-        selectbrandsitems, [brandID[0].values[0], itemID[0].values[0]]);
+
     result = await database.manualQuery(insertstoreitems,
-        ["1", branditemid[0].values[0], storeID[0].values[0]]);
-    var storeitemID = await database.manualQuery(
-        selectstoreitemid, [branditemid[0].values[0], storeID[0].values[0]]);
+        ["1", branditemid, storeID[0].values[0]]);
+    var storeitemID; 
+    if(database.insertID != null){
+      storeitemID = database.insertID; }
+    else return false; 
+
     result = await database.manualQuery(insertprices,
-        [storeitemID[0].values[0], itemprice, date, newuid[0].values[0], box]);
-    return true;
+        [storeitemID, itemprice, date, newuid[0].values[0], box]);
+    if(database.insertID != null){
+     return true;}
+    else return false; 
   }
 }

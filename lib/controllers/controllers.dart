@@ -5,3 +5,4 @@ export 'shoppinglists_controller.dart';
 export 'location_controller.dart';
 export 'rewards_controller.dart';
 export 'shopping_trip_controller.dart';
+export 'search_controller.dart';

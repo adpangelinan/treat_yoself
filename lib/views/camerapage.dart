@@ -54,13 +54,19 @@ class _CameraPageState extends State<CameraPage> {
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
           "#ff6666", "Cancel", true, ScanMode.BARCODE);
-      var add = await attemptAdd(barcodeScanRes);
-      if (add) {
-        Scaffold.of(context).showSnackBar(SnackBar(
-          content: Text("Item Added to cart"),
-        ));
+      if (barcodeScanRes != "-1") {
+        var add = await attemptAdd(barcodeScanRes);
+        if (add) {
+          Scaffold.of(context).showSnackBar(SnackBar(
+            content: Text("Item Added to cart"),
+          ));
+        } else {
+          Get.to(MyCustomForm(barcode: barcodeScanRes));
+        }
       } else {
-        Get.to(MyCustomForm());
+        Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text("No Item was scanned"),
+        ));
       }
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
@@ -107,7 +113,7 @@ class _CameraPageState extends State<CameraPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: TopNavBar(title: "Add New Item"),
+        appBar: TopNavBar(title: "Scan Item"),
         drawer: SideDrawer(),
         body: Builder(
           builder: (BuildContext context) {
