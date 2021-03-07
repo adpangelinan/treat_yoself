@@ -17,30 +17,77 @@ class _ShoppingTripGenState extends State<ShoppingTripGen> {
   List<dynamic> priceResults;
   final dbConn = DatabaseEngine();
   final RewardsController rewardsController = Get.find();
-
+  final ShoppingListController slController = Get.find();
   @override
   Widget build(BuildContext context) {
+    final String tripType = ModalRoute.of(context).settings.arguments;
     return GetBuilder<ShoppingTripController>(
-        init: ShoppingTripController(),
-        builder: (controller) => controller?.rawResults == null
+        init: ShoppingTripController(tripType),
+        builder: (controller) => controller?.results == null
             ? Center(
                 child: CircularProgressIndicator(),
               )
             : Scaffold(
                 appBar: TopNavBar(title: "Home"),
                 drawer: SideDrawer(),
-                body: shoppingTripBody(controller.rawResults),
+                body: tripType == "singleStore"
+                    ? singleStoreBody(controller.results)
+                    : bestPriceBody(controller.results),
                 bottomNavigationBar: BotNavBar(),
               ));
   }
 
-  Widget shoppingTripBody(res) {
-    return ListView.builder(
-        itemCount: res.length,
-        padding: EdgeInsets.all(16.0),
-        itemBuilder: (context, i) {
-          return _returnTiles(res[i]);
-        });
+  Widget singleStoreBody(Map<String, dynamic> res) {
+    var storeName = res.keys.toList()[0];
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text("Your Store: ${storeName}",
+              style: TextStyle(
+                fontSize: 24.00,
+              )),
+        ),
+        SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height * 0.7,
+          child: ListView.builder(
+              itemCount: res.length,
+              padding: EdgeInsets.all(16.0),
+              itemBuilder: (context, i) {
+                return _returnTiles(res[res.keys.toList()[i]]);
+              }),
+        ),
+        res[res.keys.toList()[0]].length < slController.currentList.items.length
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                    "Unfortunately, we couldn't find all items from your cart at a single store.",
+                    style: TextStyle(
+                      fontSize: 12.00,
+                      color: Colors.red,
+                    )),
+              )
+            : Text("")
+      ],
+    );
+  }
+
+  Widget bestPriceBody(Map<String, dynamic> res) {
+    return Column(
+      children: [
+        SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height * 0.7,
+          child: ListView.builder(
+              itemCount: res.length,
+              padding: EdgeInsets.all(16.0),
+              itemBuilder: (context, i) {
+                return _returnTiles(res[res.keys.toList()[i]]);
+              }),
+        ),
+      ],
+    );
   }
 
   Widget _returnTiles(var result) {
@@ -55,14 +102,14 @@ class _ShoppingTripGenState extends State<ShoppingTripGen> {
                     child: RichText(
                       overflow: TextOverflow.ellipsis,
                       strutStyle: StrutStyle(fontSize: 12.0),
-                      text: TextSpan(text: '${result[2]}'),
+                      text: TextSpan(text: '${result[1]}'),
                     ),
                   ),
                   Flexible(
                     child: RichText(
                       overflow: TextOverflow.ellipsis,
                       strutStyle: StrutStyle(fontSize: 12.0),
-                      text: TextSpan(text: '${result[1]}'),
+                      text: TextSpan(text: '${result[0]}'),
                     ),
                   ),
                 ])));

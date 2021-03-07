@@ -28,5 +28,5 @@ export 'shopping_list_view.dart';
 export 'add_item.dart';
 export 'add_comment.dart';
 export 'camerapage.dart';
-export 'shopping_trip_generator.dart';
+export 'shopping_trip_results.dart';
 export 'search.dart';
