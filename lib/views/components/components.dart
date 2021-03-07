@@ -14,3 +14,4 @@ export 'avatar.dart';
 export 'round_add_button.dart';
 export 'segmented_selector.dart';
 export 'alertForm.dart'; 
+export 'star_rating.dart';

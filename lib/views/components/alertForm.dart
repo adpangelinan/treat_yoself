@@ -7,6 +7,7 @@ class AlertFormComment extends StatelessWidget {
   final _formKey;
   final fieldText = TextEditingController();
   final othertext = TextEditingController();
+  final rating = TextEditingController();
   var list = [];
   //final int user;
 
@@ -17,23 +18,35 @@ class AlertFormComment extends StatelessWidget {
     othertext.clear();
   }
 
-  void insertComment() async {
+  Future insertComment() async {
     var database = DatabaseEngine();
     var now = DateTime.now();
     var date = DateTime(now.year, now.month, now.day).toString();
     var selectstoreid =
         "Select Stores.StoreID from Stores Where Stores.Name = ? and Stores.ZipCode = ?";
     var insertComment =
-        "Insert into Comments (Description,DateAdded,StoreID,UserID) Values(?,?,?,?);";
+        "Insert into Comments (Description,DateAdded,StoreID,UserID,Rating) Values(?,?,?,?,?);";
     final AuthController controller = Get.find();
     var currentzip = controller.firestoreUser.value.zipcode;
     final uid = controller.firestoreUser.value.uid;
     var newuid = await database
         .manualQuery("Select UserID from Users Where fuid = ?", [uid]);
+    if(newuid.length == 0){
+      return false; 
+    }
     var storeid =
         await database.manualQuery(selectstoreid, [list[0], currentzip]);
-    await database.manualQuery(insertComment,
-        [list[1], date, storeid[0].values[0], newuid[0].values[0]]);
+
+    if(storeid.length == 0){
+      return false; 
+    }
+      
+    var result = await database.manualQuery(insertComment,
+        [list[1], date, storeid[0].values[0], newuid[0].values[0],list[2]]);
+    if (database.insertID == null) {
+      return false; 
+    }
+    else return true; 
   }
 
   AlertFormComment(this._formKey);
@@ -86,6 +99,23 @@ class AlertFormComment extends StatelessWidget {
                     labelStyle: TextStyle(color: Colors.green),
                   ),
                   controller: othertext),
+              TextFormField(
+              validator: (value) {
+                var test = int.parse(value);
+                if (value.isEmpty ) {
+                  return 'Please enter a rating from 1-5';
+                }
+                else if(test < 1 || test > 5){
+                    return 'Please enter a rating from 1-5';
+                }
+                list.add(test);
+                return null;
+              },
+              decoration: InputDecoration(
+                labelText: 'Rating',
+                labelStyle: TextStyle(color: Colors.green),
+              ),
+              controller: rating),
               SizedBox(
                 height: 10,
               ),
@@ -96,12 +126,26 @@ class AlertFormComment extends StatelessWidget {
                     icon: Icon(Icons.add),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState.validate()) {
                         SnackBar(content: Text('Processing Data'));
-                        insertComment();
-                        clearText();
-                        Navigator.pop(context);
+                        var done = await insertComment();
+                        if(done == true){
+                          clearText();
+                          Navigator.pop(context,true);
+                        }
+                        else {
+                           return AlertDialog(
+                                  title:
+                                      Text("Entry Failed: Try Again"),
+                                  actions: [
+                                    TextButton(
+                                        child: Text("Ok"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop(); 
+                                        })
+                                  ]);
+                        }
                       } else {
                         list = [];
                       }

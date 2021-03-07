@@ -43,20 +43,20 @@ class _Categories extends State<Category> {
         mainAxisSpacing: 4,
         crossAxisSpacing: 4,
         children: categories.map((value) {
-          return GestureDetector(
-            onTap: () {
-              Get.to(Results(query: query, args: value['Name']));
-            },
-            child: Container(
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.black,
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                child: Center(
-                    child:
-                        Text(value['Name'], style: TextStyle(fontSize: 24)))),
-          );
+          return Container(
+                child: Material(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  color: getRandomColors(),
+                  child: InkWell(                      
+                          onTap: () {
+                            Get.to(Results(query: query, args: value['Name']));
+                          },
+                          child: Center(
+                                    child:
+                                        Text(value['Name'], style: TextStyle(fontSize: 24, color: Colors.white))),
+                                                ),
+                ));
+          
         }).toList());
   }
 }

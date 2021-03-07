@@ -10,6 +10,7 @@ import 'package:treat_yoself/utils/database/db_utils.dart';
 import 'auth/auth.dart';
 import 'package:date_format/date_format.dart';
 
+
 class HomeUI extends StatefulWidget {
   var commentBox = true;
   @override
@@ -137,7 +138,7 @@ class _HomeUIState extends State<HomeUI> {
     final leftSection = new Container(
         child: ClipRRect(
       borderRadius: BorderRadius.circular(24.0),
-      child: GetUserImage(context, result[6]),
+      child: GetUserImage(context, result[7]),
     ));
     final middleTile = new Expanded(
         child: Container(
@@ -146,7 +147,7 @@ class _HomeUIState extends State<HomeUI> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  GetUserName(context, result[6]),
+                  Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children:[Expanded(child:GetUserName(context, result[7])), Expanded(child:StarRating(rating: result[5], color: Colors.yellow,))]),
                   Flexible(
                     child: RichText(
                       overflow: TextOverflow.ellipsis,
