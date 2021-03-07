@@ -17,5 +17,6 @@ void main() async {
   Get.put<LanguageController>(LanguageController());
   Get.put<ShoppingListController>(ShoppingListController());
   Get.put<RewardsController>(RewardsController());
+  Get.put<SearchController>(SearchController());
   runApp(App());
 }
