@@ -299,6 +299,9 @@ class MyCustomFormState extends State<MyCustomForm> {
     var now = DateTime.now();
     var date = DateTime(now.year, now.month, now.day).toString();
     catID = await database.manualQuery(selectcatquery, [catname]);
+    if(catID.length == 0){
+      return false;
+    }
     var result;
     var itemID;
     result = await database
@@ -320,6 +323,11 @@ class MyCustomFormState extends State<MyCustomForm> {
     else return false; 
 
     var storeID = await database.manualQuery(selectstoreID, [currentzip]);
+
+    if(storeID.length == 0){
+      return false; 
+
+    }
 
     result = await database.manualQuery(insertstoreitems,
         ["1", branditemid, storeID[0].values[0]]);
