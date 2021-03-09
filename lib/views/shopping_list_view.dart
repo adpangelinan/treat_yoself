@@ -89,7 +89,8 @@ class _CurrentItems extends State<ShoppingListView> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: RaisedButton(
                                       onPressed: () async {
-                                        Get.to(ShoppingTripGen());
+                                        Get.to(ShoppingTripGen(),
+                                            arguments: "singleStore");
                                       },
                                       child: Text("Fewest Stores"),
                                     ),
@@ -98,7 +99,8 @@ class _CurrentItems extends State<ShoppingListView> {
                                     padding: EdgeInsets.all(8.0),
                                     child: RaisedButton(
                                       onPressed: () async {
-                                        Get.to(ShoppingTripGen());
+                                        Get.to(ShoppingTripGen(),
+                                            arguments: "lowestPrice");
                                       },
                                       child: Text("Lowest Price"),
                                     ),
