@@ -5,6 +5,7 @@ import 'views.dart';
 import 'package:get/get.dart';
 import 'package:treat_yoself/utils/database/db_utils.dart';
 import 'package:date_format/date_format.dart';
+import 'package:intl/intl.dart';
 
 class ShoppingTripGen extends StatefulWidget {
   var commentBox = true;
@@ -18,6 +19,7 @@ class _ShoppingTripGenState extends State<ShoppingTripGen> {
   final dbConn = DatabaseEngine();
   final RewardsController rewardsController = Get.find();
   final ShoppingListController slController = Get.find();
+  final currency = new NumberFormat("#,##0.00", "en_US");
   @override
   Widget build(BuildContext context) {
     final String tripType = ModalRoute.of(context).settings.arguments;
@@ -61,12 +63,14 @@ class _ShoppingTripGenState extends State<ShoppingTripGen> {
         res[res.keys.toList()[0]].length < slController.currentList.items.length
             ? Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(
-                    "Unfortunately, we couldn't find all items from your cart at a single store.",
-                    style: TextStyle(
-                      fontSize: 12.00,
-                      color: Colors.red,
-                    )),
+                child: Center(
+                  child: Text(
+                      "Unfortunately, we couldn't find all items from your cart at a single store.",
+                      style: TextStyle(
+                        fontSize: 18.00,
+                        color: Colors.red,
+                      )),
+                ),
               )
             : Text("")
       ],
@@ -76,16 +80,31 @@ class _ShoppingTripGenState extends State<ShoppingTripGen> {
   Widget bestPriceBody(Map<String, dynamic> res) {
     return Column(
       children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height * 0.7,
-          child: ListView.builder(
-              itemCount: res.length,
-              padding: EdgeInsets.all(16.0),
-              itemBuilder: (context, i) {
-                return _returnTiles(res[res.keys.toList()[i]]);
-              }),
+        Expanded(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height * 0.7,
+            child: ListView.builder(
+                itemCount: res.length,
+                padding: EdgeInsets.all(16.0),
+                itemBuilder: (context, i) {
+                  return _returnTiles(res[res.keys.toList()[i]]);
+                }),
+          ),
         ),
+        res[res.keys.toList()[0]].length < slController.currentList.items.length
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Text(
+                      "Some of your items couldn't be found anywhere nearby!",
+                      style: TextStyle(
+                        fontSize: 18.00,
+                        color: Colors.red,
+                      )),
+                ),
+              )
+            : SizedBox()
       ],
     );
   }
@@ -102,7 +121,7 @@ class _ShoppingTripGenState extends State<ShoppingTripGen> {
                     child: RichText(
                       overflow: TextOverflow.ellipsis,
                       strutStyle: StrutStyle(fontSize: 12.0),
-                      text: TextSpan(text: '${result[1]}'),
+                      text: TextSpan(text: '\$${currency.format(result[1])}'),
                     ),
                   ),
                   Flexible(

@@ -117,24 +117,23 @@ class _CurrentItems extends State<ShoppingListView> {
             ),
           ],
         ),
-        SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.7,
-            child: populated
-                ? ListView.builder(
-                    itemCount: items.length,
-                    itemBuilder: (context, index) {
-                      final item = items[index];
-                      return Container(
-                        child: item.buildItem(context),
-                      );
-                    },
-                  )
-                : Center(
-                    child: Text(
-                    "No Items Added",
-                    style: TextStyle(fontSize: 50.00),
-                  ))),
+        Expanded(
+          child: populated
+              ? ListView.builder(
+                  itemCount: items.length,
+                  itemBuilder: (context, index) {
+                    final item = items[index];
+                    return Container(
+                      child: item.buildItem(context),
+                    );
+                  },
+                )
+              : Center(
+                  child: Text(
+                  "No Items Added",
+                  style: TextStyle(fontSize: 50.00),
+                )),
+        ),
       ],
     );
   }

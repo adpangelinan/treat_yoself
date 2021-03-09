@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:treat_yoself/utils/database/db_utils.dart';
 import 'auth/auth.dart';
 import 'package:date_format/date_format.dart';
-
+import 'package:intl/intl.dart';
 
 class HomeUI extends StatefulWidget {
   var commentBox = true;
@@ -147,7 +147,16 @@ class _HomeUIState extends State<HomeUI> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children:[Expanded(child:GetUserName(context, result[7])), Expanded(child:StarRating(rating: result[5], color: Colors.yellow,))]),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(child: GetUserName(context, result[7])),
+                        Expanded(
+                            child: StarRating(
+                          rating: result[5],
+                          color: Colors.yellow,
+                        ))
+                      ]),
                   Flexible(
                     child: RichText(
                       overflow: TextOverflow.ellipsis,
@@ -198,7 +207,7 @@ class _HomeUIState extends State<HomeUI> {
 
   Widget _priceTiles(List<dynamic> res) {
     AuthController controller = Get.find();
-
+    final currency = new NumberFormat("#,##0.00", "en_US");
     final leftSection = new Container(
         child: ClipRRect(
       borderRadius: BorderRadius.circular(24.0),
@@ -238,7 +247,7 @@ class _HomeUIState extends State<HomeUI> {
           ),
           new Container(
             child: Text(
-              "\$${res[0]}",
+              "\$${currency.format(res[0])}",
               style: new TextStyle(color: Colors.white, fontSize: 15.0),
             ),
             decoration: BoxDecoration(
