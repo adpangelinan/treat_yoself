@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:treat_yoself/controllers/controllers.dart';
 import 'package:get/get.dart';
 import 'package:treat_yoself/utils/database/db_utils.dart';
+import 'package:treat_yoself/controllers/rewards_controller.dart';
 
 class AlertFormComment extends StatelessWidget {
   final _formKey;
   final fieldText = TextEditingController();
   final othertext = TextEditingController();
   final rating = TextEditingController();
+  final rewardsController = Get.put(RewardsController());
+
   var list = [];
   //final int user;
 
@@ -131,6 +134,8 @@ class AlertFormComment extends StatelessWidget {
                         SnackBar(content: Text('Processing Data'));
                         var done = await insertComment();
                         if(done == true){
+                          //add rewards
+                          rewardsController.userAddComment();
                           clearText();
                           Navigator.pop(context,true);
                         }
@@ -180,6 +185,9 @@ class _AlertFormUpdateState extends State<AlertFormUpdate> {
   final itemText = TextEditingController();
 
   final pricetext = TextEditingController();
+
+  final rewardsController = Get.put(RewardsController());
+
 
   var list = [];
 
@@ -353,8 +361,8 @@ class _AlertFormUpdateState extends State<AlertFormUpdate> {
                     if (widget._formKey.currentState.validate()) {
                       list.add(checkboxval);
                       var done = await updatePrice();
-
                       if (done == true) {
+                       rewardsController.userAddComment(); 
                         clearText();
                         Navigator.pop(context);
                       } else {

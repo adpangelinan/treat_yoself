@@ -87,6 +87,10 @@ class RewardsController extends GetxController {
     addPoints(userRewards, 15);
   }
 
+  void userAddComment(){
+    addPoints(userRewards, 5);
+  }
+
   void resetPoints() {
     userRewards.points = 0;
     setPoints(userRewards.usid, 0);
