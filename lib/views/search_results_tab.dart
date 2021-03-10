@@ -127,7 +127,7 @@ class ItemDetails {
             title: Text(name),
             subtitle: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text(brand), Text("Tap for Price info")],
+              children: [Text(brand), Text("Click the cart to add")],
             ),
             trailing: IconButton(
               icon: Icon(Icons.add_shopping_cart_sharp),
