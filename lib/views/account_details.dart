@@ -58,7 +58,6 @@ class AccountDetails extends StatelessWidget {
 
   Widget _buildUserStats(authcontroller) {
     return Center(
-        child: Expanded(
       child: Column(children: <Widget>[
         SizedBox(height: 20),
         Avatar(authcontroller.firestoreUser.value),
@@ -73,30 +72,18 @@ class AccountDetails extends StatelessWidget {
             Text('Title: ' + rewardsController.calcLevel().toString(),
                 style: TextStyle(fontSize: 16)),
             FormVerticalSpace(),
-            RaisedButton(
-                onPressed: () {
-                  rewardsController.userUpdatesList();
-                },
-                child: Text('Simulate Update Item')),
-            FormVerticalSpace(),
-            RaisedButton(
-                onPressed: () {
-                  rewardsController.resetPoints();
-                },
-                child: Text('Reset Points'))
           ],
         )
       ]),
-    ));
+    );
   }
 
   Widget _buildUserDetails(
     authcontroller,
   ) {
     return Center(
-        child: Container(
-      height: 450,
-      child: Expanded(
+      child: Container(
+        height: 450,
         child: Column(children: <Widget>[
           SizedBox(height: 20),
           Avatar(authcontroller.firestoreUser.value),
@@ -129,6 +116,6 @@ class AccountDetails extends StatelessWidget {
           )
         ]),
       ),
-    ));
+    );
   }
 }

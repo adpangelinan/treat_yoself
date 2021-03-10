@@ -29,7 +29,7 @@ class SideDrawer extends StatelessWidget {
           ),
           ListTile(
             //leading: NewsTab.androidIcon,
-            title: Text('Shopping List'),
+            title: Text('My Shopping Lists'),
             onTap: () {
               Get.to(ListOverviewUI());
             },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:treat_yoself/controllers/rewards_controller.dart';
 import 'package:treat_yoself/localizations/localizations.dart';
 import 'package:treat_yoself/controllers/controllers.dart';
@@ -24,10 +25,9 @@ class _SearchUIState extends State<SearchUI> {
               child: CircularProgressIndicator(),
             )
           : Scaffold(
-              appBar: TopNavBar(
-                title: "Search",
+              appBar: AppBar(
+                title: Text("Search"),
               ),
-              drawer: SideDrawer(),
               body: searchBody(context),
               bottomNavigationBar: BotNavBar(),
             ),
@@ -96,31 +96,65 @@ class _SearchUIState extends State<SearchUI> {
                     },
                   )
                 ]),
-            SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.5,
-                child: searchController.searchHasResults
-                    ? ListView.builder(
-                        itemCount: searchController.foundArr.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            child: buildItem(searchController.foundArr[index]),
-                          );
-                        },
-                      )
-                    : Center(
-                        child: Text(
-                        "No Items Found",
-                        style: TextStyle(fontSize: 50.00),
-                      ))),
+            buildList(),
           ])),
         ));
   }
 
+  Widget buildList() {
+    //find length
+    int listLength = searchController.foundArr.length;
+
+    return SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height * 0.5,
+        child: searchController.searchHasResults
+            ? ListView.builder(
+                shrinkWrap: true,
+                itemCount: listLength,
+                itemBuilder: (context, index) {
+                  return buildCards(searchController.foundArr[index]);
+                },
+              )
+            : Center(
+                child: Text(
+                "No Items Found",
+                style: TextStyle(fontSize: 50.00),
+              )));
+  }
+
+  Widget buildCards(SearchItem item) {
+    bool brandsFound = false;
+    if (item.brands.length > 0) {
+      brandsFound = true;
+    }
+    return item.clicked
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              buildItem(item),
+              brandsFound
+                  ? ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: item.brands.length,
+                      itemBuilder: (context, i) {
+                        return Container(child: buildBrandCard(item.brands[i]));
+                      },
+                    )
+                  : Container(child: buildGenericBrandCard())
+            ],
+          )
+        : buildItem(item);
+  }
+
+  //card for the item name itself
   Widget buildItem(SearchItem item) => Card(
       child: Material(
           child: InkWell(
-        onTap: () => null,
+        onTap: () {
+          searchController.clickItem(item);
+          setState(() {});
+        },
         splashColor: Colors.white,
         child: ListTile(
           title: Text(item.name),
@@ -130,10 +164,41 @@ class _SearchUIState extends State<SearchUI> {
               Text("Tap to find brands."),
             ],
           ),
+        ),
+      )),
+      elevation: 10,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)));
+
+  Widget buildBrandCard(BrandSearchItem item) => Card(
+      color: Colors.green.shade900,
+      child: Material(
+          child: InkWell(
+        onTap: () => null,
+        splashColor: Colors.white,
+        child: ListTile(
+          title: Text(item.brandName),
           trailing: IconButton(
             icon: Icon(Icons.add_shopping_cart_sharp),
             tooltip: 'Add Item',
-            onPressed: () => _popUp(context, item.itemID.toString()),
+            onPressed: () => _popUp(context, item.brandItemID.toString()),
+          ),
+        ),
+      )),
+      elevation: 10,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)));
+
+  Widget buildGenericBrandCard() => Card(
+      color: Colors.green.shade900,
+      child: Material(
+          child: InkWell(
+        onTap: () => null,
+        splashColor: Colors.white,
+        child: ListTile(
+          title: Text("Generic"),
+          trailing: IconButton(
+            icon: Icon(Icons.add_shopping_cart_sharp),
+            tooltip: 'Add Item',
+            onPressed: () => null,
           ),
         ),
       )),
