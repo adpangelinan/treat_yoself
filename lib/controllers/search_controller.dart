@@ -11,12 +11,14 @@ import 'dart:math';
 class SearchController extends GetxController {
   var foundArr = List<SearchItem>().obs;
   var items = List<SearchItem>();
+  ShoppingListController listController = Get.find();
+  bool searchHasResults;
   TextEditingController searchTextBox = TextEditingController();
 
   @override
   void onInit() {
     _getData();
-
+    searchHasResults = true;
     super.onInit();
   }
 
@@ -39,7 +41,8 @@ class SearchController extends GetxController {
 
   //populates items with lev distance
   // adds items that match search string in foundArr
-  void search() {
+  List<SearchItem> search() {
+    searchHasResults = true;
     foundArr.clear();
     String searchStr = searchTextBox.text.trim();
     print("searching for $searchStr");
@@ -58,10 +61,12 @@ class SearchController extends GetxController {
 
     if (foundArr.isEmpty) {
       int distance = 3;
-      while (distance < maxDistance - 2) {
+      while (distance < 4) {
         items.forEach((item) {
           if (item.levDistance <= distance) {
-            foundArr.add(item);
+            if (!foundArr.contains(item)) {
+              foundArr.add(item);
+            }
           }
         });
         distance += 1;
@@ -70,12 +75,23 @@ class SearchController extends GetxController {
 
     print("search completed, results:");
     if (foundArr.isNotEmpty) {
-      foundArr.forEach((item) {
-        print(item.name);
-      });
+      searchHasResults = true;
     } else {
-      print("no items found");
+      searchHasResults = false;
     }
+    return foundArr;
+  }
+
+  //clears search
+  void clearSearch() {
+    foundArr.clear();
+    searchHasResults = true;
+  }
+
+  Future addItem(String itemID) async {
+    //returns 0 if successful, returns 1 if current list was null
+    var successful = await listController.addItemToCurrent(itemID);
+    return successful;
   }
 }
 

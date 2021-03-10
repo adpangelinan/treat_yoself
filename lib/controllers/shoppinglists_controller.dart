@@ -76,6 +76,16 @@ class ShoppingListController extends GetxController {
     shoppingLists.add(newList);
   }
 
+  Future addItemToCurrent(String itemID) async {
+    if (currentList != null) {
+      await addItemByID(currentList.listID, itemID);
+      return 0;
+    } else {
+      print("cannot add item, current list is null. Select a list");
+      return 1;
+    }
+  }
+
   void deleteList(String listID) async {
     print("Deleting list $listID");
     deleteListByID(listID);
@@ -169,6 +179,15 @@ Future getListItemsByID(String listID) async {
       querySel + queryFrom + queryJoin1 + queryJoin2 + queryJoin3 + queryWher;
   print(query);
   var results = await dbEngine.manualQuery(query, [listID]);
+
+  return results;
+}
+
+Future addItemByID(String listID, String itemID) async {
+  final dbEngine = new DatabaseEngine();
+  var query =
+      "INSERT INTO `athdy9ib33fbmfvk`.`ListItems` (`ListID`,  `ItemID`, `Quantity`) VALUES (?,  ?, 1);";
+  var results = await dbEngine.manualQuery(query, [listID, itemID]);
 
   return results;
 }

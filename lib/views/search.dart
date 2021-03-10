@@ -5,6 +5,8 @@ import 'package:treat_yoself/controllers/controllers.dart';
 import 'views.dart';
 import 'package:get/get.dart';
 import 'auth/auth.dart';
+import 'item_location_services.dart';
+import '../utils/database/db_utils.dart';
 
 class SearchUI extends StatefulWidget {
   @override
@@ -33,33 +35,142 @@ class _SearchUIState extends State<SearchUI> {
   }
 
   Widget searchBody(BuildContext context) {
-    double c_width = MediaQuery.of(context).size.width * 0.6;
-    return Container(
-        child: Column(children: [
-      Text("Find an Item"),
-      Container(
-          width: c_width * 0.8,
-          child: FormInputField(
-            controller: searchController.searchTextBox,
-            onChanged: (value) => null,
-            onSaved: (value) => searchController.searchTextBox.text = value,
-          )),
-      Row(children: <Widget>[
-        FlatButton(
-          child: Text('Find Item'),
-          onPressed: () {
-            searchController.search();
-          },
+    double c_width = MediaQuery.of(context).size.width;
+    double c_height = MediaQuery.of(context).size.height;
+    return SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(minWidth: c_width, minHeight: c_height),
+          child: IntrinsicHeight(
+              child: Column(mainAxisSize: MainAxisSize.max, children: [
+            Row(
+              children: [FormVerticalSpace()],
+            ),
+            Row(
+              children: [
+                Expanded(
+                    child: Text(
+                  "Find an Item",
+                  textAlign: TextAlign.center,
+                )),
+              ],
+            ),
+            Row(
+              children: [FormVerticalSpace()],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                    width: c_width * 0.8,
+                    height: c_width * 0.2,
+                    child: FormInputField(
+                      controller: searchController.searchTextBox,
+                      onChanged: (value) => null,
+                      onSaved: (value) =>
+                          searchController.searchTextBox.text = value,
+                    )),
+              ],
+            ),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Container(
+                    height: c_width * 0.2,
+                    child: FlatButton(
+                      child: Text('Find Item'),
+                      onPressed: () {
+                        searchController.search();
+                        FocusScope.of(context).unfocus();
+                        setState(() {});
+                      },
+                    ),
+                  ),
+                  FlatButton(
+                    child: Text('Cancel'),
+                    onPressed: () {
+                      searchController.searchTextBox.clear();
+                      searchController.clearSearch();
+                      setState(() {});
+                      FocusScope.of(context).unfocus();
+                    },
+                  )
+                ]),
+            SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.5,
+                child: searchController.searchHasResults
+                    ? ListView.builder(
+                        itemCount: searchController.foundArr.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            child: buildItem(searchController.foundArr[index]),
+                          );
+                        },
+                      )
+                    : Center(
+                        child: Text(
+                        "No Items Found",
+                        style: TextStyle(fontSize: 50.00),
+                      ))),
+          ])),
+        ));
+  }
+
+  Widget buildItem(SearchItem item) => Card(
+      child: Material(
+          child: InkWell(
+        onTap: () => null,
+        splashColor: Colors.white,
+        child: ListTile(
+          title: Text(item.name),
+          subtitle: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text("Tap to find brands."),
+            ],
+          ),
+          trailing: IconButton(
+            icon: Icon(Icons.add_shopping_cart_sharp),
+            tooltip: 'Add Item',
+            onPressed: () => _popUp(context, item.itemID.toString()),
+          ),
         ),
-        FlatButton(
-          child: Text('Cancel'),
-          onPressed: () {
-            searchController.searchTextBox.clear();
-          },
-        )
-      ]),
-      Row(),
-      Row(),
-    ]));
+      )),
+      elevation: 10,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)));
+
+  _popUp(context, String itemID) async {
+    //add insert query, returns 0 if successful, 1 if failure
+    var successful = await searchController.addItem(itemID);
+
+    if (successful == 0) {
+      return showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: Text("Item Added To Cart"),
+                actions: [
+                  TextButton(
+                      child: Text("OK"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      })
+                ],
+              ));
+    } else {
+      return showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: Text(
+                    "Error: Shopping List is not set to add item to\nPlease select a shopping list in shopping lists view"),
+                actions: [
+                  TextButton(
+                      child: Text("OK"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      })
+                ],
+              ));
+    }
   }
 }
