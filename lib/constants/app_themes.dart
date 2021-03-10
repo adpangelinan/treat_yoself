@@ -23,7 +23,7 @@ class AppThemes {
   static const Color _lightBackgroundAppBarColor = _lightPrimaryColor;
   static const Color _lightBackgroundSecondaryColor = white;
   static const Color _lightBackgroundAlertColor = blackPearl;
-  static const Color _lightBackgroundActionTextColor = blackPearl;
+  static const Color _lightBackgroundActionTextColor = white;
   static const Color _lightBackgroundErrorColor = brinkPink;
   static const Color _lightBackgroundSuccessColor = juneBud;
 

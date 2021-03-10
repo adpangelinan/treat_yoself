@@ -76,8 +76,14 @@ class _HomeUIState extends State<HomeUI> {
                 });
               },
               tabs: [
-                Tab(icon: Icon(Icons.chat_bubble)),
-                Tab(icon: Icon(Icons.attach_money))
+                Tab(
+                    icon: Icon(
+                  Icons.chat_bubble,
+                  color: context.theme.accentColor,
+                )),
+                Tab(
+                    icon: Icon(Icons.attach_money,
+                        color: context.theme.accentColor))
               ],
             ),
             body: TabBarView(
@@ -161,7 +167,10 @@ class _HomeUIState extends State<HomeUI> {
                     child: RichText(
                       overflow: TextOverflow.ellipsis,
                       strutStyle: StrutStyle(fontSize: 12.0),
-                      text: TextSpan(text: '${result[1]}'),
+                      text: TextSpan(
+                          text: '${result[1]}',
+                          style: TextStyle(
+                              color: context.theme.textTheme.bodyText1.color)),
                     ),
                   ),
                 ])));
@@ -206,7 +215,6 @@ class _HomeUIState extends State<HomeUI> {
   }
 
   Widget _priceTiles(List<dynamic> res) {
-    AuthController controller = Get.find();
     final currency = new NumberFormat("#,##0.00", "en_US");
     final leftSection = new Container(
         child: ClipRRect(
@@ -225,14 +233,19 @@ class _HomeUIState extends State<HomeUI> {
                     child: RichText(
                       overflow: TextOverflow.ellipsis,
                       strutStyle: StrutStyle(fontSize: 12.0),
-                      text: TextSpan(text: "${res[3]}"),
+                      text: TextSpan(
+                          text: "${res[3]}",
+                          style: TextStyle(
+                              color: context.theme.textTheme.bodyText1.color)),
                     ),
                   ),
                   Flexible(
                     child: RichText(
                       overflow: TextOverflow.ellipsis,
-                      strutStyle: StrutStyle(fontSize: 12.0),
-                      text: TextSpan(text: "${res[5]} - ${res[4]}"),
+                      text: TextSpan(
+                          text: "${res[5]} - ${res[4]}",
+                          style: TextStyle(
+                              color: context.theme.textTheme.bodyText1.color)),
                     ),
                   ),
                 ])));
@@ -300,9 +313,9 @@ class _HomeUIState extends State<HomeUI> {
             return Text(
               data['username'],
               style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 16.0,
-              ),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16.0,
+                  color: context.theme.textTheme.bodyText1.color),
             );
           }
           return Text("Loading",

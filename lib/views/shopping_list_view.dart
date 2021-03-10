@@ -59,7 +59,11 @@ class _CurrentItems extends State<ShoppingListView> {
             RichText(
               overflow: TextOverflow.ellipsis,
               strutStyle: StrutStyle(fontSize: 12.0),
-              text: TextSpan(text: lName, style: TextStyle(fontSize: 21.0)),
+              text: TextSpan(
+                  text: lName,
+                  style: TextStyle(
+                      color: context.theme.textTheme.bodyText1.color,
+                      fontSize: 21.0)),
             ),
             RaisedButton(
               color: Colors.green,
@@ -131,7 +135,9 @@ class _CurrentItems extends State<ShoppingListView> {
               : Center(
                   child: Text(
                   "No Items Added",
-                  style: TextStyle(fontSize: 50.00),
+                  style: TextStyle(
+                      fontSize: 50.00,
+                      color: context.theme.textTheme.bodyText1.color),
                 )),
         ),
       ],
