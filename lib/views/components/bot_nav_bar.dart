@@ -10,7 +10,7 @@ class BotNavBar extends StatelessWidget {
       shape: CircularNotchedRectangle(),
       notchMargin: 4.0,
       child: IconButton(
-          icon: Icon(Icons.home),
+          icon: Icon(Icons.home, color: context.theme.iconTheme.color),
           onPressed: () {
             Get.offAll(HomeUI());
           }),

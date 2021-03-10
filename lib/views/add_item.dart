@@ -6,7 +6,7 @@ import 'package:treat_yoself/utils/database/db_utils.dart';
 
 class MyCustomForm extends StatefulWidget {
   //final int user;
-  MyCustomForm({this.barcode = "NONE"});
+  MyCustomForm({this.barcode = ""});
   final barcode;
   @override
   MyCustomFormState createState() => MyCustomFormState();

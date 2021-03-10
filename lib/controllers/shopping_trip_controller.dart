@@ -15,6 +15,7 @@ class ShoppingTripController extends GetxController {
   String bestStore = "";
   Map<String, dynamic>
       results; // {StoreName: [item, price], StoreName2: [item, price]}
+  Map<String, dynamic> missing;
   List<dynamic> rawResults;
   final String lowestPriceQuery =
       "select min(p.Price) as price, s.Name as store, i.Name as item, i.ItemID as itemID from Prices p left join StoresItems si on si.StoreItemID = p.StoreItemID left join BrandsItems bi on si.BrandItemID = bi.BrandItemID left join Items i on i.ItemID = bi.ItemID left join Stores s on s.StoreID = si.StoreID where bi.BrandItemID in (select ItemID from ListItems where ListID = ?) and s.ZipCode = ? group by i.itemID order by price asc ";
@@ -35,9 +36,10 @@ class ShoppingTripController extends GetxController {
   }
 
   void _lowestPriceTripAlgorithm(rawRes) {
-    Map<String, dynamic> items;
+    Map items = Map<String,
+        dynamic>(); // {storeName: [[item1, item1price], [item2, item2price]]}
     for (var row in rawRes) {
-      items.putIfAbsent(row[1], () => [row[2], row[1]]);
+      items.putIfAbsent(row[1], () => [row[2], row[0]]);
     }
     results = items;
     update();
@@ -82,7 +84,7 @@ class ShoppingTripController extends GetxController {
         chosenStore = key;
         lowestTotal = total;
         itemsFound = value.length;
-      } else if (total < lowestTotal && itemsFound - value.length < 2) {
+      } else if (total < lowestTotal) {
         // Replace if total is lower and we are within 2 items of the current qty.
         chosenStore = key;
         lowestTotal = total;
@@ -93,7 +95,6 @@ class ShoppingTripController extends GetxController {
     var chosen = Map<String, dynamic>.fromIterable(items[chosenStore],
         key: (item) => chosenStore, value: (item) => item);
     results = chosen;
-    print(results);
     update();
   }
 }

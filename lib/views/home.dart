@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:treat_yoself/utils/database/db_utils.dart';
 import 'auth/auth.dart';
 import 'package:date_format/date_format.dart';
-
+import 'package:intl/intl.dart';
 
 class HomeUI extends StatefulWidget {
   var commentBox = true;
@@ -76,8 +76,14 @@ class _HomeUIState extends State<HomeUI> {
                 });
               },
               tabs: [
-                Tab(icon: Icon(Icons.chat_bubble)),
-                Tab(icon: Icon(Icons.attach_money))
+                Tab(
+                    icon: Icon(
+                  Icons.chat_bubble,
+                  color: context.theme.accentColor,
+                )),
+                Tab(
+                    icon: Icon(Icons.attach_money,
+                        color: context.theme.accentColor))
               ],
             ),
             body: TabBarView(
@@ -147,12 +153,24 @@ class _HomeUIState extends State<HomeUI> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children:[Expanded(child:GetUserName(context, result[7])), Expanded(child:StarRating(rating: result[5], color: Colors.yellow,))]),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(child: GetUserName(context, result[7])),
+                        Expanded(
+                            child: StarRating(
+                          rating: result[5],
+                          color: Colors.yellow,
+                        ))
+                      ]),
                   Flexible(
                     child: RichText(
                       overflow: TextOverflow.ellipsis,
                       strutStyle: StrutStyle(fontSize: 12.0),
-                      text: TextSpan(text: '${result[1]}'),
+                      text: TextSpan(
+                          text: '${result[1]}',
+                          style: TextStyle(
+                              color: context.theme.textTheme.bodyText1.color)),
                     ),
                   ),
                 ])));
@@ -197,8 +215,7 @@ class _HomeUIState extends State<HomeUI> {
   }
 
   Widget _priceTiles(List<dynamic> res) {
-    AuthController controller = Get.find();
-
+    final currency = new NumberFormat("#,##0.00", "en_US");
     final leftSection = new Container(
         child: ClipRRect(
       borderRadius: BorderRadius.circular(24.0),
@@ -216,14 +233,19 @@ class _HomeUIState extends State<HomeUI> {
                     child: RichText(
                       overflow: TextOverflow.ellipsis,
                       strutStyle: StrutStyle(fontSize: 12.0),
-                      text: TextSpan(text: "${res[3]}"),
+                      text: TextSpan(
+                          text: "${res[3]}",
+                          style: TextStyle(
+                              color: context.theme.textTheme.bodyText1.color)),
                     ),
                   ),
                   Flexible(
                     child: RichText(
                       overflow: TextOverflow.ellipsis,
-                      strutStyle: StrutStyle(fontSize: 12.0),
-                      text: TextSpan(text: "${res[5]} - ${res[4]}"),
+                      text: TextSpan(
+                          text: "${res[5]} - ${res[4]}",
+                          style: TextStyle(
+                              color: context.theme.textTheme.bodyText1.color)),
                     ),
                   ),
                 ])));
@@ -238,7 +260,7 @@ class _HomeUIState extends State<HomeUI> {
           ),
           new Container(
             child: Text(
-              "\$${res[0]}",
+              "\$${currency.format(res[0])}",
               style: new TextStyle(color: Colors.white, fontSize: 15.0),
             ),
             decoration: BoxDecoration(
@@ -291,9 +313,9 @@ class _HomeUIState extends State<HomeUI> {
             return Text(
               data['username'],
               style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 16.0,
-              ),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16.0,
+                  color: context.theme.textTheme.bodyText1.color),
             );
           }
           return Text("Loading",

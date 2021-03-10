@@ -34,8 +34,12 @@ class AccountDetails extends StatelessWidget {
         child: Scaffold(
             appBar: TabBar(
               tabs: [
-                Tab(icon: Icon(Icons.account_circle)),
-                Tab(icon: Icon(Icons.bar_chart))
+                Tab(
+                    icon: Icon(Icons.account_circle,
+                        color: context.theme.accentColor)),
+                Tab(
+                    icon:
+                        Icon(Icons.bar_chart, color: context.theme.accentColor))
               ],
             ),
             body: TabBarView(

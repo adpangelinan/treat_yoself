@@ -113,7 +113,7 @@ class _CameraPageState extends State<CameraPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: TopNavBar(title: "Scan Item"),
+        appBar: AppBar(title: Text("Scan Barcode")),
         drawer: SideDrawer(),
         body: Builder(
           builder: (BuildContext context) {

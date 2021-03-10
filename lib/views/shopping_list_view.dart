@@ -59,7 +59,11 @@ class _CurrentItems extends State<ShoppingListView> {
             RichText(
               overflow: TextOverflow.ellipsis,
               strutStyle: StrutStyle(fontSize: 12.0),
-              text: TextSpan(text: lName, style: TextStyle(fontSize: 21.0)),
+              text: TextSpan(
+                  text: lName,
+                  style: TextStyle(
+                      color: context.theme.textTheme.bodyText1.color,
+                      fontSize: 21.0)),
             ),
             RaisedButton(
               color: Colors.green,
@@ -117,24 +121,25 @@ class _CurrentItems extends State<ShoppingListView> {
             ),
           ],
         ),
-        SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.7,
-            child: populated
-                ? ListView.builder(
-                    itemCount: items.length,
-                    itemBuilder: (context, index) {
-                      final item = items[index];
-                      return Container(
-                        child: item.buildItem(context),
-                      );
-                    },
-                  )
-                : Center(
-                    child: Text(
-                    "No Items Added",
-                    style: TextStyle(fontSize: 50.00),
-                  ))),
+        Expanded(
+          child: populated
+              ? ListView.builder(
+                  itemCount: items.length,
+                  itemBuilder: (context, index) {
+                    final item = items[index];
+                    return Container(
+                      child: item.buildItem(context),
+                    );
+                  },
+                )
+              : Center(
+                  child: Text(
+                  "No Items Added",
+                  style: TextStyle(
+                      fontSize: 50.00,
+                      color: context.theme.textTheme.bodyText1.color),
+                )),
+        ),
       ],
     );
   }
