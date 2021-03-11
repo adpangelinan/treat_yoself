@@ -91,7 +91,8 @@ class AccountDetails extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               FormVerticalSpace(),
-              Text('Username: ' + authcontroller.firestoreUser.value.username,
+              Text(
+                  'Username: ', //+ authcontroller.firestoreUser.value.username,
                   style: TextStyle(fontSize: 12)),
               FormVerticalSpace(),
               Text('Name: ' + authcontroller.firestoreUser.value.name,
