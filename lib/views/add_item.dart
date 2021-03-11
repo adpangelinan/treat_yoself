@@ -24,7 +24,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   var category = "Dairy";
   var checkboxval = false;
   var dbConn = DatabaseEngine();
-  var query = "SELECT Name from Categories;";
+  var query = "SELECT Distinct Name from Categories;";
   var bartext;
   @override
   initState() {
@@ -55,6 +55,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     othertext.clear();
     pricetext.clear();
     storenametext.clear();
+    bartext.clear(); 
   }
 
   @override
@@ -176,7 +177,7 @@ class MyCustomFormState extends State<MyCustomForm> {
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
                 validator: (value) {
-                  if (value.isEmpty) {
+                  if (value.isEmpty || value == "") {
                     return "Please enter item Bar Code";
                   }
                   dblist.add(value);
@@ -235,8 +236,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                           content: Text("Data Sent"),
                         ));
                       } else {
+                        dblist = []; 
                         Scaffold.of(ctx).showSnackBar(SnackBar(
-                          content: Text("Data failed to send"),
+                          content: Text("Data failed to send or Barcode exists"),
                         )
                         );
                         dblist = []; 
@@ -274,8 +276,8 @@ class MyCustomFormState extends State<MyCustomForm> {
     var insertitem = "Insert into Items (Name,CategoryID) Values(?,?);";
     var insertbrand = "Insert into Brands (Name) Values(?);";
     var insertbranditems =
-        "Insert into BrandsItems (BrandID,ItemID,BarCode) Values(?,?,?);";
-    var selectstoreID = "Select StoreID from Stores Where Stores.ZipCode = ?;";
+        "Insert Ignore into BrandsItems (BrandID,ItemID,BarCode) Values(?,?,?);";
+    var selectstoreID = "Select StoreID from Stores Where Stores.ZipCode = ? and Stores.Name = ?;";
     var insertstoreitems =
         "Insert into StoresItems (Inventory,BrandItemID,StoreID) Values(?,?,?);";
     var insertprices =
@@ -318,11 +320,18 @@ class MyCustomFormState extends State<MyCustomForm> {
     result = await database.manualQuery(
         insertbranditems, [brandID, itemID,dblist[4]]);
     var branditemid;
-    if(database.insertID != null){
+    if(database.insertID != null && database.insertID != 0){
       branditemid = database.insertID; }
+    else if(result.length == 0){
+      result = await database.manualQuery("Select BrandItemID from BrandsItems where BrandsItems.BrandID = ? and BrandsItems.ItemID = ? ",[brandID,itemID]);
+      if(result.length != 0){
+        branditemid = result[0].values[0];
+      }
+      else return false; 
+    }
     else return false; 
 
-    var storeID = await database.manualQuery(selectstoreID, [currentzip]);
+    var storeID = await database.manualQuery(selectstoreID, [currentzip,dblist[3]]);
 
     if(storeID.length == 0){
       return false; 

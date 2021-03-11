@@ -217,7 +217,6 @@ class ShoppingItem {
   Widget buildItem(BuildContext context) => Card(
         child: Material(
             child: InkWell(
-          onTap: () => _pushRoute(),
           splashColor: Colors.white,
           child: ListTile(
             title: Text(name),
@@ -225,7 +224,6 @@ class ShoppingItem {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(brand),
-                Text("Tap for prices."),
               ],
             ),
             trailing: IconButton(

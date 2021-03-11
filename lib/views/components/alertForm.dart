@@ -245,7 +245,7 @@ class _AlertFormUpdateState extends State<AlertFormUpdate> {
       return false;
     }
 
-    await database.manualQuery(updatePrice,
+    var done = await database.manualQuery(updatePrice,
         [newprice, date, newuid[0].values[0], box, storeitemID[0].values[0]]);
 
     return true;
@@ -465,7 +465,7 @@ class _ModUpdate extends State<AlertFormModUpdate> {
     if (complete.length == 0) {
       return false;
     }
-    await database.manualQuery(updatePrice,
+    var price = await database.manualQuery(updatePrice,
         [newprice, date, newuid[0].values[0], box, storeitemID[0].values[0]]);
 
     return true;

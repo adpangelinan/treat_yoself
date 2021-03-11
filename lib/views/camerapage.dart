@@ -93,7 +93,7 @@ class _CameraPageState extends State<CameraPage> {
           content: Text("Item Updated"),
         ));
       } else {
-        Get.to(MyCustomForm());
+        Get.to(MyCustomForm(barcode: barcodeScanRes,));
       }
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
@@ -114,7 +114,6 @@ class _CameraPageState extends State<CameraPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text("Scan Barcode")),
-        drawer: SideDrawer(),
         body: Builder(
           builder: (BuildContext context) {
             return buildBody(context);
@@ -131,12 +130,28 @@ class _CameraPageState extends State<CameraPage> {
             direction: Axis.vertical,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              RaisedButton(
-                  onPressed: () => scanBarcodeNormal(context),
-                  child: Text("Scan to Add item to cart")),
-              RaisedButton(
-                  onPressed: () => scanBarcodeupdatePrice(context),
-                  child: Text("Scan to Update Price")),
+              ConstrainedBox(
+              constraints: BoxConstraints.tightFor(width: 150, height: 150),
+              child: ElevatedButton( //https://www.kindacode.com/article/how-to-make-circular-buttons-in-flutter/
+                child: Text('Scan Item to Add to Cart', style: TextStyle(fontSize: 20),),
+                onPressed: () => scanBarcodeNormal(context),
+                style: ElevatedButton.styleFrom(
+                  shape: CircleBorder(),
+                ),
+              ),
+            ),
+            SizedBox(height:30.00),
+               ConstrainedBox(
+              constraints: BoxConstraints.tightFor(width: 150, height: 150),
+              child: ElevatedButton(
+                child: Text('Scan Item to Update Price', style: TextStyle(fontSize: 20),),
+                onPressed: () => scanBarcodeupdatePrice(context),
+                style: ElevatedButton.styleFrom(
+                  shape: CircleBorder(),
+                ),
+              ),
+            ),
+            
             ]));
   }
 }
