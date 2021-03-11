@@ -140,16 +140,20 @@ class AlertFormComment extends StatelessWidget {
                           Navigator.pop(context,true);
                         }
                         else {
-                           return AlertDialog(
+                          return showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
                                   title:
-                                      Text("Entry Failed: Try Again"),
+                                      Text("Update Faild"),
                                   actions: [
                                     TextButton(
                                         child: Text("Ok"),
                                         onPressed: () {
-                                          Navigator.of(context).pop(); 
+                                          Navigator.of(context).pop();
                                         })
                                   ]);
+                            });
                         }
                       } else {
                         list = [];
