@@ -87,7 +87,7 @@ class RewardsController extends GetxController {
     addPoints(userRewards, 15);
   }
 
-  void userAddComment(){
+  void userAddComment() {
     addPoints(userRewards, 5);
   }
 

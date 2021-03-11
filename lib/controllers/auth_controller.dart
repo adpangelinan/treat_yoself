@@ -118,6 +118,7 @@ class AuthController extends GetxController {
       await _auth.signInWithEmailAndPassword(
           email: emailController.text.trim(),
           password: passwordController.text.trim());
+
       emailController.clear();
       passwordController.clear();
       hideLoadingIndicator();
@@ -156,12 +157,22 @@ class AuthController extends GetxController {
             photoUrl: gravatarUrl);
         //create the user in firestore
         var database = DatabaseEngine();
-        var id; 
-        var temp = await database.manualQuery("Insert Into UserStats (Points) Values (?)",[0]);
-        if(database.insertID != null){
-            id = database.insertID; 
+        var id;
+        var temp = await database
+            .manualQuery("Insert Into UserStats (Points) Values (?)", [0]);
+        if (database.insertID != null) {
+          id = database.insertID;
         }
-       var done = await database.manualQuery("Insert into Users (fuid,UserStatsID) Values(?,?) ",[result.user.uid,id]);
+        var done = await database.manualQuery(
+            "Insert into Users (fuid,UserStatsID) Values(?,?) ",
+            [result.user.uid, id]);
+        if (database.insertID != null) {
+          id = database.insertID;
+          var query =
+              "INSERT INTO UsersRewards (UserID, RewardID) VALUES (?, 1)";
+          await database.manualQuery(query, [id]);
+        }
+
         _createUserFirestore(_newUser, result.user);
         emailController.clear();
         passwordController.clear();
