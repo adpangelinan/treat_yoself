@@ -14,13 +14,11 @@ class RewardsController extends GetxController {
   Reward userRewards;
   @override
   void onInit() {
-    _getData();
-
     super.onInit();
   }
 
   /* when controller is initialized, grabs all rewards*/
-  void _getData() {
+  Future getData() async {
     print("fetching data");
     fetchAllRewards().then((value) {
       print("received data");
@@ -40,14 +38,14 @@ class RewardsController extends GetxController {
   //finds a user reward in the entire array with a specified fuid
   Reward getUserReward(String fuid) {
     for (var i = 0; i < rewards.length; i++) {
-      //  print("comparing ${rewards[i].fuid} with $fuid");
+      print("comparing ${rewards[i].fuid} with $fuid");
       if (rewards[i].fuid == fuid) {
         return rewards[i];
       }
     }
     print("No reward found");
 
-    return null;
+    return rewards[0];
   }
 
   void setUserReward(Reward r) {

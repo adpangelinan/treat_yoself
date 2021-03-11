@@ -38,8 +38,10 @@ class _HomeUIState extends State<HomeUI> {
         }));
 
     //set the user for rewards/points
-    rewardsController.setUserReward(rewardsController
-        .getUserReward(AuthController.to.firestoreUser.value.uid));
+    rewardsController.getData().then((res) {
+      rewardsController.setUserReward(rewardsController
+          .getUserReward(AuthController.to.firestoreUser.value.uid));
+    });
   }
 
   @override
