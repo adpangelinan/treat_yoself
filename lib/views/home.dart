@@ -40,7 +40,6 @@ class _HomeUIState extends State<HomeUI> {
     //set the user for rewards/points
     rewardsController.setUserReward(rewardsController
         .getUserReward(AuthController.to.firestoreUser.value.uid));
-    print("points is ${rewardsController.userRewards.points}");
   }
 
   @override
