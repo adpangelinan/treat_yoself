@@ -91,7 +91,7 @@ class _ItemLocation extends State<ItemLocation> {
       "12345",
     ];
     var query =
-        "Select Stores.Name as Item, Stores.ZipCode as ID, ListItems.ListItemID as ListID, Brands.Name as Brand FROM Items JOIN BrandsItems On BrandsItems.ItemID = Items.ItemID JOIN Brands ON Brands.BrandID = BrandsItems.BrandID JOIN ListItems ON BrandsItems.BrandItemID = ListItems.ItemID JOIN StoresItems ON BrandsItems.BrandItemID = StoresItems.BrandItemID JOIN Stores ON Stores.StoreID = StoresItems.StoreID WHERE BrandsItems.BrandItemID = ? AND Stores.ZipCode = ?;";
+        "Select Distinct Stores.Name as Item, Stores.ZipCode as ID, ListItems.ListItemID as ListID, Brands.Name as Brand FROM Items JOIN BrandsItems On BrandsItems.ItemID = Items.ItemID JOIN Brands ON Brands.BrandID = BrandsItems.BrandID JOIN ListItems ON BrandsItems.BrandItemID = ListItems.ItemID JOIN StoresItems ON BrandsItems.BrandItemID = StoresItems.BrandItemID JOIN Stores ON Stores.StoreID = StoresItems.StoreID WHERE BrandsItems.BrandItemID = ? AND Stores.ZipCode = ?;";
     var newstring = await database.manualQuery(query, args);
     List<ItemLocationTile> list = [];
     newstring.forEach((element) {
@@ -158,14 +158,10 @@ class ItemLocationTile {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [Text(brand), Text(price)],
             ),
-            trailing: IconButton(
-              icon: Icon(Icons.add_shopping_cart_sharp),
-              tooltip: 'Add Item',
-              onPressed: () => _popUp(context, id),
             ),
           ),
         ),
         elevation: 10,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-      ));
+      );
 }
