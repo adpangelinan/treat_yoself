@@ -30,10 +30,11 @@ class SearchController extends GetxController {
       print("$value");
       for (var i = 0; i < value.length; i++) {
         SearchItem newSearchItem = new SearchItem(
-            value[i][0], //itemID
-            value[i][1].toString(), //name
-            null //LevDistance
-            );
+          value[i][0], //itemID
+          value[i][1].toString(), //name
+          null, //LevDistance
+          false, //clicked
+        );
         items.add(newSearchItem);
       }
     });
@@ -42,8 +43,7 @@ class SearchController extends GetxController {
   //populates items with lev distance
   // adds items that match search string in foundArr
   List<SearchItem> search() {
-    searchHasResults = true;
-    foundArr.clear();
+    clearSearch();
     String searchStr = searchTextBox.text.trim();
     print("searching for $searchStr");
     searchTextBox.clear();
@@ -79,19 +79,66 @@ class SearchController extends GetxController {
     } else {
       searchHasResults = false;
     }
+    getBrands(foundArr);
     return foundArr;
   }
 
   //clears search
   void clearSearch() {
+    foundArr.forEach((index) {
+      index.clicked = false;
+      index.brands = [];
+    });
     foundArr.clear();
     searchHasResults = true;
+  }
+
+  void clickItem(SearchItem item) {
+    print("item ${item.name} clicked");
+    print("length is ${item.brands.length}");
+    if (foundArr.contains(item)) {
+      int index = foundArr.indexOf(item);
+      SearchItem clickedItem = foundArr[index];
+      if (item.clicked == false) {
+        item.clicked = true;
+      } else {
+        item.clicked = false;
+      }
+    }
   }
 
   Future addItem(String itemID) async {
     //returns 0 if successful, returns 1 if current list was null
     var successful = await listController.addItemToCurrent(itemID);
     return successful;
+  }
+
+  Future getBrands(List<SearchItem> items) async {
+    print("in get brands on items ${items[0].name}");
+    for (int i = 0; i < items.length; i++) {
+      fetchBrands(items[i].itemID.toString()).then((value) {
+        print("received data for search");
+        print("$value");
+        print("${value.length}");
+        for (var j = 0; j < value.length; j++) {
+          print("length of received is ${value[j][2]}");
+          if (value[j][2] != null) {
+            BrandSearchItem newBrandSearchItem = new BrandSearchItem(
+              value[j][2].toString(), //BranditemID
+              value[j][3].toString(), //BrandID
+              value[j][4], //Name
+            );
+            if (newBrandSearchItem.brandID != null) {
+              items[i].brands.add(newBrandSearchItem);
+            }
+          }
+          print("after fetch brands is ${items[i].brands.length} long");
+          if (items[i].brands.length > 0) {
+            print("first item in brands is ${items[i].brands[j].brandName}");
+          }
+        }
+      });
+    }
   }
 }
 
@@ -101,6 +148,21 @@ Future<List<dynamic>> fetchAllItems() async {
   var query = "SELECT Items.ItemID, Items.Name FROM athdy9ib33fbmfvk.Items;";
 
   var results = await dbEngine.manualQuery(query);
+
+  return results;
+}
+
+Future<List<dynamic>> fetchBrands(String itemID) async {
+  final dbEngine = new DatabaseEngine();
+  var querySel =
+      "SELECT Items.ItemID, Items.Name, BrandsItems.BrandItemID, Brands.BrandID, Brands.Name as BrandName FROM Items ";
+  var queryJoin1 =
+      "LEFT JOIN BrandsItems ON BrandsItems.ItemID = Items.ItemID ";
+  var queryJoin2 = "LEFT JOIN Brands ON BrandsItems.BrandID = Brands.BrandID ";
+  var queryFrom = "WHERE Items.ItemID = ?;";
+  var query = querySel + queryJoin1 + queryJoin2 + queryFrom;
+
+  var results = await dbEngine.manualQuery(query, [itemID]);
 
   return results;
 }
@@ -158,6 +220,18 @@ class SearchItem {
   int itemID;
   String name;
   int levDistance;
+  bool clicked;
+  List<BrandSearchItem> brands;
 
-  SearchItem(this.itemID, this.name, this.levDistance);
+  SearchItem(this.itemID, this.name, this.levDistance, this.clicked) {
+    brands = [];
+  }
+}
+
+class BrandSearchItem {
+  String brandItemID;
+  String brandID;
+  String brandName;
+
+  BrandSearchItem(this.brandItemID, this.brandID, this.brandName);
 }
