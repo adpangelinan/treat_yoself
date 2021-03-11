@@ -21,7 +21,6 @@ class AccountDetails extends StatelessWidget {
               appBar: TopNavBar(
                 title: "Account",
               ),
-              drawer: SideDrawer(),
               bottomNavigationBar: BotNavBar(),
               body: accountDetailsBody(context, controller, rewardsController)),
     );
