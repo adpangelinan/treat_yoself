@@ -24,7 +24,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   var category = "Dairy";
   var checkboxval = false;
   var dbConn = DatabaseEngine();
-  var query = "SELECT Name from Categories;";
+  var query = "SELECT Distinct Name from Categories;";
   var bartext;
   @override
   initState() {
@@ -176,7 +176,7 @@ class MyCustomFormState extends State<MyCustomForm> {
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
                 validator: (value) {
-                  if (value.isEmpty) {
+                  if (value.isEmpty || value == "") {
                     return "Please enter item Bar Code";
                   }
                   dblist.add(value);
@@ -274,7 +274,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     var insertitem = "Insert into Items (Name,CategoryID) Values(?,?);";
     var insertbrand = "Insert into Brands (Name) Values(?);";
     var insertbranditems =
-        "Insert into BrandsItems (BrandID,ItemID,BarCode) Values(?,?,?);";
+        "Insert Ignore into BrandsItems (BrandID,ItemID,BarCode) Values(?,?,?);";
     var selectstoreID = "Select StoreID from Stores Where Stores.ZipCode = ?;";
     var insertstoreitems =
         "Insert into StoresItems (Inventory,BrandItemID,StoreID) Values(?,?,?);";
@@ -318,7 +318,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     result = await database.manualQuery(
         insertbranditems, [brandID, itemID,dblist[4]]);
     var branditemid;
-    if(database.insertID != null){
+    if(database.insertID != null && result.length != 0){
       branditemid = database.insertID; }
     else return false; 
 
